@@ -1,4 +1,3 @@
-import numpy as np
 import pickle
 import json
 import csv
@@ -29,7 +28,9 @@ def save_model(self, file_name, meta=False, format_version=None, train_history=F
         print(f"\nSaved Meta Data at : {meta_data_path}\n")
 
 
-def save_to_npz(cls, filename=None, compressed=False, **kwargs):
+def save_to_npz(cls, backend, filename=None, compressed=False, **kwargs):
+    xp = backend.xp
+    
     npz_path = cls.Paths.npz_path
     if filename is None:
         filename = cls.Paths.default_data
@@ -45,9 +46,9 @@ def save_to_npz(cls, filename=None, compressed=False, **kwargs):
     filepath = npz_file_path + filename
 
     if compressed:
-        np.savez_compressed(filepath, **kwargs)
+        xp.savez_compressed(filepath, **kwargs)
     else:
-        np.savez(filepath, **kwargs)
+        xp.savez(filepath, **kwargs)
 
 
 def save_to_csv(cls, X, Y, filename):
@@ -106,9 +107,11 @@ def save_to_json(cls, dataset, filename=None, _encoding=None):
     print(f"\nSaved data to JSON at : {filepath}\n")
 
 
-def records_to_split(cls, records):
-    X = np.array([r["features"] for r in records], dtype=np.float32)
-    Y = np.array([r["label"] for r in records], dtype=np.int64)
+def records_to_split(cls, records, backend):
+    xp = backend.xp
+    
+    X = xp.array([r["features"] for r in records], dtype=xp.float32)
+    Y = xp.array([r["label"] for r in records], dtype=xp.int64)
     return X, Y
 
 
