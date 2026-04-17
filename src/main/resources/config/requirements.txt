@@ -1,5 +1,2 @@
-numpy==2.3.1
-cupy==2.3.1
-pytest==8.4.1
-ruff==0.12.0
-matplotlib==0.1.0
+numpy>=1.26,<3
+matplotlib>=3.8,<4

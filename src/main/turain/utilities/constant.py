@@ -1,0 +1,32 @@
+### ERROR ANALYSIS ###
+TP = "TP"
+FP = "FP"
+TN = "TN"
+FN = "FN"
+SPACE = " "
+PADDING = 1
+
+tp = "True Positives"
+fp = "False Positives"
+tn = "True Negatives"
+fn = "False Negatives"
+acc = "Accuracy"
+per = "Percision"
+rec = "Recall"
+spec = "Specificity"
+f1 = "F1 Score"
+fpr = "False Positive Rate"
+fnr = "False Negative Rate"
+tnr = "True Negative Rate"
+tpr = "True Positive Rate"
+bal_acc = "Balanced Accuracy"
+mcc = "Matthews Correlation Coefficient MCC"
+iou = "Jaccart Index IoU"
+
+### FILENAMES ###
+TEST_PREDICTION_FILENAME = "test_predictions"
+VALIDATION_PREDICTION_FILENAME = "validation_predictions"
+TRAIN_PREDICTION_FILENAME = "train_predictions"
+ERROR_ANALYSIS_FILENAME = "error_analysis"
+DEFAULT_CONFUSION_MATRIX_FILENAME = "confusion_matrix"
+DEFAULT_FILENAME = "Untitled"
