@@ -9,6 +9,9 @@ class Backend:
     def ones(self, x):
         raise NotImplementedError
 
+    def identity(self, size):
+        raise NotImplementedError
+
     def uniform_distribution(self, low, high, size):
         raise NotImplementedError
 

@@ -1,4 +1,4 @@
-from src.main.python.backend.backend import Backend
+from main.turain.backend.backend import Backend
 
 
 class Cupy(Backend):
