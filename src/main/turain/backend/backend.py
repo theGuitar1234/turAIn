@@ -20,6 +20,9 @@ class Backend:
 
     def matrix_multiplication(self, a, b):
         raise NotImplementedError
+    
+    def transpoze(self, a):
+        raise NotImplementedError
 
     def sum(self, x, axis=None, keepdims=False):
         raise NotImplementedError
@@ -27,16 +30,16 @@ class Backend:
     def max(self, x, axis=None, keepdims=False):
         raise NotImplementedError
 
-    def exp(self, x):
+    def e_to_the_power(self, x):
         raise NotImplementedError
 
-    def sqrt(self, x, a, b):
+    def square_root(self, x, a, b):
         raise NotImplementedError
 
     def clip(self, x, a, b):
         raise NotImplementedError
 
-    def argmax(self, x, axix=None):
+    def argument_max(self, x, axis=None):
         raise NotImplementedError
 
     def to_cpu(self, x):
