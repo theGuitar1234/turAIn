@@ -1,7 +1,6 @@
-from dataclasses import dataclass
+from lib import dto
 
-
-@dataclass
+@dto
 class TrainDefaults:
     learning_rate: float = 1e-2
     epochs: int = 5000
@@ -25,7 +24,7 @@ class TrainDefaults:
     default_format_version: str = "1.0.0"
 
 
-@dataclass
+@dto
 class TrainResults:
     losses: list = None
     val_losses: list = None

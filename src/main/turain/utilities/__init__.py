@@ -8,7 +8,7 @@ from .enum import (
     LossType,
     OptimizerType,
     OutputActivationType,
-    WeightInitStrategy,
+    WeightInitializationStrategy,
     LayerStrategies,
     StartWidthHeuristics
 )
@@ -37,6 +37,8 @@ from .path import (
     PICKLE_DIR,
     PREDICTION_DIR,
 )
+
+from .annotation import core_method
 
 __all__ = [
     "BiasInitStrategy",
@@ -72,4 +74,6 @@ __all__ = [
     "TEXT_EXTENSION",
     "TRAIN_PREDICTION_FILE",
     "VALIDATION_PREDICTION_FILE",
+    
+    "core_method",
 ]

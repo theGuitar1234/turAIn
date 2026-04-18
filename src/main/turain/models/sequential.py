@@ -1,4 +1,4 @@
-from src.main.python.core.module import Module
+from main.turain.core.module import Module
 
 
 class Sequential(Module):

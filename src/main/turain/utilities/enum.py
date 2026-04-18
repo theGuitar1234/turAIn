@@ -49,14 +49,14 @@ class LossType(Enum):
     BINARY_CROSS_ENTROPY = auto()
 
 
-class BiasInitStrategy(Enum):
+class BiasInititializationStrategy(Enum):
     ZERO = auto()
     CONSTANT = auto()
     NORMAL = auto()
     UNIFORM = auto()
 
 
-class WeightInitStrategy(Enum):
+class WeightInitializationStrategy(Enum):
     XAVIER_NORMAL = auto()
     XAVIER_UNIFORM = auto()
     HE_NORMAL = auto()

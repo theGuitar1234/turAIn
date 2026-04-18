@@ -48,7 +48,7 @@ cuda12 = [
 ]
 
 [tool.setuptools]
-package-dir = {"" = "src"}
+package-dir = {"" = "src/main/turain"}
 
 [tool.setuptools.packages.find]
 where = ["src"]

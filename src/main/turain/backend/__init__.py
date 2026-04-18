@@ -1,2 +1,7 @@
-from .numpy_backend import Numpy
-from .cupy_backend import Cupy
+from .cpu import CPU
+from .gpu import GPU
+
+__all__ = [
+    "CPU",
+    "GPU"
+]

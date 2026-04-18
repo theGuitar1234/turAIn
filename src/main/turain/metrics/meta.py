@@ -1,4 +1,3 @@
-from datetime import datetime
 
 
 def get_metadata(self, format_version=None, train_history=None):
