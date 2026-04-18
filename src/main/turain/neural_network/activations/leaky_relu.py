@@ -1,10 +1,16 @@
 from main.turain.neural_network.activations.activation import Activation
 from lib import override_from_parent
 from utilities import core_method
+from utilities import TrainDefaults
 
-class ReLu(Activation):
-    def __init__(self, z):
+class LeakyReLu(Activation):
+    def __init__(self, z, _negative_slope=None):
         super.__init__()
+        
+        if _negative_slope is None:
+            _negative_slope = TrainDefaults.negative_slope
+        self.negative_slope = _negative_slope
+        self.input_cache = None
         self.z = z
     
     @core_method
@@ -12,7 +18,7 @@ class ReLu(Activation):
     def activate(self, z):
         xp = self.backend
         z = xp.asarray(z, dtype=float)
-        return xp.maximum(0.0, z)
+        return xp.where(z > 0, z, self.negative_slope * z)
     
     @override_from_parent
     def forward_propagation(self, x):
@@ -21,9 +27,11 @@ class ReLu(Activation):
     
     @override_from_parent
     def backward_propagation(self, gradient_output):
-        xp = self.backend()
+        xp = self.backend
+        
         x = self.input_cache
-        gradient_input = gradient_output * (x > 0)
+        local_gradient = self.activate(x)
+        gradient_input = gradient_output * local_gradient
         return gradient_input
     
     @override_from_parent

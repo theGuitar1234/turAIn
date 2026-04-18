@@ -43,7 +43,9 @@ from .guard import check_arguments
 from .annotation import (
     core_method,
     helper_method,
-) 
+)
+
+from .config import TrainDefaults, TrainResults
 
 __all__ = [
     "BiasInitStrategy",
@@ -84,4 +86,7 @@ __all__ = [
     
     "core_method",
     "helper_method",
+    
+    "TrainDefaults",
+    "TrainResults",
 ]
