@@ -10,34 +10,26 @@ class Linear(Module):
         self,
         layer,
         number_of_neurons,
-        input_features,
-        output_features,
-        backend,
+        _input_features,
+        _output_features,
+        _backend,
         random_bias_initializing_strategy,
         random_output_weight_initializing_strategy,
         random_hidden_weight_initializing_strategy,
     ):
-        super().__init__()
+        super().__init__(input_features=_input_features, output_features=_output_features, backend=_backend)
 
-        if type(input_features) is not int:
-            raise TypeError("number_of_features must be an integer")
-        if input_features < 1:
-            raise ValueError("number_of_features must be a positive integer")
-
-        self.input_features = input_features
-        self.output_features = output_features
-        self.backend = backend
         self.random_bias_initializing_strategy = random_bias_initializing_strategy
         self.random_output_weight_initializing_strategy = random_output_weight_initializing_strategy
         self.random_hidden_weight_initializing_strategy = random_hidden_weight_initializing_strategy
 
         W, b = Initializer(
-            input_features,
-            output_features,
+            _input_features,
+            _output_features,
             random_hidden_weight_initializing_strategy,
             random_output_weight_initializing_strategy,
             random_bias_initializing_strategy,
-            backend,
+            _backend,
         ).initialize()
 
         self.weight = Parameter(W)

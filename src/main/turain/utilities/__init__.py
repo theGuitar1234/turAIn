@@ -38,7 +38,12 @@ from .path import (
     PREDICTION_DIR,
 )
 
-from .annotation import core_method
+from .guard import check_arguments
+
+from .annotation import (
+    core_method,
+    helper_method,
+) 
 
 __all__ = [
     "BiasInitStrategy",
@@ -75,5 +80,8 @@ __all__ = [
     "TRAIN_PREDICTION_FILE",
     "VALIDATION_PREDICTION_FILE",
     
+    "check_arguments",
+    
     "core_method",
+    "helper_method",
 ]

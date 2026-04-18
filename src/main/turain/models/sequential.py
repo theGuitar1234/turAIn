@@ -6,10 +6,18 @@ class Sequential(Module):
         self.layers = list(layers)
 
     def forward_propagation(self, x):
-        raise NotImplementedError
+        output = x
+        for layer in self.layers:
+            output = layer.forward_propagation(output)
+        return output
 
-    def backward_propagation(self, gradient):
-        raise NotImplementedError
+    def backward_propagation(self, _gradient):
+        for layer in range(len(self.layers) - 1, -1, -1):
+            gradient = layer.backward_propagation(_gradient)
+        return gradient
 
     def parameters(self):
-        raise NotImplementedError
+        _parameters = []
+        for layer in self.layers:
+            _parameters.extend(layer.parameters())
+        return _parameters
