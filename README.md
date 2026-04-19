@@ -21,6 +21,7 @@ help
 ```
 
 ```
+python -m pip install --upgrade pip
 pip install --upgrade build
 python -m pip install --no-user -r requirements<profile>.txt
 ```
