@@ -3,6 +3,7 @@ from main.turain.core.parameter import Parameter
 from main.turain.core.module import Module
 from lib import override_from_parent
 from utilities import core_method
+from utilities import check_arguments
 
 
 class Linear(Module):
@@ -10,26 +11,47 @@ class Linear(Module):
         self,
         layer,
         number_of_neurons,
-        _input_features,
-        _output_features,
-        _backend,
+        input_features,
+        output_features,
+        backend,
         random_bias_initializing_strategy,
         random_output_weight_initializing_strategy,
         random_hidden_weight_initializing_strategy,
     ):
-        super().__init__(input_features=_input_features, output_features=_output_features, backend=_backend)
+        super().__init__()
+        
+        check_arguments(
+            key=int,
+            value=(
+                input_features,
+                {
+                    "predicate": lambda input_features: input_features < 1,
+                    "error_message": "input_of_features must be a positive integer",
+                },
+            ),
+            key=int,
+            value=(
+                output_features,
+                {
+                    "predicate": lambda output_features: output_features < 1,
+                    "error_message": "output_of_features must be a positive integer",
+                },
+            ),
+        )
+        
+        self.backend = backend
 
         self.random_bias_initializing_strategy = random_bias_initializing_strategy
         self.random_output_weight_initializing_strategy = random_output_weight_initializing_strategy
         self.random_hidden_weight_initializing_strategy = random_hidden_weight_initializing_strategy
 
         W, b = Initializer(
-            _input_features,
-            _output_features,
+            input_features,
+            output_features,
             random_hidden_weight_initializing_strategy,
             random_output_weight_initializing_strategy,
             random_bias_initializing_strategy,
-            _backend,
+            backend,
         ).initialize()
 
         self.weight = Parameter(W)
@@ -42,7 +64,7 @@ class Linear(Module):
         xp = self.backend
 
         W = self.weight.data
-        b = self.weight.data
+        b = self.bias.data
 
         return xp.matrix_multiplication(X, xp.transpoze(W)) + xp.transpoze(b)
 
@@ -67,7 +89,7 @@ class Linear(Module):
         dW = self.weight.gradient
         db = self.weight.gradient
 
-        dW = (xp.matrix_mutliplication(gradient_output.T, X)) / batch_size
+        dW = (xp.matrix_multiplication(gradient_output.T, X)) / batch_size
         db = xp.transpoze(xp.sum(gradient_output, axis=0, keepdims=True).T) / batch_size
 
         gradient_input = gradient_output @ w
@@ -76,4 +98,4 @@ class Linear(Module):
 
     @override_from_parent
     def parameters(self):
-        return (self.weight, self.bias)
+        return [self.weight, self.bias]

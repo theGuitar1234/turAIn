@@ -1,5 +1,5 @@
 from main.turain.core.module import Module
-
+from utilities import check_arguments
 
 class Sequential(Module):
     def __init__(self, *layers):

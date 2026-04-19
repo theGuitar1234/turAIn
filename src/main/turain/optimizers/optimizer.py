@@ -5,7 +5,8 @@ class Optimizer:
     def __init__(self, parameters, learning_rate=None):
         self.parameters = list(parameters)
         if learning_rate is None:
-            self.learning_rate = TrainDefaults.learning_rate
+            learning_rate = TrainDefaults.learning_rate
+        self.learning_rate = learning_rate
 
     def step(self):
         raise NotImplementedError
