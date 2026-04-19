@@ -1,6 +1,6 @@
 class Module:
     def __init__(self):
-        self.train = True
+        self.training = True
 
     def forward_propagation(self, x):
         raise NotImplementedError
@@ -12,7 +12,7 @@ class Module:
         return []
 
     def train(self):
-        self.train = True
+        self.training = True
 
     def eval(self):
-        self.train = False
+        self.training = False

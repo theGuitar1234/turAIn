@@ -3,7 +3,7 @@ from utilities import TrainDefaults
 
 class Loss:
     def __init__(self, backend, epsilon=None):
-        self.xp = backend
+        self.backend = backend
         if epsilon is None:
             self.epsilon = TrainDefaults().epsilon
 

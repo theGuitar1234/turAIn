@@ -3,7 +3,7 @@ from lib import override_from_parent
 
 class Softmax(Activation):
     def __init__(self, z):
-        super.__init__()
+        super().__init__()
         self.z = z
     
     @override_from_parent

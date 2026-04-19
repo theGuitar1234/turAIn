@@ -4,7 +4,7 @@ from utilities import core_method
 
 class ReLu(Activation):
     def __init__(self, logit):
-        super.__init__()
+        super().__init__()
         self.logit = logit
     
     @override_from_parent

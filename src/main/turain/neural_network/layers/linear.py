@@ -64,8 +64,8 @@ class Linear(Module):
         w = W.data
         b = B.data
 
-        dW = self.weight.grad
-        db = self.weight.grad
+        dW = self.weight.gradient
+        db = self.weight.gradient
 
         dW = (xp.matrix_mutliplication(gradient_output.T, X)) / batch_size
         db = xp.transpoze(xp.sum(gradient_output, axis=0, keepdims=True).T) / batch_size

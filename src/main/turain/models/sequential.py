@@ -12,7 +12,7 @@ class Sequential(Module):
         return output
 
     def backward_propagation(self, _gradient):
-        for layer in range(len(self.layers) - 1, -1, -1):
+        for layer in reversed(self.layers):
             gradient = layer.backward_propagation(_gradient)
         return gradient
 

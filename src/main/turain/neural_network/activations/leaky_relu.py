@@ -5,7 +5,7 @@ from utilities import TrainDefaults
 
 class LeakyReLu(Activation):
     def __init__(self, z, _negative_slope=None):
-        super.__init__()
+        super().__init__()
         
         if _negative_slope is None:
             _negative_slope = TrainDefaults.negative_slope

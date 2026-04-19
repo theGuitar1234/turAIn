@@ -4,7 +4,7 @@ from utilities import core_method
 
 class Sigmoid(Activation):
     def __init__(self, z):
-        super.__init__()
+        super().__init__()
         self.z = z
     
     @override_from_parent

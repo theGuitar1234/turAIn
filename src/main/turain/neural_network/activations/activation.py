@@ -5,7 +5,7 @@ from utilities import core_method
 
 class Activation(Module):
     def __init__(self, z, backend):
-        super.__init__()
+        super().__init__()
         self.backend = backend
         self.input_cache = None
         self.z = z

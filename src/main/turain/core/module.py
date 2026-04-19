@@ -44,5 +44,5 @@ class Module:
         return self
 
     def eval(self):
-        self.training = True
+        self.training = False
         return self
