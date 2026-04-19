@@ -1,6 +1,6 @@
 ### Installment
 
-*Create virtual Environment
+* Create virtual Environment
 ```
 python -m venv .venv
 ```
@@ -13,7 +13,7 @@ python -m venv .venv
 help
 ```
 
-*Configuration
+* Configuration
 - src/main/resources/config
     -requirements-dev.txt
     -requirements.txt
@@ -22,7 +22,7 @@ help
 pip install --upgrade build
 python -m pip install --no-user -r requirements<profile>.txt
 ```
-*pyproject.toml
+* pyproject.toml
 -- Install CUDA (cuda12 or cuda13)
 ```
 pip install ".[cuda12]"
@@ -30,7 +30,7 @@ pip install ".[dev]"
 pip install ".[dev,cuda12]"
 ```
 
-*Project Build
+* Project Build
 ```
 python -m build
 ```
