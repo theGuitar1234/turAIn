@@ -14,9 +14,11 @@ help
 ```
 
 * Configuration
+```
 - src/main/resources/config
     -requirements-dev.txt
     -requirements.txt
+```
 
 ```
 pip install --upgrade build
