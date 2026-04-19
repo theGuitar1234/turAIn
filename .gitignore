@@ -1,2 +1,8 @@
 ### .vscode/ ###
 .vscode/
+
+### .venv/ ###
+.venv/
+
+### build ###
+build/
