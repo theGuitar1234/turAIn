@@ -4,11 +4,11 @@
 ```
 python -m venv .venv
 ```
--Activate Environment
+- Activate Environment
 ```
 .venv\Scripts\activate
 ```
--Get Help
+- Get Help
 ```
 help
 ```
