@@ -1,33 +1,30 @@
 from main.turain.neural_network.activations.activation import Activation
 from lib import override_from_parent
-from utilities import core_method
 
-class ReLu(Activation):
-    def __init__(self, logit):
+
+class HiperbolicTangent(Activation):
+    def __init__(self, z):
         super.__init__()
-        self.logit = logit
-    
+        self.z = z
+
     @override_from_parent
-    def activate(self, logit):
+    def activate(self, z):
         xp = self.backend
-        logit = xp.asarray(logit, dtype=float)
-        return xp.maximum(0.0, logit)
-    
+        z = xp.asarray(z, dtype=float)
+        return xp.hiperbolic_tangent(z)
+
     @override_from_parent
     def derivative(self, z):
-        return z > 0
-    
+        xp = self.backend
+        a = xp.asarray(a, dtype=float)
+        return 1.0 - a**2
+
     @override_from_parent
     def forward_propagation(self, x):
-        self.input_cache = x
         return self.activate(x)
-    
+
     @override_from_parent
     def backward_propagation(self, gradient_output):
         x = self.input_cache
         gradient_input = gradient_output * self.derivative(x)
         return gradient_input
-    
-    @override_from_parent
-    def parameters(self):
-        return super().parameters()

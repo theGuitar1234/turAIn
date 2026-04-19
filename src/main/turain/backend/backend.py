@@ -32,6 +32,9 @@ class Backend:
 
     def e_to_the_power(self, x):
         raise NotImplementedError
+    
+    def hiperbolic_tangent(self, x):
+        raise NotImplementedError
 
     def square_root(self, x, a, b):
         raise NotImplementedError

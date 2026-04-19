@@ -37,6 +37,10 @@ class CPU(Backend):
     @override_from_parent
     def e_to_the_power(self, x):
         return self.cp.exp(x)
+    
+    @override_from_parent
+    def hiperbolic_tangent(self, x):
+        return self.cp.tanh(x)
 
     @override_from_parent
     def square_root(self, x):

@@ -14,6 +14,10 @@ class Activation(Module):
     def activate(self, z):
         raise NotImplementedError
     
+    @core_method
+    def derivative(self, z):
+        raise NotImplementedError
+    
     @override_from_parent
     def forward_propagation(self, x):
         return super().forward_propagation(x)

@@ -1,7 +1,11 @@
+from utilities import TrainDefaults
+
+
 class Optimizer:
-    def __init__(self, parameters, lr=1e-3):
+    def __init__(self, parameters, learning_rate=None):
         self.parameters = list(parameters)
-        self.lr = lr
+        if learning_rate is None:
+            self.learning_rate = TrainDefaults.learning_rate
 
     def step(self):
         raise NotImplementedError
