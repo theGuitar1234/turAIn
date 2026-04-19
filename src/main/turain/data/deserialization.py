@@ -1,3 +1,6 @@
+from lib import csv_engine
+from lib import json_engine
+from lib import pickle_engine
 
 
 def load_dataset(cls, file_type, file_path):
@@ -14,10 +17,10 @@ def load_dataset(cls, file_type, file_path):
             )
 
 
-def load_csv_datasets(cls, folder):
-    X_train, Y_train = cls.load_from_csv(f"{folder}/train.csv")
-    X_valid, Y_valid = cls.load_from_csv(f"{folder}/valid.csv")
-    X_test, Y_test = cls.load_from_csv(f"{folder}/test.csv")
+def load_csv_engine_datasets(cls, folder):
+    X_train, Y_train = cls.load_from_csv(f"{folder}/train.csv_engine")
+    X_valid, Y_valid = cls.load_from_csv(f"{folder}/valid.csv_engine")
+    X_test, Y_test = cls.load_from_csv(f"{folder}/test.csv_engine")
 
     return {
         "X_train": X_train,
@@ -31,7 +34,7 @@ def load_csv_datasets(cls, folder):
 
 def load_from_pickle(cls, filepath):
     with open(filepath, "rb") as f:
-        dataset = pickle.load(f)
+        dataset = pickle_engine.load(f)
     print(f"\nLoaded data from Pickle at : {filepath}\n")
     return dataset
 
@@ -41,7 +44,7 @@ def load_from_json(cls, filepath, _encoding=None):
         _encoding = cls.Encodings.UTF_8
 
     with open(filepath, "r", encoding=_encoding) as f:
-        data = json.load(f)
+        data = json_engine.load(f)
     print(f"Loaded data from JSON at : {filepath}\n")
 
     X_train, Y_train = cls.records_to_split(data["train"])
@@ -58,13 +61,13 @@ def load_from_json(cls, filepath, _encoding=None):
     }
 
 
-def load_from_csv(cls, filepath, backend, _newline="", _encoding=None):
+def load_from_csv_engine(cls, filepath, backend, _newline="", _encoding=None):
     xp = backend.xp
-    
+
     if _encoding is None:
         _encoding = cls.Encodings().UTF_8
     with open(filepath, "r", newline=_newline, encoding=_encoding) as f:
-        reader = csv.reader(f)
+        reader = csv_engine.reader(f)
         header = next(reader)
 
         rows = list(reader)
@@ -80,7 +83,7 @@ def load_from_csv(cls, filepath, backend, _newline="", _encoding=None):
 
 def load_from_npz(cls, npz_path, backend):
     xp = backend.xp
-    
+
     lib = xp.load(npz_path)
 
     X_train_3D = lib["X_train"]
