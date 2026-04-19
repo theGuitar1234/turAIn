@@ -4,5 +4,11 @@
 ### .venv/ ###
 .venv/
 
-### build ###
+### build/ ###
 build/
+
+### dist/ ###
+dist/
+
+### *.egg-info ###
+*.egg-info
