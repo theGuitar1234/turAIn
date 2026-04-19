@@ -12,3 +12,6 @@ dist/
 
 ### *.egg-info ###
 *.egg-info
+
+### NeuralNetwork.py ###
+NeuralNetwork.py
