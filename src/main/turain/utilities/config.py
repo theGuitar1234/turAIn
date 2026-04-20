@@ -4,9 +4,8 @@ from lib import dto
 class TrainDefaults:
     learning_rate: float = 1e-2
     epochs: int = 5000
-    reg: float = 1e-4
     epsilon: float = 1e-8
-    step: int = 100
+    step_size: int = 100
     threshold: float = 0.5
     drop_out_rate: float = 0.03
     l2_lambda: float = 0.03
