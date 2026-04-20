@@ -1,6 +1,13 @@
 from utilities import WeightInitializationStrategy
 from utilities import core_method
 
+from he_normal import HeNormal
+from he_uniform import HeUniform
+from lecun_normal import LeCunNormal
+from lecun_uniform import LeCunUniform
+from xavier_normal import XavierNormal
+from xavier_uniform import XavierUniform
+from zero import Zero
 
 class Initializer:
     def __init__(
@@ -24,7 +31,7 @@ class Initializer:
         )
         self.random_bias_initializing_strategy = (random_bias_initializing_strategy,)
         self.backend = backend
-        
+
         self.fan_in = input_features if layer == 0 else output_features
         self.fan_out = number_of_neurons
 
@@ -38,59 +45,21 @@ class Initializer:
 
         match self.random_hidden_weight_initializing_strategy:
             case WeightInitializationStrategy.XAVIER_NORMAL:
-                W = self.xavier_normal()
+                W = XavierNormal.__call__(fan_in, fan_out, xp)
             case WeightInitializationStrategy.XAVIER_UNIFORM:
-                W = self.xavier_uniform()
+                W = XavierUniform.__call__(fan_in, fan_out, rng, xp)
             case WeightInitializationStrategy.HE_NORMAL:
-                W = self.he_normal()
+                W = HeNormal.__call__(fan_in, fan_out, alpha, rng, xp)
             case WeightInitializationStrategy.HE_UNIFORM:
-                W = self.he_uniform()
+                W = HeUniform.__call__(alpha, fan_in, fan_out, rng, xp)
             case WeightInitializationStrategy.LECUN_NORMAL:
-                W = self.lecun_normal()
+                W = LeCunNormal.__call__(fan_in, fan_out, rng, xp)
             case WeightInitializationStrategy.LECUN_UNIFORM:
-                W = self.lecun_uniform()
+                W = LeCunUniform.__call__(fan_in, fan_out, rng, xp)
             case WeightInitializationStrategy.ZERO:
-                W = self.zero()
+                W = Zero.__call__(fan_in, fan_out, xp)
             case _:
                 raise ValueError(
                     f"Unknown Weight Init Strategy, supported values are : {list(WeightInitializationStrategy)}"
                 )
-
-    def xavier_normal(self, fan_in, fan_out, rng):
-        xp = self.backend
-
-        std = xp.sqrt(2.0 / (fan_in + fan_out))
-        return rng.standard_normal((fan_out, fan_in)) * std
-
-    def xavier_uniform(self, fan_in, fan_out, rng):
-        xp = self.backend
-
-        limit = xp.sqrt(6.0 / (fan_in + fan_out))
-        return rng.uniform(-limit, limit, size=(fan_out, fan_in))
-    
-    def he_normal(self, fan_in, fan_out, alpha, rng):
-        xp = self.backend
-        
-        std = xp.sqrt(2.0 / ((1.0 + alpha**2) * fan_in))
-        return rng.standard_normal((fan_out, fan_in)) * std
-
-    def he_uniform(self, alpha, fan_in, fan_out, rng, xp):
-        limit = xp.sqrt(6.0 / ((1.0 + alpha**2) * fan_in))
-        return rng.uniform(-limit, limit, size=(fan_out, fan_in))
-
-    def lecun_normal(self, fan_in, fan_out, rng):
-        xp = self.backend
-        
-        std = xp.sqrt(1.0 / fan_in)
-        return rng.standard_normal((fan_out, fan_in)) * std
-
-    def lecun_uniform(self, fan_in, fan_out, rng):
-        xp = self.backend
-        
-        limit = xp.sqrt(3.0 / fan_in)
-        return rng.uniform(-limit, limit, size=(fan_out, fan_in))
-
-    def zero(self):
-        xp = self.backend
-        
-        return xp.zeros((fan_out, fan_in))
+        return W
