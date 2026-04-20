@@ -1,2 +1,2 @@
-from .binary_cross_entropy_loss import BinaryCrossEntropyLoss
-from .multiclass_cross_entropy_loss import MultiClassCrossEntropyLoss
+from .binary_cross_entropy import BinaryCrossEntropyLoss
+from .multiclass_cross_entropy import MultiClassCrossEntropyLoss
