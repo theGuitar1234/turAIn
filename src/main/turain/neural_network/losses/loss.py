@@ -1,16 +1,25 @@
 from utilities import TrainDefaults
+from utilities import core_method
 
 
 class Loss:
-    def __init__(self, backend, epsilon=None):
+    def __init__(self, backend, cfg=None):
+        if cfg is None:
+            cfg = TrainDefaults()
+        self.epsilon = cfg.epsilon
         self.backend = backend
-        if epsilon is None:
-            self.epsilon = TrainDefaults().epsilon
 
         self.prediction_cache = None
         self.true_label_cache = None
 
-    def forward_propagation(self, prediction, true_label):
+    @core_method
+    def loss(self):
+        raise NotImplementedError
+    
+    def loss_derivative(self):
+        raise NotImplementedError
+
+    def forward_propagation(self):
         raise NotImplementedError
 
     def backward_propagation(self):

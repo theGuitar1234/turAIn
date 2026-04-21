@@ -4,8 +4,21 @@ from utilities import TrainDefaults
 
 
 class BinaryCrossEntropyLoss(Loss):
-    def __init__(self, backend, epsilon=None):
-        super().__init__(backend, epsilon)
+    def __init__(self, backend, cfg=None):
+        super().__init__(backend, cfg)
+
+    @override_from_parent
+    def loss(self, true_label, prediction, size, xp):
+        return (
+            -xp.sum(true_label * xp.log(prediction) + (1.0 - true_label) * xp.log(1.0 - prediction))
+            / size
+        )
+    
+    @override_from_parent
+    def loss_derivative(self, true_label, prediction, size):
+        return (
+            -(true_label / prediction) + ((1.0 - true_label) / (1.0 - prediction))
+        ) / size
 
     @override_from_parent
     def forward_propagation(self, prediction, true_label):
@@ -17,10 +30,7 @@ class BinaryCrossEntropyLoss(Loss):
 
         batch_size = true_label.shape[0]
 
-        loss = (
-            -xp.sum(true_label * xp.log(prediction) + (1.0 - true_label) * xp.log(1.0 - prediction))
-            / batch_size
-        )
+        loss = self.loss(true_label, prediction, batch_size, xp)
 
         return loss
 
@@ -30,8 +40,6 @@ class BinaryCrossEntropyLoss(Loss):
         true_label = self.true_label_cache
         batch_size = true_label.shape[0]
 
-        gradient_prediction = (
-            -(true_label / prediction) + ((1.0 - true_label) / (1.0 - prediction))
-        ) / batch_size
+        gradient_prediction = self.loss_derivative(true_label, prediction, batch_size)
 
         return gradient_prediction

@@ -3,10 +3,10 @@ from utilities import core_method
 
 class L2Regularization:
     def __init__(self, backend, cfg=None):
-        self.backend = backend
         if cfg is None:
             cfg = TrainDefaults()
         self.l2_lambda = cfg.l2_lambda
+        self.backend = backend
     
     @core_method
     def penalty(self, model, sample_count):

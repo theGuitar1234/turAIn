@@ -5,8 +5,6 @@ from lib import override_from_parent
 
 class ExponentialDecay(LearningDecay):
     def __init__(self, initial_learning_rate, cfg=None):
-        if cfg is None:
-            cfg = TrainDefaults()
         super().__init__(initial_learning_rate, cfg)
 
     @override_from_parent
