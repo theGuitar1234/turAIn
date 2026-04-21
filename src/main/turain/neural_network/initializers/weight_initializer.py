@@ -1,15 +1,16 @@
 from utilities import WeightInitializationStrategy
 from utilities import core_method
 
-from he_normal import HeNormal
-from he_uniform import HeUniform
-from lecun_normal import LeCunNormal
-from lecun_uniform import LeCunUniform
-from xavier_normal import XavierNormal
-from xavier_uniform import XavierUniform
-from zero import Zero
+from main.turain.neural_network.initializers.distributions.he_normal import HeNormal
+from main.turain.neural_network.initializers.distributions.he_uniform import HeUniform
+from main.turain.neural_network.initializers.distributions.lecun_normal import LeCunNormal
+from main.turain.neural_network.initializers.distributions.lecun_uniform import LeCunUniform
+from main.turain.neural_network.initializers.distributions.xavier_normal import XavierNormal
+from main.turain.neural_network.initializers.distributions.xavier_uniform import XavierUniform
+from main.turain.neural_network.initializers.distributions.zero import Zero
 
-class Initializer:
+
+class WeightInitializer:
     def __init__(
         self,
         layer,
@@ -63,3 +64,7 @@ class Initializer:
                     f"Unknown Weight Init Strategy, supported values are : {list(WeightInitializationStrategy)}"
                 )
         return W
+
+
+if __name__ == "__main__":
+    pass

@@ -4,21 +4,21 @@ from utilities import core_method
 
 class Train:
     def __init__(
-        self, 
-        model, 
-        loss_function, 
-        optimizer, 
+        self,
+        model,
+        loss_function,
+        optimizer,
         scheduler=None,
-        regularizer=None, 
-        metrics=None, 
-        callbacks=None
+        regularizer=None,
+        metrics=None,
+        callbacks=None,
     ):
         self.model = model
         self.loss_function = loss_function
         self.optimizer = optimizer
         self.scheduler = scheduler
         self.regularizer = regularizer
-        
+
         self.metrics = metrics or []
         self.callbacks = callbacks or []
 
@@ -73,7 +73,7 @@ class Train:
 
         gradient_loss = self.loss_function.backward_propagation()
         self.model.backward_propagation(gradient_loss)
-        
+
         if self.regularizer is not None:
             regularization_loss = self.regularizer.penalty(self.model, x_batch.shape[0])
             loss += regularization_loss
@@ -86,3 +86,7 @@ class Train:
         prediction = self.model.forward_propagation(x_batch)
         loss = self.loss_function.forward_propagation(prediction, y_batch)
         return loss, prediction
+
+
+if __name__ == "__main__":
+    pass

@@ -9,3 +9,7 @@ class InverseDecay(LearningDecay):
     @override_from_parent
     def decay_learning_rate(self, epoch):
         return self.initial_learning_rate / (1.0 + self.decay_factor * epoch)
+
+
+if __name__ == "__main__":
+    pass

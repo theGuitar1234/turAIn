@@ -28,3 +28,7 @@ class HiperbolicTangent(Activation):
         x = self.input_cache
         gradient_input = gradient_output * self.derivative(x)
         return gradient_input
+
+
+if __name__ == "__main__":
+    pass

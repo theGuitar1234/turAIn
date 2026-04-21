@@ -37,7 +37,7 @@ class CPU(Backend):
     @override_from_parent
     def e_to_the_power(self, x):
         return self.cp.exp(x)
-    
+
     @override_from_parent
     def hiperbolic_tangent(self, x):
         return self.cp.tanh(x)
@@ -53,7 +53,11 @@ class CPU(Backend):
     @override_from_parent
     def matrix_multiplication(self, a, b):
         return self.cp.matmul(a, b)
-    
+
     @override_from_parent
     def transpoze(self, a):
         return self.cp.transpose(a)
+
+
+if __name__ == "__main__":
+    pass

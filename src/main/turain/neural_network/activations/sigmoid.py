@@ -2,26 +2,27 @@ from lib import override_from_parent
 from main.turain.neural_network.activations.activation import Activation
 from utilities import core_method
 
+
 class Sigmoid(Activation):
     def __init__(self, z):
         super().__init__()
         self.z = z
-    
+
     @override_from_parent
     def activate(self, z):
         xp = self.backend
         z = xp.asarray(z, dtype=float)
         output = xp.empty_like(z)
-        
+
         positives = z >= 0
         negatives = ~positives
-        
+
         output[positives] = 1.0 / (1.0 + xp.e_to_the_power(-z[positives]))
         e_to_the_power_of_z = xp.e_to_the_power(z[negatives])
         output[negatives] = e_to_the_power_of_z / (1.0 + e_to_the_power_of_z)
-        
+
         return output
-    
+
     @override_from_parent
     def derivative(self, a):
         return a * (1 - a)
@@ -35,3 +36,7 @@ class Sigmoid(Activation):
         x = self.input_cache
         gradient_input = gradient_output * self.derivative(x)
         return gradient_input
+
+
+if __name__ == "__main__":
+    pass

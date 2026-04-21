@@ -33,3 +33,7 @@ class SoftmaxCrossEntropyLoss(Loss):
         batch_size = true_label.shape[0]
 
         return (2.0 * (prediction - true_label)) / batch_size
+
+
+if __name__ == "__main__":
+    pass

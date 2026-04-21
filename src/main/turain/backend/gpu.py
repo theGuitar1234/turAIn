@@ -2,9 +2,10 @@ from main.turain.backend.backend import Backend
 from lib import gpu_engine
 from lib import override_from_parent
 
+
 class Cupy(Backend):
     gp = gpu_engine
-    
+
     @override_from_parent
     def array(self, x, _dtype=None):
         return self.gp.asarray(x, dtype=_dtype)
@@ -36,7 +37,7 @@ class Cupy(Backend):
     @override_from_parent
     def e_to_the_power(self, x):
         return self.gp.exp(x)
-    
+
     @override_from_parent
     def hiperbolic_tangent(self, x):
         return self.gp.tanh(x)
@@ -52,7 +53,11 @@ class Cupy(Backend):
     @override_from_parent
     def matrix_multiplication(self, a, b):
         return self.gp.matmul(a, b)
-    
+
     @override_from_parent
     def transpoze(self, a):
         return self.gp.transpose(a)
+
+
+if __name__ == "__main__":
+    pass

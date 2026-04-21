@@ -1,0 +1,2 @@
+class LayerInitializer:
+    pass

@@ -1,3 +1,6 @@
+from utilities import core_method
+
+
 class BatchLoader:
     def __init__(self, x, y, batch_size, backend, shuffle=True):
         self.x = x
@@ -5,21 +8,26 @@ class BatchLoader:
         self.batch_size = batch_size
         self.backend = backend
         self.shuffle = shuffle
-    
+
+    @core_method
     def __iter__(self):
         xp = self.backend
         number_of_samples = self.X.shape[0]
-        
+
         indices = xp.arange(number_of_samples)
-        
+
         if self.shuffle:
             xp.random.shuffle(indices)
-        
+
         for start in range(0, number_of_samples, self.batch_size):
             end = min(start + self.batch_size, number_of_samples)
             batch_indices = indices[start:end]
-            
+
             x_batch = self.X[batch_indices]
             y_batch = self.Y[batch_indices]
-            
+
             yield x_batch, y_batch
+
+
+if __name__ == "__main__":
+    pass

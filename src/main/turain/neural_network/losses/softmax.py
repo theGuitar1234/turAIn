@@ -28,8 +28,12 @@ class SoftmaxLoss(Loss):
         probabilities = self.true_label_cache
         true_label = self.true_label_cache
         batch_size = true_label.shape[0]
-        
+
         return self.output_delta(probabilities, true_label) / batch_size
 
     def output_delta(prediction, true_label):
         return prediction - true_label
+
+
+if __name__ == "__main__":
+    pass

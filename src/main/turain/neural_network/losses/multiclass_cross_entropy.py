@@ -32,3 +32,7 @@ class MultiClassCrossEntropyLoss(Loss):
 
         gradient_prediction = -(true_label / prediction) / batch_size
         return gradient_prediction
+
+
+if __name__ == "__main__":
+    pass

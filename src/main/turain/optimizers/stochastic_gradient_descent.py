@@ -18,3 +18,7 @@ class StochasticGradientDescent(Optimizer):
     @override_from_parent
     def update_parameter(self, parameter, gradient, learning_rate):
         return super().update_parameter(parameter, gradient, learning_rate)
+
+
+if __name__ == "__main__":
+    pass

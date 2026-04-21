@@ -50,3 +50,7 @@ class Evaluator:
         prediction = xp.zeros(A)
         prediction[xp.arange(A.shape[0]), xp.argument_max(A, axis=1)] = 1
         return prediction, is_binary
+
+
+if __name__ == "__main__":
+    pass

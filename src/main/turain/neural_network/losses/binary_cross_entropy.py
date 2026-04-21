@@ -13,12 +13,10 @@ class BinaryCrossEntropyLoss(Loss):
             -xp.sum(true_label * xp.log(prediction) + (1.0 - true_label) * xp.log(1.0 - prediction))
             / size
         )
-    
+
     @override_from_parent
     def loss_derivative(self, true_label, prediction, size):
-        return (
-            -(true_label / prediction) + ((1.0 - true_label) / (1.0 - prediction))
-        ) / size
+        return (-(true_label / prediction) + ((1.0 - true_label) / (1.0 - prediction))) / size
 
     @override_from_parent
     def forward_propagation(self, prediction, true_label):
@@ -43,3 +41,7 @@ class BinaryCrossEntropyLoss(Loss):
         gradient_prediction = self.loss_derivative(true_label, prediction, batch_size)
 
         return gradient_prediction
+
+
+if __name__ == "__main__":
+    pass

@@ -19,7 +19,7 @@ class Linear(Module):
         random_hidden_weight_initializing_strategy,
     ):
         super().__init__()
-        
+
         check_arguments(
             key=int,
             value=(
@@ -38,7 +38,7 @@ class Linear(Module):
                 },
             ),
         )
-        
+
         self.backend = backend
 
         self.random_bias_initializing_strategy = random_bias_initializing_strategy
@@ -99,3 +99,7 @@ class Linear(Module):
     @override_from_parent
     def parameters(self):
         return [self.weight, self.bias]
+
+
+if __name__ == "__main__":
+    pass

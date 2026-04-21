@@ -1,7 +1,7 @@
 from .enum import (
     BiasInitStrategy,
     DataAugmentationType,
-    DatasetType,
+    Datasets,
     Device,
     HiddenActivationType,
     LearningDecayType,
