@@ -1,29 +1,31 @@
+from main.turain.neural_network.initializers.initializer import Initializer
 from utilities import WeightInitializationStrategy
 from utilities import core_method
+from lib import override_from_parent
+from main.turain.neural_network.initializers.distributions.weight.he_normal import HeNormal
+from main.turain.neural_network.initializers.distributions.weight.he_uniform import HeUniform
+from main.turain.neural_network.initializers.distributions.weight.lecun_normal import LeCunNormal
+from main.turain.neural_network.initializers.distributions.weight.lecun_uniform import LeCunUniform
+from main.turain.neural_network.initializers.distributions.weight.xavier_normal import XavierNormal
+from main.turain.neural_network.initializers.distributions.weight.xavier_uniform import XavierUniform
+from main.turain.neural_network.initializers.distributions.weight.zero import Zero
 
-from main.turain.neural_network.initializers.distributions.he_normal import HeNormal
-from main.turain.neural_network.initializers.distributions.he_uniform import HeUniform
-from main.turain.neural_network.initializers.distributions.lecun_normal import LeCunNormal
-from main.turain.neural_network.initializers.distributions.lecun_uniform import LeCunUniform
-from main.turain.neural_network.initializers.distributions.xavier_normal import XavierNormal
-from main.turain.neural_network.initializers.distributions.xavier_uniform import XavierUniform
-from main.turain.neural_network.initializers.distributions.zero import Zero
 
-
-class WeightInitializer:
+class WeightInitializer(Initializer):
     def __init__(
         self,
         layer,
+        backend,
         number_of_neurons,
         input_features,
-        output_features,
+        output_width,
         random_hidden_weight_initializing_strategy,
         random_output_weight_initializing_strategy,
-        random_bias_initializing_strategy,
-        backend,
+        random_bias_initializing_strategy
     ):
+        super().__init__(backend, output_width)
+        
         self.input_features = input_features
-        self.output_features = output_features
         self.random_hidden_weight_initializing_strategy = (
             random_hidden_weight_initializing_strategy,
         )
@@ -31,12 +33,11 @@ class WeightInitializer:
             random_output_weight_initializing_strategy,
         )
         self.random_bias_initializing_strategy = (random_bias_initializing_strategy,)
-        self.backend = backend
 
-        self.fan_in = input_features if layer == 0 else output_features
+        self.fan_in = input_features if layer == 0 else output_width
         self.fan_out = number_of_neurons
 
-    @core_method
+    @override_from_parent
     def initialize(self, xp, fan_in, fan_out, alpha):
         if rng is None:
             rng = xp.random.default_rng()
@@ -60,9 +61,7 @@ class WeightInitializer:
             case WeightInitializationStrategy.ZERO:
                 W = Zero.__call__(fan_in, fan_out, xp)
             case _:
-                raise ValueError(
-                    f"Unknown Weight Init Strategy, supported values are : {list(WeightInitializationStrategy)}"
-                )
+                raise ValueError(f"Unknown Weight Init Strategy, supported values are : {list(WeightInitializationStrategy)}")
         return W
 
 

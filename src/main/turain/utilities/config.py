@@ -16,6 +16,7 @@ class TrainDefaults:
     start_width_heuristic_cap: int = 512
     output_aware_multiplier: int = 4
     expansion_multiplier: int = 2
+    parameter_budget: int = 2
     momentum_coefficient: float = 0.9
     rms_coefficient: float = 0.999
     negative_slope: int = 0.01
