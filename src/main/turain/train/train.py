@@ -13,6 +13,8 @@ class Train:
         metrics=None,
         callbacks=None,
         config=None,
+        early_stop=None,
+        state_tracker=None,
     ):
         self.model = model
         self.loss_function = loss_function
@@ -23,6 +25,9 @@ class Train:
         self.metrics = metrics or []
         self.callbacks = callbacks or []
         self.config = config or TrainDefaults()
+        
+        self.early_stop = early_stop
+        self.state_tracker = state_tracker
         
         self.history = {
             "train_loss": [],
@@ -63,6 +68,21 @@ class Train:
                     validation_loss_sum += float(loss)
                     validation_batches += 1
                 average_validation_loss = validation_loss_sum / max(validation_batches)
+                
+                if self.state_tracker is not None:
+                    _early_stop = self.state_tracker.update(self.model, average_validation_loss, epoch)
+                    if _early_stop:
+                        self.metrics.best_validation_loss = average_train_loss
+                        self.metrics.best_epoch = epoch
+                
+                if self.early_stop is not None:
+                    self.early_stop.early_stop(average_train_loss)
+                    if self.early_stop.__early_stop:
+                        break
+                
+                if self.state_tracker is not None and self.state_tracker.best_validation_loss is not None:
+                    self.model = self.state_tracker.restore()
+                
                 self.history["validation_loss"].append(average_validation_loss)
             print(f"epoch={epoch + 1}, train_loss={average_train_loss:.6f}")
         return self.history
