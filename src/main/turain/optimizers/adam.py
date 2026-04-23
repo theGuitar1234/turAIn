@@ -4,13 +4,13 @@ from utilities import TrainDefaults
 
 
 class Adam(Optimizer):
-    def __init__(self, backend, parameters, cfg=None):
-        if cfg is None:
-            cfg = TrainDefaults()
-        learning_rate = cfg.learning_rate
-        momentum_coefficient = cfg.momentum_coefficient
-        rms_coefficient = cfg.rms_coefficient
-        epsilon = cfg.epsilon
+    def __init__(self, backend, parameters, config=None):
+        if config is None:
+            config = TrainDefaults()
+        learning_rate = config.learning_rate
+        momentum_coefficient = config.momentum_coefficient
+        rms_coefficient = config.rms_coefficient
+        epsilon = config.epsilon
 
         super().__init__(parameters, learning_rate)
 

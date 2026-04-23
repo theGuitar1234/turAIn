@@ -3,50 +3,10 @@ from lib import json_engine
 from lib import pickle_engine
 from utilities import Datasets
 from utilities import core_method
-from encoding import OneHotCoding
 from serialization import Serialization
 
 
 class DeSerialization:
-    @classmethod
-    @core_method
-    def load_dataset(cls, file_type, file_path):
-        match file_type:
-            case Datasets.NPZ:
-                return cls.load_from_npz(file_path)
-            case Datasets.JSON:
-                return cls.load_from_json(file_path)
-            case Datasets.PICKLE:
-                return cls.load_from_pickle(file_path)
-            case _:
-                raise ValueError(
-                    f"Unknown File Type, supported ones are : {cls.Datasets.NPZ}, {cls.Datasets.PICKLE}, {cls.Datasets.JSON}"
-                )
-
-    @classmethod
-    def prepare_datasets(cls, dataset, number_of_classes):
-        X_train = dataset["X_train"]
-        Y_train = dataset["Y_train"]
-
-        X_valid = dataset["X_valid"]
-        Y_valid = dataset["Y_valid"]
-
-        X_test = dataset["X_test"]
-        Y_test = dataset["Y_test"]
-
-        Y_train_one_hot = OneHotCoding.one_hot_encode(Y_train, number_of_classes)
-        Y_valid_one_hot = OneHotCoding.one_hot_encode(Y_valid, number_of_classes)
-        Y_test_one_hot = OneHotCoding.one_hot_encode(Y_test, number_of_classes)
-
-        return {
-            "X_train": X_train,
-            "Y_train": Y_train_one_hot,
-            "X_valid": X_valid,
-            "Y_valid": Y_valid_one_hot,
-            "X_test": X_test,
-            "Y_test": Y_test_one_hot,
-        }
-
     @classmethod
     def load_csv_engine_datasets(cls, folder):
         X_train, Y_train = cls.load_from_csv(f"{folder}/train.csv_engine")

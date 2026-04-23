@@ -3,10 +3,10 @@ from utilities import core_method
 
 
 class L2Regularization:
-    def __init__(self, backend, cfg=None):
-        if cfg is None:
-            cfg = TrainDefaults()
-        self.l2_lambda = cfg.l2_lambda
+    def __init__(self, backend, config=None):
+        if config is None:
+            config = TrainDefaults()
+        self.l2_lambda = config.l2_lambda
         self.backend = backend
 
     @core_method

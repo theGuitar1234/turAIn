@@ -69,7 +69,7 @@ class Linear(Module):
         return xp.matrix_multiplication(X, xp.transpoze(W)) + xp.transpoze(b)
 
     @override_from_parent
-    def forward_propagation(self, X, cfg=None, training_mode=False):
+    def forward_propagation(self, X, config=None, training_mode=False):
         self.input_cache = X
         return self.linear_model(X)
 

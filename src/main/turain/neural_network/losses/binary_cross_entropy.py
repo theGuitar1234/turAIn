@@ -4,8 +4,8 @@ from utilities import TrainDefaults
 
 
 class BinaryCrossEntropyLoss(Loss):
-    def __init__(self, backend, cfg=None):
-        super().__init__(backend, cfg)
+    def __init__(self, backend, config=None):
+        super().__init__(backend, config)
 
     @override_from_parent
     def loss(self, true_label, prediction, size, xp):

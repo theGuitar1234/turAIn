@@ -3,10 +3,10 @@ from utilities import core_method
 
 
 class Loss:
-    def __init__(self, backend, cfg=None):
-        if cfg is None:
-            cfg = TrainDefaults()
-        self.epsilon = cfg.epsilon
+    def __init__(self, backend, config=None):
+        if config is None:
+            config = TrainDefaults()
+        self.epsilon = config.epsilon
         self.backend = backend
 
         self.prediction_cache = None

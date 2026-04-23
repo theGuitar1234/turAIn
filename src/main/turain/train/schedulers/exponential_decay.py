@@ -4,8 +4,8 @@ from lib import override_from_parent
 
 
 class ExponentialDecay(LearningDecay):
-    def __init__(self, initial_learning_rate, cfg=None):
-        super().__init__(initial_learning_rate, cfg)
+    def __init__(self, initial_learning_rate, config=None):
+        super().__init__(initial_learning_rate, config)
 
     @override_from_parent
     def decay_learning_rate(self, epoch):

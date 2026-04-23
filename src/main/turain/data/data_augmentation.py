@@ -8,17 +8,17 @@ class DataAugmentation:
         
     
     @core_method
-    def augment(self, X, Y, backend, cfg=None):
+    def augment(self, X, Y, backend, config=None):
         xp = self.backend
         random_range = xp.random.default_range()
         
-        if cfg is None:
-            cfg = TrainDefaults()
+        if config is None:
+            config = TrainDefaults()
         
-        measurement_strength = cfg.measurement_strength
-        jitter_strength = cfg.jitter_strength
-        same_class_augmentation_low_alpha = cfg.same_class_augmentation_low_alpha
-        same_class_augmentation_high_alpha = cfg.same_class_augmentation_high_alpha
+        measurement_strength = config.measurement_strength
+        jitter_strength = config.jitter_strength
+        same_class_augmentation_low_alpha = config.same_class_augmentation_low_alpha
+        same_class_augmentation_high_alpha = config.same_class_augmentation_high_alpha
 
         X = xp.asarray(X, dtype=float)
         Y = xp.asarray(Y)

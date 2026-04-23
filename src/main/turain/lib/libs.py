@@ -51,7 +51,7 @@ except ImportError as e:
     print(e)
 
 try:
-    from dataclasses import dataclass as dto
+    from dataclasses import dataclass as dto, field
 except ImportError as e:
     dto = None
     print(e)

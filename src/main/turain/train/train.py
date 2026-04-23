@@ -1,6 +1,6 @@
 from utilities import TrainDefaults
 from utilities import core_method
-
+from utilities import TrainResults
 
 class Train:
     def __init__(
@@ -12,6 +12,7 @@ class Train:
         regularizer=None,
         metrics=None,
         callbacks=None,
+        config=None,
     ):
         self.model = model
         self.loss_function = loss_function
@@ -21,7 +22,8 @@ class Train:
 
         self.metrics = metrics or []
         self.callbacks = callbacks or []
-
+        self.config = config or TrainDefaults()
+        
         self.history = {
             "train_loss": [],
             "validation_loss": [],

@@ -3,10 +3,10 @@ from utilities import TrainDefaults
 
 
 class LearningDecay:
-    def __init__(self, initial_learning_rate, cfg):
-        if cfg is None:
-            cfg = TrainDefaults()
-        self.decay_factor = cfg.decay_factor
+    def __init__(self, initial_learning_rate, config):
+        if config is None:
+            config = TrainDefaults()
+        self.decay_factor = config.decay_factor
         self.initial_learning_rate = initial_learning_rate
 
     @core_method

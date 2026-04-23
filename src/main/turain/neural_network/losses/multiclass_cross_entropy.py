@@ -3,8 +3,8 @@ from lib import override_from_parent
 
 
 class MultiClassCrossEntropyLoss(Loss):
-    def __init__(self, backend, cfg=None):
-        super().__init__(backend, cfg)
+    def __init__(self, backend, config=None):
+        super().__init__(backend, config)
 
     @override_from_parent
     def forward_propagation(self, prediction, true_label):

@@ -9,7 +9,7 @@ from .libs import cpu_engine
 from .libs import gpu_engine
 
 from .libs import override_from_parent
-from .libs import dto
+from .libs import dto, mutable_field
 
 from .libs import date_time_engine
 
@@ -23,5 +23,6 @@ __all__ = [
     "gpu_engine",
     "override_from_parent",
     "dto",
+    "mutable_field",
     "date_time_engine",
 ]

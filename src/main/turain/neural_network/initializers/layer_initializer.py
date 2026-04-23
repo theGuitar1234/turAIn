@@ -99,15 +99,15 @@ class LayerInitializer(Initializer):
         self.start_width_heuristic_cap = start_width_heuristic_cap
 
     @override_from_parent
-    def initialize(self, X, cfg=None):
+    def initialize(self, X, config=None):
         if self.number_of_hidden_layers == 0:
             print(f"No Hidden Layers are defined, initializing only the output layer...")
             return [self.output_width]
 
-        if cfg is None:
-            cfg = TrainDefaults()
-        expansion_multiplier = cfg.expansion_multiplier
-        parameter_budget = cfg.parameter_budget
+        if config is None:
+            config = TrainDefaults()
+        expansion_multiplier = config.expansion_multiplier
+        parameter_budget = config.parameter_budget
         
         if self.layer_strategy is LayerStrategies.PARAMETER_BUDGET:
             check_arguments(

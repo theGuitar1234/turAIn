@@ -4,11 +4,11 @@ from utilities import TrainDefaults
 
 
 class DropoutMask(Module):
-    def __init__(self, backend, cfg=None):
-        if cfg is None:
-            cfg = TrainDefaults()
+    def __init__(self, backend, config=None):
+        if config is None:
+            config = TrainDefaults()
         super().__init__()
-        self.drop_out_rate = cfg.drop_out_rate
+        self.drop_out_rate = config.drop_out_rate
         self.keep_rate = 1 - self.drop_out_rate
         self.mask = None
         self.backend = backend

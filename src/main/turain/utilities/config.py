@@ -1,4 +1,4 @@
-from lib import dto
+from lib import dto, mutable_field
 
 @dto
 class TrainDefaults:
@@ -28,12 +28,15 @@ class TrainDefaults:
 
 @dto
 class TrainResults:
-    losses: list = None
-    val_losses: list = None
-    best_val_loss: float = 0.0
-    val_accuracies: list = None
-    best_epoch: int = 0
-    final_loss: float = 0.0
-    accuracy: float = 0.0
-    final_learning_rate: float = 0.0
-    figure_title: str = "Training Results"
+    train_losses: list = mutable_field(default_factory=list)
+    validation_losses: list = mutable_field(default_factory=list)
+    validation_accuracies: list = mutable_field(default_factory=list)
+
+    best_validation_loss: float = float("inf")
+    best_epoch: int | None = None
+
+    final_loss: float | None = None
+    final_accuracy: float | None = None
+    final_learning_rate: float | None = None
+
+    title: str = "Training Results"
