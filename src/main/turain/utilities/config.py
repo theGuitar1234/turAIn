@@ -18,6 +18,7 @@ class TrainDefaults:
     expansion_multiplier: int = 2
     parameter_budget: int = 2
     momentum_coefficient: float = 0.9
+    measurement_strength: float = 0.02
     rms_coefficient: float = 0.999
     negative_slope: int = 0.01
     prediction_tolerance: int = 100
