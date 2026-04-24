@@ -13,6 +13,8 @@ from .libs import dto, mutable_field
 
 from .libs import date_time_engine
 
+from .libs import plotting
+
 __all__ = [
     "system", 
     "csv_engine", 
@@ -25,4 +27,5 @@ __all__ = [
     "dto",
     "mutable_field",
     "date_time_engine",
+    "plotting",
 ]

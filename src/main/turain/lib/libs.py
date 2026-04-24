@@ -62,3 +62,10 @@ try:
 except ImportError as e:
     datetime = None
     print(e)
+
+### PLOTTING ###
+try:
+    import matplotlib.pyplot as pltotting
+except ImportError as e:
+    plotting = None
+    print(e)
