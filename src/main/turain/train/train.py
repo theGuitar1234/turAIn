@@ -19,6 +19,7 @@ class Train:
         state_tracker=None,
         logger=None,
         plotter=None,
+        finalizer=None,
     ):
         self.model = model
         self.loss_function = loss_function
@@ -133,7 +134,25 @@ class Train:
 
                 if self.plotter is not None:
                     self.plotter.plot(self.metrics)
-        self.callback_manager.on_train_end(self)
+
+                if self.finalizer is not None:
+                    final_report = self.finalizer.finalize(
+                        model=self.model,
+                        X_train=X_train,
+                        Y_train=Y_train,
+                        X_valid=X_valid,
+                        Y_valid=Y_valid,
+                        X_test=X_test,
+                        Y_test=Y_test,
+                        loss_function=self.loss_function,
+                        threshold=self.config.threshold,
+                        log_predictions=False,
+                        run_error_analysis=False,
+                    )
+
+                self.results.final_loss = final_report.train_loss if final_report is not None else self.results.final_loss
+                self.results.final_accuracy = final_report.train_accuracy if final_report is not None else self.results.final_accuracy
+                        self.callback_manager.on_train_end(self)
 
         return self.history
 
