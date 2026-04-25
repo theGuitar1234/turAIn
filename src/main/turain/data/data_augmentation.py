@@ -9,7 +9,7 @@ class DataAugmentation:
     
     @core_method
     def augment(self, X, Y, backend, config=None):
-        xp = self.backend
+        xp = self.backend.xp
         random_range = xp.random.default_range()
         
         if config is None:

@@ -13,10 +13,12 @@ class RMSProp(Optimizer):
             epsilon = TrainDefaults.epsilon
         self.epsilon = TrainDefaults.epsilon
         self.backend = backend
+        
+        xp = self.backend.xp
 
         self.square_average = []
         for parameter in self.parameters:
-            self.square_average.append(self.backend.zeros(parameter.data))
+            self.square_average.append(xp.zeros(parameter.data))
 
     @override_from_parent
     def step(self):

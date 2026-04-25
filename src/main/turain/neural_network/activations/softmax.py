@@ -9,11 +9,11 @@ class Softmax(Activation):
 
     @override_from_parent
     def activate(self, z):
-        xp = self.backend
+        xp = self.backend.xp
         z = xp.asarray(z, dtype=float)
-        z_shifted = z - xp.max(Z, axis=1, keepdims=True)
-        e_to_the_power_of_z = xp.e_to_the_power(z_shifted)
-        return e_to_the_power_of_z / xp.sum(e_to_the_power_of_z, axis=1, keepdims=True)
+        z_shifted = z - xp.max(z, axis=1, keepdims=True)
+        exp_of_z = xp.exp(z_shifted)
+        return exp_of_z / xp.sum(exp_of_z, axis=1, keepdims=True)
 
 
 if __name__ == "__main__":

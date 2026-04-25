@@ -8,11 +8,11 @@ class SoftmaxLoss(Loss):
 
     @override_from_parent
     def forward_propagation(self, z, true_label):
-        xp = self.backend
+        xp = self.backend.xp
 
         z_shifted = z - xp.max(z, axis=1, keepdims=True)
-        e_to_the_power_z = xp.e_to_the_power(z_shifted)
-        probabilities = e_to_the_power_z / xp.sum(e_to_the_power_z, axis=1, keepdims=True)
+        exp_z = xp.exp(z_shifted)
+        probabilities = exp_z / xp.sum(exp_z, axis=1, keepdims=True)
         probabilities = xp.clip(probabilities, self.epsilon, 1.0)
 
         self.prediction_cache = probabilities

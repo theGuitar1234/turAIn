@@ -9,13 +9,13 @@ class HiperbolicTangent(Activation):
 
     @override_from_parent
     def activate(self, z):
-        xp = self.backend
+        xp = self.backend.xp
         z = xp.asarray(z, dtype=float)
         return xp.hiperbolic_tangent(z)
 
     @override_from_parent
     def derivative(self, z):
-        xp = self.backend
+        xp = self.backend.xp
         a = xp.asarray(a, dtype=float)
         return 1.0 - a**2
 

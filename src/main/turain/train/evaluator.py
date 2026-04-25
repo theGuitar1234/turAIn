@@ -9,7 +9,7 @@ class Evaluator:
 
     @core_method
     def evaluate(self, X, Y, epsilon=None, threshold=None):
-        xp = self.backend
+        xp = self.backend.xp
 
         if epsilon is None:
             epsilon = TrainDefaults.epsilon
@@ -35,7 +35,7 @@ class Evaluator:
         return A
 
     def predict_classes(self, x, threshold=None):
-        xp = self.backend
+        xp = self.backend.xp
 
         if threshold is None:
             threshold = TrainDefaults.threshold

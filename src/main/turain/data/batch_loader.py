@@ -12,7 +12,7 @@ class BatchLoader:
 
     @core_method
     def __iter__(self):
-        xp = self.backend
+        xp = self.backend.xp
         number_of_samples = self.X.shape[0]
 
         indices = xp.arange(number_of_samples)

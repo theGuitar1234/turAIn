@@ -17,7 +17,7 @@ class LeakyReLu(Activation):
 
     @override_from_parent
     def activate(self, z):
-        xp = self.backend
+        xp = self.backend.xp
         z = xp.asarray(z, dtype=float)
         return xp.where(z > 0, z, self.negative_slope * z)
 

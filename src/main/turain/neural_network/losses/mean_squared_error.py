@@ -16,7 +16,7 @@ class SoftmaxCrossEntropyLoss(Loss):
 
     @override_from_parent
     def forward_propagation(self, prediction, true_label):
-        xp = self.backend
+        xp = self.backend.xp
 
         self.prediction_cache = prediction
         self.true_label_cache = true_label

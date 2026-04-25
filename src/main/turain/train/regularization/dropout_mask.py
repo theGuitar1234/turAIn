@@ -15,7 +15,7 @@ class DropoutMask(Module):
 
     @override_from_parent
     def forward_propagation(self, x):
-        xp = self.backend
+        xp = self.backend.xp
         if not self.training or self.drop_out_rate == 0.0:
             self.mask = None
             return x
@@ -33,7 +33,7 @@ class DropoutMask(Module):
         return []
 
     def bernoulli(self, shape):
-        xp = self.backend
+        xp = self.backend.xp
         return (xp.random.random(shape) < self.keep_rate).astype(float)
 
 

@@ -10,7 +10,7 @@ class ReLu(Activation):
 
     @override_from_parent
     def activate(self, logit):
-        xp = self.backend
+        xp = self.backend.xp
         logit = xp.asarray(logit, dtype=float)
         return xp.maximum(0.0, logit)
 

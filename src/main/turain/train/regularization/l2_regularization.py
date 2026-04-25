@@ -11,7 +11,7 @@ class L2Regularization:
 
     @core_method
     def penalty(self, model, sample_count):
-        xp = self.backend
+        xp = self.backend.xp
 
         weight_square_sum = 0.0
         for parameter in model.parameters():

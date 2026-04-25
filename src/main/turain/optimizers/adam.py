@@ -20,17 +20,19 @@ class Adam(Optimizer):
         self.epsilon = epsilon
 
         self.iteration = 0
+        
+        xp = self.backend.xp
 
         self.velocity = []
         self.square_average = []
         for parameter in self.parameters:
-            zeros = self.backend.zeros(parameter.data)
+            zeros = xp.zeros(parameter.data)
             self.velocity.append(zeros)
             self.square_average.append(zeros)
 
     @override_from_parent
     def step(self):
-        xp = self.backend
+        xp = self.backend.xp
         self.iteration += 1
 
         for index, parameter in enumerate(self.parameters):

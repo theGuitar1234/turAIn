@@ -1,49 +1,66 @@
 class Backend:
+    xp = None
 
-    def array(self, x, dtype=None):
-        raise NotImplementedError
+    def array(self, x, _dtype=None):
+        return self.xp.asarray(x, dtype=_dtype)
 
-    def zeros(self, x):
-        raise NotImplementedError
+    def ones(self, shape, _dtype=None):
+        return self.xp.ones(shape, dtype=_dtype)
 
-    def ones(self, x):
-        raise NotImplementedError
+    def zeros(self, shape, _dtype=None):
+        return self.xp.zeros(shape, dtype=_dtype)
+
+    def zeros_like(self, x):
+        return self.xp.zeros_like(x)
+
+    def ones_like(self, x):
+        return self.xp.ones_like(x)
 
     def identity(self, size):
-        raise NotImplementedError
+        return self.xp.eye(size)
 
-    def uniform_distribution(self, low, high, size):
-        raise NotImplementedError
+    def uniform_distribution(self, low, high, _size):
+        return self.xp.random.uniform(low, high, size=_size)
 
     def normal_distribution(self, size):
-        raise NotImplementedError
+        return self.xp.random.standard_normal(size)
 
-    def matrix_multiplication(self, a, b):
-        raise NotImplementedError
-    
-    def transpoze(self, a):
-        raise NotImplementedError
+    def sum(self, x, _axis=None, _keepdims=False):
+        return self.xp.sum(x, axi=_axis, keepdims=_keepdims)
 
-    def sum(self, x, axis=None, keepdims=False):
-        raise NotImplementedError
+    def max(self, x, _axis=None, _keepdims=False):
+        return self.xp.max(x, axis=_axis, keepdims=_keepdims)
 
-    def max(self, x, axis=None, keepdims=False):
-        raise NotImplementedError
+    def exp(self, x):
+        return self.xp.exp(x)
 
-    def e_to_the_power(self, x):
-        raise NotImplementedError
-    
     def hiperbolic_tangent(self, x):
-        raise NotImplementedError
+        return self.xp.tanh(x)
 
-    def square_root(self, x, a, b):
-        raise NotImplementedError
+    def sqrt(self, x):
+        return self.xp.sqrt(x)
+
+    def argmax(self, x, _axis=None):
+        return self.xp.argmax(x, axis=_axis)
 
     def clip(self, x, a, b):
-        raise NotImplementedError
+        return self.xp.clip(x, a, b)
 
-    def argument_max(self, x, axis=None):
-        raise NotImplementedError
+    def matrix_multiplication(self, a, b):
+        return self.xp.matmul(a, b)
+
+    def transpoze(self, a):
+        return self.xp.transpose(a)
+
+    def in_range(self, *args, **kwargs):
+        return self.xp.arange(*args, **kwargs)
 
     def to_cpu(self, x):
         raise NotImplementedError
+
+    def to_gpu(self, x):
+        raise NotImplementedError
+
+
+if __name__ == "__main__":
+    pass

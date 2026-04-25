@@ -20,7 +20,7 @@ class BinaryCrossEntropyLoss(Loss):
 
     @override_from_parent
     def forward_propagation(self, prediction, true_label):
-        xp = self.backend
+        xp = self.backend.xp
         prediction = xp.clip(prediction, self.epsilon, 1 - self.epsilon)
 
         self.prediction_cache = prediction

@@ -77,7 +77,7 @@ class LayerInitializer(Initializer):
         if self.layer_strategy is LayerStrategies.PARAMETER_BUDGET:
             check_positive_integer(parameter_budget)
 
-        xp = self.backend
+        xp = self.backend.xp
         if not isinstance(X, xp.ndarray):
             raise TypeError("X must be a numpy.ndarray")
         if X.ndim != 2:

@@ -41,7 +41,7 @@ class BiasInitialzer(Initializer):
         bias_value = cfg.bias_value
         standart_deviation = cfg.standart_deviation
 
-        xp = self.backend
+        xp = self.backend.xp
         rng = xp.random.default_rng()
 
         check_positive_integer(fan_out)
@@ -92,7 +92,7 @@ class BiasInitialzer(Initializer):
         return b
 
     def logit(self, p, cfg=None):
-        xp = self.backend
+        xp = self.backend.xp
         if cfg is None:
             cfg = TrainDefaults()
         epsilon = cfg.epsilon

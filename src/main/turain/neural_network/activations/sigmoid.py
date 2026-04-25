@@ -10,16 +10,16 @@ class Sigmoid(Activation):
 
     @override_from_parent
     def activate(self, z):
-        xp = self.backend
+        xp = self.backend.xp
         z = xp.asarray(z, dtype=float)
         output = xp.empty_like(z)
 
         positives = z >= 0
         negatives = ~positives
 
-        output[positives] = 1.0 / (1.0 + xp.e_to_the_power(-z[positives]))
-        e_to_the_power_of_z = xp.e_to_the_power(z[negatives])
-        output[negatives] = e_to_the_power_of_z / (1.0 + e_to_the_power_of_z)
+        output[positives] = 1.0 / (1.0 + xp.exp(-z[positives]))
+        exp_of_z = xp.exp(z[negatives])
+        output[negatives] = exp_of_z / (1.0 + exp_of_z)
 
         return output
 

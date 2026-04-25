@@ -11,10 +11,12 @@ class Momentum(Optimizer):
             momentum_coefficient = TrainDefaults.momentum_coefficient
         self.momentum_coefficient = momentum_coefficient
         self.backend = backend
+        
+        xp = self.backend.xp
 
         self.velocity = []
         for parameter in self.parameters:
-            self.velocity.append(self.backend.zeros(parameter.data))
+            self.velocity.append(xp.zeros(parameter.data))
 
     @override_from_parent
     def step(self):

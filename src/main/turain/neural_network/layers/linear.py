@@ -44,7 +44,7 @@ class Linear(Module):
 
     @core_method
     def linear_model(self, X):
-        xp = self.backend
+        xp = self.backend.xp
 
         W = self.weight.data
         b = self.bias.data
@@ -58,7 +58,7 @@ class Linear(Module):
 
     @override_from_parent
     def backward_propagation(self, gradient_output):
-        xp = self.backend
+        xp = self.backend.xp
 
         X = self.input_cache
         batch_size = X.shape[0]
@@ -72,8 +72,8 @@ class Linear(Module):
         dW = self.weight.gradient
         db = self.weight.gradient
 
-        dW = (xp.matrix_multiplication(gradient_output.T, X)) / batch_size
-        db = xp.transpoze(xp.sum(gradient_output, axis=0, keepdims=True).T) / batch_size
+        dW = (xp.matrix_multiplication(xp.transpoze(gradient_output), X)) / batch_size
+        db = xp.transpoze(xp.sum(gradient_output, axis=0, keepdims=True)) / batch_size
 
         gradient_input = gradient_output @ w
 
