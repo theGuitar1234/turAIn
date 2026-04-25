@@ -1,4 +1,4 @@
-from main.turain.train.callback.callback_manager import CallbackManager
+from callback import CallbackManager
 from utilities import TrainDefaults
 from utilities import core_method
 from utilities import TrainResults
@@ -49,7 +49,18 @@ class Train:
         }
 
     @core_method
-    def fit(self, train_loader, validation_loader=None, epochs=None):
+    def fit(
+        self,
+        X_train,
+        Y_train,
+        X_valid,
+        Y_valid,
+        X_test,
+        Y_test,
+        train_loader, 
+        validation_loader=None, 
+        epochs=None
+    ):
         self.callback_manager.on_train_begin(self)
 
         if epochs is None:
@@ -75,7 +86,7 @@ class Train:
             self.history["train_loss"].append(average_train_loss)
 
             if validation_loader is not None:
-                self.model.eval()
+                _, _, average_validation_accuracy = self.model.eval()
 
                 validation_loss_sum = 0.0
                 validation_batches = 0
@@ -152,7 +163,7 @@ class Train:
 
                 self.results.final_loss = final_report.train_loss if final_report is not None else self.results.final_loss
                 self.results.final_accuracy = final_report.train_accuracy if final_report is not None else self.results.final_accuracy
-                        self.callback_manager.on_train_end(self)
+                self.callback_manager.on_train_end(self)
 
         return self.history
 

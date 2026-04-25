@@ -1,5 +1,5 @@
 from .enum import (
-    BiasInitStrategy,
+    BiasInititializationStrategy,
     DataAugmentationType,
     Datasets,
     Device,
@@ -38,7 +38,7 @@ from .path import (
     PREDICTION_DIR,
 )
 
-from .guard import check_arguments
+from .guard import check_arguments, check_positive_integer
 
 from .annotation import (
     core_method,
@@ -83,6 +83,7 @@ __all__ = [
     "VALIDATION_PREDICTION_FILE",
     
     "check_arguments",
+    "check_positive_integer",
     
     "core_method",
     "helper_method",

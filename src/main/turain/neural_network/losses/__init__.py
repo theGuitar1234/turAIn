@@ -1,2 +1,7 @@
-from .binary_cross_entropy import BinaryCrossEntropyLoss
-from .multiclass_cross_entropy import MultiClassCrossEntropyLoss
+from . import BinaryCrossEntropyLoss
+from . import MultiClassCrossEntropyLoss
+
+__all__ = [
+    "BinaryCrossEntropyLoss",
+    "MultiClassCrossEntropyLoss",
+]

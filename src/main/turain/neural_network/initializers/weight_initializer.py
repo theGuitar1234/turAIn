@@ -1,14 +1,16 @@
-from main.turain.neural_network.initializers.initializer import Initializer
+from .initializer import Initializer
+
 from utilities import WeightInitializationStrategy
 from utilities import core_method
 from lib import override_from_parent
-from main.turain.neural_network.initializers.distributions.weight.he_normal import HeNormal
-from main.turain.neural_network.initializers.distributions.weight.he_uniform import HeUniform
-from main.turain.neural_network.initializers.distributions.weight.lecun_normal import LeCunNormal
-from main.turain.neural_network.initializers.distributions.weight.lecun_uniform import LeCunUniform
-from main.turain.neural_network.initializers.distributions.weight.xavier_normal import XavierNormal
-from main.turain.neural_network.initializers.distributions.weight.xavier_uniform import XavierUniform
-from main.turain.neural_network.initializers.distributions.weight.zero import Zero
+
+from distributions.weight.he_normal import HeNormal
+from distributions.weight.he_uniform import HeUniform
+from distributions.weight.lecun_normal import LeCunNormal
+from distributions.weight.lecun_uniform import LeCunUniform
+from distributions.weight.xavier_normal import XavierNormal
+from distributions.weight.xavier_uniform import XavierUniform
+from distributions.weight.zero import Zero
 
 
 class WeightInitializer(Initializer):
@@ -39,8 +41,9 @@ class WeightInitializer(Initializer):
 
     @override_from_parent
     def initialize(self, xp, fan_in, fan_out, alpha):
-        if rng is None:
-            rng = xp.random.default_rng()
+        W = None
+        
+        rng = xp.random.default_rng()
 
         if fan_in < 1 or fan_out < 1:
             raise ValueError("fan_in and fan_out must be positive integers")

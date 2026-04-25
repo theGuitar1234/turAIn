@@ -15,6 +15,8 @@ from .libs import date_time_engine
 
 from .libs import plotting
 
+from .libs import Enum, auto
+
 __all__ = [
     "system", 
     "csv_engine", 
@@ -28,4 +30,6 @@ __all__ = [
     "mutable_field",
     "date_time_engine",
     "plotting",
+    "Enum",
+    "auto",
 ]

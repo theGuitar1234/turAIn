@@ -1,4 +1,5 @@
 ### EXTENSIONS ###
+
 CSV = ".csv"
 NPZ = ".npz"
 JSON = ".json"

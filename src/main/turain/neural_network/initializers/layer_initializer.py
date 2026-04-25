@@ -1,35 +1,25 @@
-from main.turain.neural_network.initializers.distributions.layer.bottleneck_hourglass import (
-    BottleNeckHourGlass,
-)
-from main.turain.neural_network.initializers.distributions.layer.constant_width import ConstantWidth
-from main.turain.neural_network.initializers.distributions.layer.expansion_compression import (
-    ExpansionCompression,
-)
-from main.turain.neural_network.initializers.distributions.layer.geometric_taper import (
-    GeometricTaper,
-)
-from main.turain.neural_network.initializers.distributions.layer.linear_taper_funnel import (
-    LinearTaperFunnel,
-)
-from main.turain.neural_network.initializers.distributions.layer.linear_taper_funnel_output import (
-    LinearTaperFunnelOutput,
-)
-from main.turain.neural_network.initializers.distributions.layer.parameter_budget import (
-    ParameterBudget,
-)
-from main.turain.neural_network.initializers.distributions.layer.powers_of_two import PowersOfTwo
-from main.turain.neural_network.initializers.distributions.layer.reverse_power_of_two import (
-    ReversePowerOfTwo,
-)
-from main.turain.neural_network.initializers.distributions.layer.start_width.capped_input_width import CappedInputWidth
-from main.turain.neural_network.initializers.distributions.layer.start_width.input_width import InputWidth
-from main.turain.neural_network.initializers.distributions.layer.start_width.output_aware import OutputAware
-from main.turain.neural_network.initializers.initializer import Initializer
+from distributions.layer.bottleneck_hourglass import BottleNeckHourGlass
+from distributions.layer.constant_width import ConstantWidth
+from distributions.layer.expansion_compression import ExpansionCompression
+from distributions.layer.geometric_taper import GeometricTaper
+from distributions.layer.linear_taper_funnel import LinearTaperFunnel
+from distributions.layer.linear_taper_funnel_output import LinearTaperFunnelOutput
+from distributions.layer.parameter_budget import ParameterBudget
+from distributions.layer.powers_of_two import PowersOfTwo
+from distributions.layer.reverse_power_of_two import ReversePowerOfTwo
+
+from distributions.layer.start_width import CappedInputWidth
+from distributions.layer.start_width import InputWidth
+from distributions.layer.start_width import OutputAware
+
+from .initializer import Initializer
+
 from lib import override_from_parent
-from main.turain.utilities.config import TrainDefaults
+
+from utilities import TrainDefaults
 from utilities import LayerStrategies
 from utilities import StartWidthHeuristics
-from utilities import check_arguments
+from utilities import check_positive_integer
 from utilities import helper_method
 
 
@@ -64,32 +54,7 @@ class LayerInitializer(Initializer):
                 print(f"For the strategy {LayerStrategies.LINEAR_TAPER_FUNNEL.name}, a hidden_width is required, falling back to a safe initialization...")
                 hidden_width = max(output_width * 2, start_width // 2)
 
-        check_arguments(
-            key=int,
-            value=(
-                number_of_hidden_layers,
-                {
-                    "predicate": lambda number_of_hidden_layers: number_of_hidden_layers < 1,
-                    "error_message": "number_of_hidden_layers must be a positive integer",
-                },
-            ),
-            key=int,
-            value=(
-                start_width,
-                {
-                    "predicate": lambda start_width: start_width < 1,
-                    "error_message": "start_width must be a positive integer",
-                },
-            ),
-            key=int,
-            value=(
-                hidden_width,
-                {
-                    "predicate": lambda hidden_width: hidden_width < 1,
-                    "error_message": "hidden_width must be a positive integer",
-                },
-            ),
-        )
+        check_positive_integer(number_of_hidden_layers, start_width, hidden_width)
 
         self.number_of_hidden_layers = number_of_hidden_layers
         self.layer_strategy = layer_strategy
@@ -110,16 +75,7 @@ class LayerInitializer(Initializer):
         parameter_budget = config.parameter_budget
         
         if self.layer_strategy is LayerStrategies.PARAMETER_BUDGET:
-            check_arguments(
-                key=int,
-                value=(
-                    parameter_budget,
-                    {
-                        "predicate": lambda parameter_budget: parameter_budget < 1,
-                        "error_message": "parameter_budget must be a positive integer"
-                    },
-                ),
-            )
+            check_positive_integer(parameter_budget)
 
         xp = self.backend
         if not isinstance(X, xp.ndarray):

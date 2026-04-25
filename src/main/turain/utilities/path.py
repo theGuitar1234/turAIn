@@ -2,6 +2,7 @@ from pathlib import Path
 
 
 ### PATHS ###
+
 MODEL_DIRECTORY = Path("models")
 CSV_DIRECTORY = Path("data/csv")
 NPZ_DIRECTORY = Path("data/npz")

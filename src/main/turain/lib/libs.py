@@ -69,3 +69,10 @@ try:
 except ImportError as e:
     plotting = None
     print(e)
+
+### ENUM ###
+try:
+    from enum import Enum, auto
+except ImportError as e:
+    enum, auto = None, None
+    print(e)

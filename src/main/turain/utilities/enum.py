@@ -1,5 +1,4 @@
-from enum import Enum, auto
-
+from lib import Enum, auto
 
 class Device(Enum):
     CPU = auto()

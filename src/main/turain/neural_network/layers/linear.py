@@ -3,7 +3,7 @@ from main.turain.core.parameter import Parameter
 from main.turain.core.module import Module
 from lib import override_from_parent
 from utilities import core_method
-from utilities import check_arguments
+from utilities import check_positive_integer
 
 
 class Linear(Module):
@@ -20,24 +20,7 @@ class Linear(Module):
     ):
         super().__init__()
 
-        check_arguments(
-            key=int,
-            value=(
-                input_features,
-                {
-                    "predicate": lambda input_features: input_features < 1,
-                    "error_message": "input_of_features must be a positive integer",
-                },
-            ),
-            key=int,
-            value=(
-                output_features,
-                {
-                    "predicate": lambda output_features: output_features < 1,
-                    "error_message": "output_of_features must be a positive integer",
-                },
-            ),
-        )
+        check_positive_integer(input_features, output_features)
 
         self.backend = backend
 
