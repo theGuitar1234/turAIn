@@ -4,6 +4,7 @@ from lib import override_from_parent
 
 class Sequential(Module):
     def __init__(self, *layers):
+        super().__init__()
         self.layers = list(layers)
 
     @override_from_parent
@@ -25,6 +26,20 @@ class Sequential(Module):
         for layer in self.layers:
             _parameters.extend(layer.parameters())
         return _parameters
+
+    @override_from_parent
+    def train(self):
+        self.training = True
+        for layer in self.layers:
+            layer.train()
+        return self
+
+    @override_from_parent
+    def evaluate(self):
+        self.training = False
+        for layer in self.layers:
+            layer.evaluate()
+        return self
 
     def __repr__(self):
         return (

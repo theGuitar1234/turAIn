@@ -1,7 +1,7 @@
 from .initializer import Initializer
 
 from utilities import WeightInitializationStrategy
-from utilities import core_method
+from utilities import core_method, check_positive_integer
 from lib import override_from_parent
 
 from distributions.weight.he_normal import HeNormal
@@ -45,8 +45,7 @@ class WeightInitializer(Initializer):
         
         rng = xp.random.default_rng()
 
-        if fan_in < 1 or fan_out < 1:
-            raise ValueError("fan_in and fan_out must be positive integers")
+        check_positive_integer(fan_in, fan_out)
 
         match self.random_hidden_weight_initializing_strategy:
             case WeightInitializationStrategy.XAVIER_NORMAL:

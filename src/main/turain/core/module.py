@@ -15,6 +15,6 @@ class Module:
         self.training = True
         return self
 
-    def eval(self):
+    def evalate(self):
         self.training = False
         return self

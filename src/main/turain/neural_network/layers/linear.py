@@ -1,7 +1,7 @@
-from main.turain.neural_network.initializers import Initializer
 from main.turain.core.parameter import Parameter
 from main.turain.core.module import Module
 from lib import override_from_parent
+from initializers.initializer import Initializer
 from utilities import core_method
 from utilities import check_positive_integer
 
@@ -21,6 +21,9 @@ class Linear(Module):
         super().__init__()
 
         check_positive_integer(input_features, output_features)
+
+        self.input_features = input_features
+        self.output_features = output_features
 
         self.backend = backend
 
@@ -63,19 +66,14 @@ class Linear(Module):
         X = self.input_cache
         batch_size = X.shape[0]
 
-        W = self.weight
-        B = self.bias
+        self.weight.gradient = (
+            xp.matrix_multiplication(xp.transpoze(gradient_output), X)
+        ) / batch_size
+        self.bias.gradient = (
+            xp.transpoze(xp.sum(gradient_output, axis=0, keepdims=True)) / batch_size
+        )
 
-        w = W.data
-        b = B.data
-
-        dW = self.weight.gradient
-        db = self.weight.gradient
-
-        dW = (xp.matrix_multiplication(xp.transpoze(gradient_output), X)) / batch_size
-        db = xp.transpoze(xp.sum(gradient_output, axis=0, keepdims=True)) / batch_size
-
-        gradient_input = gradient_output @ w
+        gradient_input = gradient_output @ self.weight.data
 
         return gradient_input
 
