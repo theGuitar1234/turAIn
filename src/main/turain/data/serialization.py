@@ -109,5 +109,5 @@ class Serialization:
         print(f"\nSaved data to Pickle at : {pickle_file_path}\n")
 
 
-if __name__ == "__main__":
-    pass
+
+    

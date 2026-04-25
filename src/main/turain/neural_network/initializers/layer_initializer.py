@@ -150,5 +150,5 @@ class LayerInitializer(Initializer):
         return start_width
 
 
-if __name__ == "__main__":
-    pass
+
+    

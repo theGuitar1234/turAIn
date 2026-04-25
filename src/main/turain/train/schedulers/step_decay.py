@@ -15,5 +15,5 @@ class StepDecay(LearningDecay):
         return self.initial_learning_rate * (self.decay_factor ** (epoch // self.step_size))
 
 
-if __name__ == "__main__":
-    pass
+
+    

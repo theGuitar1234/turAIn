@@ -3,7 +3,7 @@ from lib import plotting
 
 class Plotter:
     def __init__(self):
-        pass
+        
 
     def plot(
         self,

@@ -31,15 +31,15 @@ class BiasInitialzer(Initializer):
         self.hidden_activation_type = hidden_activation_type
 
     @override_from_parent
-    def initialize(self, fan_in, fan_out, cfg=None):
+    def initialize(self, fan_in, fan_out, config=None):
         b = None
         
-        if cfg is None:
-            cfg = TrainDefaults()
-        output_positive_prior = cfg.output_positive_prior
-        hidden_bias_value = cfg.hidden_bias_value
-        bias_value = cfg.bias_value
-        standart_deviation = cfg.standart_deviation
+        if config is None:
+            config = TrainDefaults()
+        output_positive_prior = config.output_positive_prior
+        hidden_bias_value = config.hidden_bias_value
+        bias_value = config.bias_value
+        standart_deviation = config.standart_deviation
 
         xp = self.backend.xp
         rng = xp.random.default_rng()
@@ -63,7 +63,7 @@ class BiasInitialzer(Initializer):
                 ),
             )
 
-            b0 = self.logit(output_positive_prior, cfg)
+            b0 = self.logit(output_positive_prior, config)
             b = xp.full((fan_out, 1), b0, dtype=float)
 
         if (
@@ -91,10 +91,10 @@ class BiasInitialzer(Initializer):
         
         return b
 
-    def logit(self, p, cfg=None):
+    def logit(self, p, config=None):
         xp = self.backend.xp
-        if cfg is None:
-            cfg = TrainDefaults()
-        epsilon = cfg.epsilon
+        if config is None:
+            config = TrainDefaults()
+        epsilon = config.epsilon
         p = float(xp.clip(p, epsilon, 1.0 - epsilon))
         return xp.log(p / (1.0 - p))

@@ -1,18 +1,17 @@
-from main.turain.neural_network.activations.activation import Activation
+from .activation import Activation
 from lib import override_from_parent
 from utilities import core_method
 
 
 class ReLu(Activation):
-    def __init__(self, logit):
+    def __init__(self):
         super().__init__()
-        self.logit = logit
 
     @override_from_parent
-    def activate(self, logit):
+    def activate(self, z):
         xp = self.backend.xp
-        logit = xp.asarray(logit, dtype=float)
-        return xp.maximum(0.0, logit)
+        z = xp.asarray(z, dtype=float)
+        return xp.maximum(0.0, z)
 
     @override_from_parent
     def derivative(self, z):
@@ -29,10 +28,5 @@ class ReLu(Activation):
         gradient_input = gradient_output * self.derivative(x)
         return gradient_input
 
-    @override_from_parent
-    def parameters(self):
-        return super().parameters()
 
-
-if __name__ == "__main__":
-    pass
+    

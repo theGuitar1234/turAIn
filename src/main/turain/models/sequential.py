@@ -1,4 +1,4 @@
-from main.turain.core.module import Module
+from core.module import Module
 from lib import override_from_parent
 
 
@@ -53,5 +53,5 @@ class Sequential(Module):
         )
 
 
-if __name__ == "__main__":
-    pass
+
+    

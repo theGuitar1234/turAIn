@@ -1,4 +1,4 @@
-from utilities import TrainDefaults
+from main.turain.utilities.config import TrainDefaults
 from utilities import core_method
 
 

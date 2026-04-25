@@ -1,4 +1,4 @@
-from main.turain.neural_network.activations.activation import Activation
+from .activation import Activation
 from lib import override_from_parent
 
 
@@ -30,5 +30,5 @@ class HiperbolicTangent(Activation):
         return gradient_input
 
 
-if __name__ == "__main__":
-    pass
+
+    

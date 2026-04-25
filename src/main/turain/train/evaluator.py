@@ -52,5 +52,5 @@ class Evaluator:
         return prediction, is_binary
 
 
-if __name__ == "__main__":
-    pass
+
+    

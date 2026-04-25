@@ -37,5 +37,5 @@ class DropoutMask(Module):
         return (xp.random.random(shape) < self.keep_rate).astype(float)
 
 
-if __name__ == "__main__":
-    pass
+
+    

@@ -15,6 +15,9 @@ class Backend:
 
     def ones_like(self, x):
         return self.xp.ones_like(x)
+    
+    def empty_like(self, x):
+        return self.xp.empty_like(x)
 
     def identity(self, size):
         return self.xp.eye(size)
@@ -60,7 +63,3 @@ class Backend:
 
     def to_gpu(self, x):
         raise NotImplementedError
-
-
-if __name__ == "__main__":
-    pass

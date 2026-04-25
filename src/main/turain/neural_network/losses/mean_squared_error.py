@@ -1,4 +1,4 @@
-from main.turain.neural_network.losses.loss import Loss
+from .loss import Loss
 from lib import override_from_parent
 
 
@@ -35,5 +35,5 @@ class MeanSquaredError(Loss):
         return (2.0 * (prediction - true_label)) / batch_size
 
 
-if __name__ == "__main__":
-    pass
+
+    

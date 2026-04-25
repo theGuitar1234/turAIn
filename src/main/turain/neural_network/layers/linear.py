@@ -45,6 +45,43 @@ class Linear(Module):
 
         self.input_cache = None
 
+    # def _initialize_weight(self, initializer, xp, input_features, output_features):
+    #     if callable(initializer):
+    #         weight = initializer(input_features, output_features, xp)
+    #     elif hasattr(initializer, "initialize"):
+    #         weight = initializer.initialize(input_features, output_features, xp)
+    #     else:
+    #         raise TypeError("weight_initializer must be callable or have initialize(...)")
+
+    #     weight = xp.asarray(weight, dtype=xp.float32)
+
+    #     expected_shape = (output_features, input_features)
+    #     if weight.shape != expected_shape:
+    #         raise ValueError(f"Weight shape must be {expected_shape}, got {weight.shape}")
+
+    #     return weight
+
+    # def _initialize_bias(self, initializer, xp, output_features):
+    #     if callable(initializer):
+    #         bias = initializer(output_features, xp)
+    #     elif hasattr(initializer, "initialize"):
+    #         bias = initializer.initialize(output_features, xp)
+    #     else:
+    #         raise TypeError("bias_initializer must be callable or have initialize(...)")
+
+    #     bias = xp.asarray(bias, dtype=xp.float32)
+
+    #     if bias.ndim == 1:
+    #         bias = bias.reshape(1, -1)
+    #     elif bias.shape == (output_features, 1):
+    #         bias = bias.T
+
+    #     expected_shape = (1, output_features)
+    #     if bias.shape != expected_shape:
+    #         raise ValueError(f"Bias shape must be {expected_shape}, got {bias.shape}")
+
+    #     return bias
+
     @core_method
     def linear_model(self, X):
         xp = self.backend.xp
@@ -80,7 +117,3 @@ class Linear(Module):
     @override_from_parent
     def parameters(self):
         return [self.weight, self.bias]
-
-
-if __name__ == "__main__":
-    pass

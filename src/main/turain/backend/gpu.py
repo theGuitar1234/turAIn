@@ -13,7 +13,3 @@ class Cupy(Backend):
     @override_from_parent
     def to_cpu(self, x):
         return self.xp.asnumpy(x)
-
-
-if __name__ == "__main__":
-    pass

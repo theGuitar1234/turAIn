@@ -1,6 +1,5 @@
-from main.turain.neural_network.losses.loss import Loss
+from loss import Loss
 from lib import override_from_parent
-from utilities import TrainDefaults
 
 
 class BinaryCrossEntropyLoss(Loss):
@@ -41,7 +40,3 @@ class BinaryCrossEntropyLoss(Loss):
         gradient_prediction = self.loss_derivative(true_label, prediction, batch_size)
 
         return gradient_prediction
-
-
-if __name__ == "__main__":
-    pass

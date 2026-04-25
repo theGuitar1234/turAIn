@@ -1,4 +1,4 @@
-from main.turain.neural_network.losses.loss import Loss
+from .loss import Loss
 from lib import override_from_parent
 
 
@@ -10,11 +10,7 @@ class MultiClassCrossEntropyLoss(Loss):
     def forward_propagation(self, prediction, true_label):
         xp = self.backend.xp
 
-        prediction = xp.clip(
-            prediction,
-            self.epsilon,
-            1.0,
-        )
+        prediction = xp.clip(prediction, self.epsilon, 1.0)
 
         self.prediction_cache = prediction
         self.true_label_cache = true_label
@@ -34,5 +30,5 @@ class MultiClassCrossEntropyLoss(Loss):
         return gradient_prediction
 
 
-if __name__ == "__main__":
-    pass
+
+    

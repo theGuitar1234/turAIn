@@ -26,5 +26,5 @@ class L2Regularization:
         return (self.l2_lambda / sample_count) * parameter.data
 
 
-if __name__ == "__main__":
-    pass
+
+    

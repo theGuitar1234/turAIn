@@ -33,5 +33,5 @@ class BatchLoader:
             yield x_batch, y_batch
 
 
-if __name__ == "__main__":
-    pass
+
+    

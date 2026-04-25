@@ -76,5 +76,5 @@ class ModeIO:
         return model, meta_data
 
 
-if __name__ == "__main__":
-    pass
+
+    

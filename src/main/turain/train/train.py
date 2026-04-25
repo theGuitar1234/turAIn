@@ -190,5 +190,5 @@ class Train:
         return loss, prediction
 
 
-if __name__ == "__main__":
-    pass
+
+    

@@ -12,5 +12,5 @@ class ExponentialDecay(LearningDecay):
         return self.initial_learning_rate * (self.decay_factor**epoch)
 
 
-if __name__ == "__main__":
-    pass
+
+    

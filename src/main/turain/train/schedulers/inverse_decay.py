@@ -11,5 +11,5 @@ class InverseDecay(LearningDecay):
         return self.initial_learning_rate / (1.0 + self.decay_factor * epoch)
 
 
-if __name__ == "__main__":
-    pass
+
+    

@@ -1,4 +1,4 @@
-from main.turain.neural_network.activations.activation import Activation
+from .activation import Activation
 from lib import override_from_parent
 from utilities import core_method
 from utilities import TrainDefaults
@@ -36,10 +36,6 @@ class LeakyReLu(Activation):
         gradient_input = gradient_output * self.derivative(x)
         return gradient_input
 
-    @override_from_parent
-    def parameters(self):
-        return super().parameters()
 
 
-if __name__ == "__main__":
-    pass
+    

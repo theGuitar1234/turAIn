@@ -1,8 +1,8 @@
-from main.turain.neural_network.losses.loss import Loss
+from .loss import Loss
 from lib import override_from_parent
 
 
-class SoftmaxLoss(Loss):
+class SoftmaxCrossEntropyLoss(Loss):
     def __init__(self, backend, config=None):
         super().__init__(backend, config)
 
@@ -35,5 +35,5 @@ class SoftmaxLoss(Loss):
         return prediction - true_label
 
 
-if __name__ == "__main__":
-    pass
+
+    

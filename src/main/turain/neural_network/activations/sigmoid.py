@@ -1,5 +1,5 @@
 from lib import override_from_parent
-from main.turain.neural_network.activations.activation import Activation
+from .activation import Activation
 from utilities import core_method
 
 
@@ -38,5 +38,5 @@ class Sigmoid(Activation):
         return gradient_input
 
 
-if __name__ == "__main__":
-    pass
+
+    

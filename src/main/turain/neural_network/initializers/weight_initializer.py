@@ -67,5 +67,5 @@ class WeightInitializer(Initializer):
         return W
 
 
-if __name__ == "__main__":
-    pass
+
+    

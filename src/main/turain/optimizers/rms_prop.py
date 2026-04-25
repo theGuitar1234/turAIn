@@ -37,5 +37,5 @@ class RMSProp(Optimizer):
         return super().update_parameter(parameter, gradient, learning_rate)
 
 
-if __name__ == "__main__":
-    pass
+
+    
