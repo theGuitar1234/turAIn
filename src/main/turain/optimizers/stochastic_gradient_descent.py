@@ -14,11 +14,3 @@ class StochasticGradientDescent(Optimizer):
             if parameter.gradient is None:
                 continue
             self.update_parameter(parameter, parameter.gradient, self.learning_rate)
-
-    @override_from_parent
-    def update_parameter(self, parameter, gradient, learning_rate):
-        return super().update_parameter(parameter, gradient, learning_rate)
-
-
-
-    

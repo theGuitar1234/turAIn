@@ -15,7 +15,7 @@ class Backend:
 
     def ones_like(self, x):
         return self.xp.ones_like(x)
-    
+
     def empty_like(self, x):
         return self.xp.empty_like(x)
 

@@ -11,7 +11,7 @@ class Momentum(Optimizer):
             momentum_coefficient = TrainDefaults.momentum_coefficient
         self.momentum_coefficient = momentum_coefficient
         self.backend = backend
-        
+
         xp = self.backend.xp
 
         self.velocity = []
@@ -29,11 +29,3 @@ class Momentum(Optimizer):
             )
 
             self.update_parameter(parameter, self.velocity[index], self.learning_rate)
-
-    @override_from_parent
-    def update_parameter(self, parameter, gradient, learning_rate):
-        return super().update_parameter(parameter, gradient, learning_rate)
-
-
-
-    

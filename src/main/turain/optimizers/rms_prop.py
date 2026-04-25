@@ -13,7 +13,7 @@ class RMSProp(Optimizer):
             epsilon = TrainDefaults.epsilon
         self.epsilon = TrainDefaults.epsilon
         self.backend = backend
-        
+
         xp = self.backend.xp
 
         self.square_average = []
@@ -31,11 +31,3 @@ class RMSProp(Optimizer):
             ) * (parameter.gradient * parameter.gradient)
 
             self.update_parameter(parameter, parameter.gradient, self.learning_rate)
-
-    @override_from_parent
-    def update_parameter(self, parameter, gradient, learning_rate):
-        return super().update_parameter(parameter, gradient, learning_rate)
-
-
-
-    

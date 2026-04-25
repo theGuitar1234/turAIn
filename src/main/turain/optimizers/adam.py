@@ -20,7 +20,7 @@ class Adam(Optimizer):
         self.epsilon = epsilon
 
         self.iteration = 0
-        
+
         xp = self.backend.xp
 
         self.velocity = []
@@ -58,11 +58,3 @@ class Adam(Optimizer):
             gradient = momentum_bias_corrected / xp.square_root(rms_bias_corrected + self.epsilon)
 
             self.update_parameter(parameter, gradient, self.learning_rate)
-
-    @override_from_parent
-    def update_parameter(self, parameter, gradient, learning_rate):
-        return super().update_parameter(parameter, gradient, learning_rate)
-
-
-
-    
