@@ -8,7 +8,7 @@ from .powers_of_two import PowersOfTwo
 from .reverse_power_of_two import ReversePowerOfTwo
 from .bottleneck_hourglass import BottleNeckHourGlass
 
-from start_width import *
+from .start_width import *
 
 __all__ = [
     "ConstantWidth",

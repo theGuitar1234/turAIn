@@ -1,7 +1,7 @@
-from main.turain.optimizers.optimizer import Optimizer
-from utilities import core_method
-from utilities import TrainDefaults
-from lib import override_from_parent
+from turain.optimizers.optimizer import Optimizer
+from ..utilities import core_method
+from ..utilities import TrainDefaults
+from ..lib import override_from_parent
 
 
 class Momentum(Optimizer):

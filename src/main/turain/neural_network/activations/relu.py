@@ -1,6 +1,6 @@
 from .activation import Activation
-from lib import override_from_parent
-from utilities import core_method
+from ...lib import override_from_parent
+from ...utilities import core_method
 
 
 class ReLU(Activation):

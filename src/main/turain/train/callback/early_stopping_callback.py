@@ -1,4 +1,4 @@
-from main.turain.train.callback import Callback
+from .callback import Callback
 
 
 class EarlyStoppingCallback(Callback):

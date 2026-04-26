@@ -1,6 +1,6 @@
-from utilities import core_method
-from utilities import helper_method
-from model_inspector import ModelInspector
+from ..utilities import core_method
+from ..utilities import helper_method
+from .model_inspector import ModelInspector
 
 class ModelSummary:
     

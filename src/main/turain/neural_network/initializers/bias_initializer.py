@@ -1,17 +1,17 @@
-from distributions.bias.bias_constant import BiasConstant
-from distributions.bias.bias_standart_normal import BiasStandartNormal
-from distributions.bias.bias_uniform import BiasUniform
-from distributions.bias.bias_zeros import BiasZeros
-from initializer import Initializer
+from .distributions.bias.bias_constant import BiasConstant
+from .distributions.bias.bias_standart_normal import BiasStandartNormal
+from .distributions.bias.bias_uniform import BiasUniform
+from .distributions.bias.bias_zeros import BiasZeros
+from .initializer import Initializer
 
-from utilities import TrainDefaults
-from utilities import BiasInititializationStrategy
-from utilities import OutputActivationType
-from utilities import HiddenActivationType
+from ...utilities import TrainDefaults
+from ...utilities import BiasInititializationStrategy
+from ...utilities import OutputActivationType
+from ...utilities import HiddenActivationType
 
-from utilities import check_positive_integer, check_arguments
+from ...utilities import check_positive_integer, check_arguments
 
-from lib import override_from_parent
+from ...lib import override_from_parent
 
 
 class BiasInitialzer(Initializer):

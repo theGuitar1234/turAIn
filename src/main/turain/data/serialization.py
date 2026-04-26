@@ -1,7 +1,7 @@
-from lib import system
-from lib import json_engine
-from lib import pickle_engine
-from lib import csv_engine
+from ..lib import system
+from ..lib import json_engine
+from ..lib import pickle_engine
+from ..lib import csv_engine
 
 
 class Serialization:

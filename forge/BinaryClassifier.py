@@ -1,33 +1,32 @@
-from main.turain.runtime.backend_selector import BackendSelector
-from main.turain.runtime.device_types import DeviceTypes
+from turain.runtime.backend_selector import BackendSelector
+from turain.utilities import Device
 
-from main.turain.data.dataset_io import DatasetIO
-from main.turain.data.dataset_preparer import DatasetPreparer
-from main.turain.data.batch_loader import BatchLoader
+from turain.data.deserialization import DeSerialization
+from turain.data.dataset_preparer import DatasetPreparer
+from turain.data.batch_loader import BatchLoader
 
-from main.turain.models.model_factory import ModelFactory
-from main.turain.models.model_inspector import ModelInspector
+from turain.models.model_factory import ModelFactory
 
-from main.turain.neural_network.initializers.layer_initializer import LayerInitializer
-from main.turain.neural_network.losses.binary_cross_entropy import BinaryCrossEntropyLoss
+from turain.neural_network.initializers.layer_initializer import LayerInitializer
+from turain.neural_network.losses.binary_cross_entropy import BinaryCrossEntropyLoss
 
-from main.turain.optimizers.stochastic_gradient_descent import StochasticGradientDescent
+from turain.optimizers.stochastic_gradient_descent import StochasticGradientDescent
 
-from main.turain.train.train import Train
-from main.turain.train.train_config import TrainConfig
-from main.turain.train.evaluator import Evaluator
-from main.turain.train.finalizer import Finalizer
-from main.turain.train.early_stopping import EarlyStopping
-from main.turain.train.state_tracker import ModelStateTracker
+from turain.train.train import Train
+from turain.utilities import TrainDefaults
+from turain.train.evaluator import Evaluator
+from turain.train.finalizer import Finalizer
+from turain.train.early_stopping import EarlyStopping
+from turain.train.state_tracker import BestStateTracker
 
-from main.turain.metrics.confusion_matrix import ConfusionMatrix
-from main.turain.metrics.error_analysis import ErrorAnalysis
-from main.turain.metrics.prediction_logger import PredictionLogger
+from turain.metrics.confusion_matrix import ConfusionMatrix
+from turain.metrics.error_analysis import ErrorAnalysis
+from turain.metrics.prediction_logger import PredictionLogger
 
 
-backend = BackendSelector.select(DeviceTypes.CPU)
+backend = BackendSelector.select(Device.CPU)
 
-dataset = DatasetIO.load_from_npz("data/npz/dataset.npz")
+dataset = DeSerialization.load_from_npz("data/npz/dataset.npz")
 prepared = DatasetPreparer.prepare(
     X_train=dataset["X_train"],
     Y_train=dataset["Y_train"],
@@ -79,7 +78,7 @@ model = ModelFactory.build_mlp(
     dropout_probability=0.0,
 )
 
-print("Total parameters:", ModelInspector.count_parameters(model))
+print("Total parameters:", ModelFactory.count_parameters(model))
 
 train_loader = BatchLoader(X_train, Y_train, batch_size=32, backend=backend, shuffle=True)
 valid_loader = BatchLoader(X_valid, Y_valid, batch_size=32, backend=backend, shuffle=False)
@@ -87,7 +86,7 @@ valid_loader = BatchLoader(X_valid, Y_valid, batch_size=32, backend=backend, shu
 loss_function = BinaryCrossEntropyLoss(backend)
 optimizer = StochasticGradientDescent(model.parameters(), learning_rate=0.01)
 
-config = TrainConfig()
+config = TrainDefaults()
 config.epochs = 10
 config.threshold = 0.5
 
@@ -105,7 +104,7 @@ trainer = Train(
     optimizer=optimizer,
     config=config,
     early_stopper=EarlyStopping(patience=5),
-    best_model_tracker=ModelStateTracker(),
+    best_model_tracker=ModelFactory(),
     finalizer=finalizer,
 )
 

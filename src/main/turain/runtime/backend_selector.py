@@ -1,6 +1,6 @@
-from main.turain.backend.cpu import CPU
-from main.turain.backend.gpu import GPU
-from utilities import Device
+from turain.backend.cpu import CPU
+from turain.backend.gpu import GPU
+from ..utilities import Device
 
 class BackendSelector:
     @staticmethod

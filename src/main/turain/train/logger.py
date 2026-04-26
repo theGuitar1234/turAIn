@@ -1,4 +1,4 @@
-from utilities import core_method
+from ..utilities import core_method
 
 
 class Logger:

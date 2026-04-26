@@ -1,6 +1,6 @@
 from .backend import Backend
-from lib import cpu_engine
-from lib import override_from_parent
+from ..lib import cpu_engine
+from ..lib import override_from_parent
 
 
 class CPU(Backend):

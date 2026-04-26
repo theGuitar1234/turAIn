@@ -1,10 +1,10 @@
-from callback import CallbackManager
+from .callback import CallbackManager
 
-from utilities import TrainDefaults
-from utilities import TrainResults
+from ..utilities import TrainDefaults
+from ..utilities import TrainResults
 
-from utilities import core_method, helper_method
-from lib import cpu_engine
+from ..utilities import core_method, helper_method
+from ..lib import cpu_engine
 
 
 class Train:

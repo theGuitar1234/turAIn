@@ -1,7 +1,7 @@
-from main.turain.backend.cpu import CPU
-from main.turain.data.batch_loader import BatchLoader
-from main.turain.utilities import DataAugmentation
-from main.turain.utilities import DataAugmentationType
+from turain.backend.cpu import CPU
+from turain.data.batch_loader import BatchLoader
+from turain.utilities import DataAugmentation
+from turain.utilities import DataAugmentationType
 
 backend = CPU()
 xp = backend.xp

@@ -1,5 +1,5 @@
-from utilities import TrainDefaults
-from utilities import core_method
+from ..utilities import TrainDefaults
+from ..utilities import core_method
 
 class Optimizer:
     def __init__(self, parameters, learning_rate=None):

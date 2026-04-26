@@ -1,6 +1,6 @@
-from core.module import Module
-from lib import override_from_parent
-from utilities import core_method
+from ...core.module import Module
+from ...lib import override_from_parent
+from ...utilities import core_method
 
 
 class Activation(Module):

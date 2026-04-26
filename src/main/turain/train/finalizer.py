@@ -1,4 +1,4 @@
-from main.turain.utilities.config import TrainResults
+from ..utilities import TrainResults
 
 
 class Finalizer:

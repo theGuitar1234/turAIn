@@ -1,8 +1,8 @@
-from main.turain.backend.cpu import CPU
-from main.turain.neural_network.activations.relu import ReLU
-from main.turain.neural_network.activations.leaky_relu import LeakyReLU
-from main.turain.neural_network.activations.sigmoid import Sigmoid
-from main.turain.neural_network.activations.hiperbolic_tangent import HiperbolicTangent
+from turain.backend.cpu import CPU
+from turain.neural_network.activations.relu import ReLU
+from turain.neural_network.activations.leaky_relu import LeakyReLU
+from turain.neural_network.activations.sigmoid import Sigmoid
+from turain.neural_network.activations.hiperbolic_tangent import HiperbolicTangent
 
 backend = CPU()
 xp = backend.xp

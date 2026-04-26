@@ -1,5 +1,5 @@
 from .activation import Activation
-from lib import override_from_parent
+from ...lib import override_from_parent
 
 
 class Softmax(Activation):

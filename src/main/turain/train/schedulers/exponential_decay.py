@@ -1,6 +1,6 @@
-from learning_decay import LearningDecay
-from utilities import TrainDefaults
-from lib import override_from_parent
+from .learning_decay import LearningDecay
+from ...utilities import TrainDefaults
+from ...lib import override_from_parent
 
 
 class ExponentialDecay(LearningDecay):

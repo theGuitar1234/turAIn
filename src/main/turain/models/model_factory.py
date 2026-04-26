@@ -1,13 +1,13 @@
-from main.turain.models.sequential import Sequential
-from main.turain.neural_network.activations.hiperbolic_tangent import HiperbolicTangent
-from main.turain.neural_network.activations.leaky_relu import LeakyReLU
-from main.turain.neural_network.activations.relu import ReLU
-from main.turain.neural_network.activations.sigmoid import Sigmoid
-from main.turain.neural_network.activations.softmax import Softmax
-from main.turain.neural_network.layers.linear import Linear
-from main.turain.train.regularization.dropout_mask import DropoutMask
-from main.turain.utilities.config import TrainDefaults
-from main.turain.utilities.enum import HiddenActivationType, OutputActivationType
+from ..models.sequential import Sequential
+from ..neural_network.activations.hiperbolic_tangent import HiperbolicTangent
+from ..neural_network.activations.leaky_relu import LeakyReLU
+from ..neural_network.activations.relu import ReLU
+from ..neural_network.activations.sigmoid import Sigmoid
+from ..neural_network.activations.softmax import Softmax
+from ..neural_network.layers.linear import Linear
+from ..train import DropoutMask
+from ..utilities import TrainDefaults
+from ..utilities import HiddenActivationType, OutputActivationType
 
 
 class ModelFactory:

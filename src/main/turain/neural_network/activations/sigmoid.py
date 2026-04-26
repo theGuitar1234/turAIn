@@ -1,7 +1,6 @@
-from lib import override_from_parent
 from .activation import Activation
-from utilities import core_method
-
+from ...utilities import core_method
+from ...lib import override_from_parent
 
 class Sigmoid(Activation):
     def __init__(self, z):

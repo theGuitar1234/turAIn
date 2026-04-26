@@ -1,5 +1,5 @@
-from utilities import core_method
-from utilities import check_positive_integer
+from ...utilities import core_method
+from ...utilities import check_positive_integer
 
 
 class Initializer:

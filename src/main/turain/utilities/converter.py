@@ -1,5 +1,5 @@
-from lib import clone
-from utilities import Device
+from ..lib import clone
+from ..utilities import Device
 
 def scalar_to_python(x, backend, on_gpu):
     if on_gpu:

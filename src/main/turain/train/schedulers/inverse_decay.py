@@ -1,5 +1,5 @@
-from learning_decay import LearningDecay
-from lib import override_from_parent
+from .learning_decay import LearningDecay
+from ...lib import override_from_parent
 
 
 class InverseDecay(LearningDecay):

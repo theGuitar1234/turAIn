@@ -1,6 +1,6 @@
-from utilities import core_method
-from utilities import TrainDefaults
-from utilities import DataAugmentationType
+from ..utilities import core_method
+from ..utilities import TrainDefaults
+from ..utilities import DataAugmentationType
 
 class DataAugmentation:
     def __init__(self, backend, augmentation_type):

@@ -1,6 +1,6 @@
-from utilities import core_method
-from utilities import Datasets
-from deserialization import DeSerialization
+from ..utilities import core_method
+from ..utilities import Datasets
+from .deserialization import DeSerialization
 
 class DatasetManager:
     @staticmethod

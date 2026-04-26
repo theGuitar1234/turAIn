@@ -1,10 +1,10 @@
-from main.turain.data.dataset_preparer import DatasetPreparer
-from main.turain.data.deserialization import DeSerialization
-from main.turain.models.model_factory import ModelFactory
-from main.turain.neural_network.initializers.layer_initializer import LayerInitializer
-from main.turain.neural_network.losses.softmax import SoftmaxCrossEntropyLoss
-from main.turain.runtime.backend_selector import BackendSelector
-from main.turain.utilities.enum import Device
+from turain.data.dataset_preparer import DatasetPreparer
+from turain.data.deserialization import DeSerialization
+from turain.models.model_factory import ModelFactory
+from turain.neural_network.initializers.layer_initializer import LayerInitializer
+from turain.neural_network.losses.softmax import SoftmaxCrossEntropyLoss
+from turain.runtime.backend_selector import BackendSelector
+from turain.utilities.enum import Device
 
 backend = BackendSelector.select(Device.CPU)
 dataset = DeSerialization.load_from_npz("data/npz/dataset.npz")

@@ -1,5 +1,5 @@
 from .loss import Loss
-from lib import override_from_parent
+from ...lib import override_from_parent
 
 
 class MeanSquaredError(Loss):

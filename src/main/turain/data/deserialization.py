@@ -1,9 +1,9 @@
-from lib import csv_engine
-from lib import json_engine
-from lib import pickle_engine
-from utilities import Datasets
-from utilities import core_method
-from serialization import Serialization
+from ..lib import csv_engine
+from ..lib import json_engine
+from ..lib import pickle_engine
+from ..utilities import Datasets
+from ..utilities import core_method
+from .serialization import Serialization
 
 
 class DeSerialization:

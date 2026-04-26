@@ -1,7 +1,7 @@
 from .activation import Activation
-from lib import override_from_parent
-from utilities import core_method
-from utilities import TrainDefaults
+from ...lib import override_from_parent
+from ...utilities import core_method
+from ...utilities import TrainDefaults
 
 
 class LeakyReLU(Activation):

@@ -1,6 +1,6 @@
 from .backend import Backend
-from lib import gpu_engine
-from lib import override_from_parent
+from ..lib import gpu_engine
+from ..lib import override_from_parent
 
 
 class Cupy(Backend):

@@ -1,5 +1,5 @@
-from main.turain.train.callback.callback import Callback
-from lib import override_from_parent
+from .callback import Callback
+from ...lib import override_from_parent
 
 
 class CallbackManager(Callback):

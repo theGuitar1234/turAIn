@@ -1,5 +1,5 @@
-from main.turain.backend.cpu import CPU
-from main.turain.neural_network.losses.binary_cross_entropy import BinaryCrossEntropyLoss
+from turain.backend.cpu import CPU
+from turain.neural_network.losses.binary_cross_entropy import BinaryCrossEntropyLoss
 
 backend = CPU()
 xp = backend.xp
@@ -18,8 +18,8 @@ print("gradient shape:", gradient.shape)
 
 ### BCE
 
-from main.turain.backend.cpu import CPU
-from main.turain.neural_network.losses.binary_cross_entropy import BinaryCrossEntropyLoss
+from turain.backend.cpu import CPU
+from turain.neural_network.losses.binary_cross_entropy import BinaryCrossEntropyLoss
 
 backend = CPU()
 xp = backend.xp

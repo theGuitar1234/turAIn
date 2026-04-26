@@ -1,4 +1,4 @@
-from lib import system
+from ..lib import system
 
 
 class PredictionLogger:

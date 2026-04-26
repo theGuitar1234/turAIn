@@ -1,4 +1,4 @@
-from lib import dto, mutable_field
+from ..lib import dto, mutable_field
 
 @dto
 class TrainDefaults:

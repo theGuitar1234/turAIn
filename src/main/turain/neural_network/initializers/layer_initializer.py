@@ -1,26 +1,26 @@
-from distributions.layer.bottleneck_hourglass import BottleNeckHourGlass
-from distributions.layer.constant_width import ConstantWidth
-from distributions.layer.expansion_compression import ExpansionCompression
-from distributions.layer.geometric_taper import GeometricTaper
-from distributions.layer.linear_taper_funnel import LinearTaperFunnel
-from distributions.layer.linear_taper_funnel_output import LinearTaperFunnelOutput
-from distributions.layer.parameter_budget import ParameterBudget
-from distributions.layer.powers_of_two import PowersOfTwo
-from distributions.layer.reverse_power_of_two import ReversePowerOfTwo
+from .distributions.layer.bottleneck_hourglass import BottleNeckHourGlass
+from .distributions.layer.constant_width import ConstantWidth
+from .distributions.layer.expansion_compression import ExpansionCompression
+from .distributions.layer.geometric_taper import GeometricTaper
+from .distributions.layer.linear_taper_funnel import LinearTaperFunnel
+from .distributions.layer.linear_taper_funnel_output import LinearTaperFunnelOutput
+from .distributions.layer.parameter_budget import ParameterBudget
+from .distributions.layer.powers_of_two import PowersOfTwo
+from .distributions.layer.reverse_power_of_two import ReversePowerOfTwo
 
-from distributions.layer.start_width import CappedInputWidth
-from distributions.layer.start_width import InputWidth
-from distributions.layer.start_width import OutputAware
+from .distributions.layer.start_width import CappedInputWidth
+from .distributions.layer.start_width import InputWidth
+from .distributions.layer.start_width import OutputAware
 
 from .initializer import Initializer
 
-from lib import override_from_parent
+from ...lib import override_from_parent
 
-from utilities import TrainDefaults
-from utilities import LayerStrategies
-from utilities import StartWidthHeuristics
-from utilities import check_positive_integer
-from utilities import helper_method
+from ...utilities import TrainDefaults
+from ...utilities import LayerStrategies
+from ...utilities import StartWidthHeuristics
+from ...utilities import check_positive_integer
+from ...utilities import helper_method
 
 
 class LayerInitializer(Initializer):

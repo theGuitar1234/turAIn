@@ -1,5 +1,5 @@
-from utilities import core_method
-from encoding import OneHotCoding
+from ..utilities import core_method
+from .encoding import OneHotCoding
 
 class DatasetPreparer:
     @staticmethod

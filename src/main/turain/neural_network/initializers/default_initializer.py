@@ -1,6 +1,6 @@
-from main.turain.neural_network.initializers.distributions.weight.he_normal import HeNormal
-from main.turain.neural_network.initializers.distributions.weight.xavier_normal import XavierNormal
-from main.turain.utilities.enum import HiddenActivationType, OutputActivationType
+from .distributions.weight.he_normal import HeNormal
+from .distributions.weight.xavier_normal import XavierNormal
+from ...utilities.enum import HiddenActivationType, OutputActivationType
 
 
 class DefaultInitializer:

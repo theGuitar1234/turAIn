@@ -1,10 +1,11 @@
-from main.turain.core.parameter import Parameter
-from main.turain.core.module import Module
-from lib import override_from_parent
-from initializers.initializer import Initializer
-from utilities import core_method
-from utilities import check_positive_integer
+from turain.core.parameter import Parameter
+from turain.core.module import Module
 
+from ..initializers.initializer import Initializer
+
+from ...utilities import core_method
+from ...utilities import check_positive_integer
+from ...lib import override_from_parent
 
 class Linear(Module):
     def __init__(

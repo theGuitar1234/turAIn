@@ -1,4 +1,4 @@
-from utilities import helper_method
+from ..utilities import helper_method
 
 
 @helper_method

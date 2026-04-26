@@ -1,5 +1,5 @@
-from utilities import TrainDefaults
-from utilities import core_method
+from ..utilities import TrainDefaults
+from ..utilities import core_method
 
 
 class Evaluator:

@@ -1,7 +1,6 @@
-from lib import override_from_parent
-from main.turain.core.module import Module
-from utilities import TrainDefaults
-
+from ...core import Module
+from ...utilities import TrainDefaults
+from ...lib import override_from_parent
 
 class DropoutMask(Module):
     def __init__(self, backend, config=None):

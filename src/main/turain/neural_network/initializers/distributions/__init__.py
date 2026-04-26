@@ -1,3 +1,3 @@
-from weight import *
+from .weight import *
 
 __all__ = []

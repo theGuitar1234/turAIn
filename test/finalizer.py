@@ -1,10 +1,10 @@
-from main.turain.backend.cpu import CPU
-from main.turain.neural_network.losses.mean_squared_error import MeanSquaredError
-from main.turain.train.finalizer import Finalizer
-from main.turain.train.evaluator import Evaluator
-from main.turain.metrics.prediction_logger import PredictionLogger
-from main.turain.metrics.confusion_matrix import ConfusionMatrix
-from main.turain.metrics.error_analysis import ErrorAnalysis
+from turain.backend.cpu import CPU
+from turain.neural_network.losses.mean_squared_error import MeanSquaredError
+from turain.train.finalizer import Finalizer
+from turain.train.evaluator import Evaluator
+from turain.metrics.prediction_logger import PredictionLogger
+from turain.metrics.confusion_matrix import ConfusionMatrix
+from turain.metrics.error_analysis import ErrorAnalysis
 
 model = None
 X_train = None

@@ -1,6 +1,6 @@
-from main.turain.optimizers.optimizer import Optimizer
-from lib import override_from_parent
-from utilities import TrainDefaults
+from ..optimizers.optimizer import Optimizer
+from ..lib import override_from_parent
+from ..utilities import TrainDefaults
 
 
 class Adam(Optimizer):

@@ -1,5 +1,5 @@
-from main.turain.backend.cpu import CPU
-from main.turain.neural_network.losses.mean_squared_error import MeanSquaredErrorLoss
+from turain.backend.cpu import CPU
+from turain.neural_network.losses.mean_squared_error import MeanSquaredErrorLoss
 
 backend = CPU()
 xp = backend.xp

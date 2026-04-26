@@ -1,6 +1,6 @@
-from main.turain.backend.cpu import CPU
-from main.turain.models.sequential import Sequential
-from main.turain.neural_network.layers.linear import Linear
+from turain.backend.cpu import CPU
+from turain.models.sequential import Sequential
+from turain.neural_network.layers.linear import Linear
 
 
 def simple_weight_init(input_features, output_features, xp):

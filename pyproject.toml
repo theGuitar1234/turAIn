@@ -48,10 +48,10 @@ cuda12 = [
 ]
 
 [tool.setuptools]
-package-dir = {"" = "src/main/turain"}
+package-dir = {"" = "src/main"}
 
 [tool.setuptools.packages.find]
-where = ["src"]
+where = ["src/main"]
 
 [tool.black]
 line-length = 100

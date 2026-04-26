@@ -1,6 +1,6 @@
-from main.turain.backend.cpu import CPU
-from main.turain.neural_network.initializers.bias_initializer import BiasInitializer
-from main.turain.neural_network.initializers.default_initializer import DefaultInitializer
+from turain.backend.cpu import CPU
+from turain.neural_network.initializers.bias_initializer import BiasInitializer
+from turain.neural_network.initializers.default_initializer import DefaultInitializer
 
 backend = CPU()
 xp = backend.xp

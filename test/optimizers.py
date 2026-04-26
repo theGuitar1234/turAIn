@@ -1,9 +1,9 @@
-from main.turain.backend.cpu import CPU
-from main.turain.models.sequential import Sequential
-from main.turain.neural_network.layers.linear import Linear
-from main.turain.neural_network.activations.relu import ReLU
-from main.turain.neural_network.losses.mean_squared_error import MeanSquaredErrorLoss
-from main.turain.optimizers.stochastic_gradient_descent import StochasticGradientDescent
+from turain.backend.cpu import CPU
+from turain.models.sequential import Sequential
+from turain.neural_network.layers.linear import Linear
+from turain.neural_network.activations.relu import ReLU
+from turain.neural_network.losses.mean_squared_error import MeanSquaredErrorLoss
+from turain.optimizers.stochastic_gradient_descent import StochasticGradientDescent
 
 
 def simple_weight_init(input_features, output_features, xp):

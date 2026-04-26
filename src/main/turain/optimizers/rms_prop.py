@@ -1,6 +1,6 @@
-from main.turain.optimizers.optimizer import Optimizer
-from utilities import TrainDefaults
-from lib import override_from_parent
+from ..optimizers.optimizer import Optimizer
+from ..utilities import TrainDefaults
+from ..lib import override_from_parent
 
 
 class RMSProp(Optimizer):
