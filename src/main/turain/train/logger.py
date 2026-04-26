@@ -3,7 +3,7 @@ from utilities import core_method
 
 class Logger:
     def __init__(self):
-        
+        pass
 
     @core_method
     def log(

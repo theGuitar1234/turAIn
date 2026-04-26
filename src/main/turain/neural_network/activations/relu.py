@@ -3,7 +3,7 @@ from lib import override_from_parent
 from utilities import core_method
 
 
-class ReLu(Activation):
+class ReLU(Activation):
     def __init__(self):
         super().__init__()
 

@@ -28,15 +28,50 @@ class ModeIO:
             "parameter_count": model.count_parameters(),
         }
         return state
+    
+    @staticmethod
+    def extract_network_state(model):
+        state = []
+
+        for layer in model.layers:
+            layer_state = {
+                "class_name": layer.__class__.__name__,
+                "parameters": [],
+            }
+
+            for parameter in layer.parameters():
+                layer_state["parameters"].append({
+                    "role": getattr(parameter, "role", None),
+                    "data": layer.backend.to_cpu(parameter.data) if hasattr(layer, "backend") else parameter.data,
+                })
+
+            state.append(layer_state)
+
+        return state
 
     @staticmethod
     def load_state(model, state):
+        if len(model.layers) != len(state):
+            raise ValueError("Saved state layer count does not match model layer count.")
+
         for layer, layer_state in zip(model.layers, state):
             parameters = layer.parameters()
             saved_parameters = layer_state["parameters"]
 
-            for parameter, saved_data in zip(parameters, saved_parameters):
-                parameter.data = saved_data
+            if len(parameters) != len(saved_parameters):
+                raise ValueError(
+                    f"Parameter count mismatch in layer {layer.__class__.__name__}."
+                )
+
+            xp = layer.backend.xp if hasattr(layer, "backend") else None
+
+            for parameter, saved_parameter in zip(parameters, saved_parameters):
+                saved_data = saved_parameter["data"]
+
+                if xp is not None:
+                    parameter.data = xp.asarray(saved_data, dtype=xp.float32)
+                else:
+                    parameter.data = saved_data
 
     @classmethod
     def save_model(cls, model, file_name, meta=False, format_version=None, train_history=False):
@@ -74,7 +109,3 @@ class ModeIO:
                 meta_data = pickle_engine.load(f)
             print(f"Loaded Meta data from : {meta_data_path}\n")
         return model, meta_data
-
-
-
-    

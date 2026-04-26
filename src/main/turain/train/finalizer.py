@@ -104,3 +104,21 @@ class Finalizer:
         if Y.ndim == 2 and Y.shape[1] == 1:
             return Y.flatten()
         return Y
+    
+    @staticmethod
+    def print(report):
+        print("\nFinal Results:\n")
+        print("Train:", report.train_loss, report.train_accuracy)
+
+        if report.validation_loss is not None:
+            print("Valid:", report.validation_loss, report.validation_accuracy)
+
+        if report.test_loss is not None:
+            print("Test :", report.test_loss, report.test_accuracy)
+
+        if report.error_analysis:
+            print("\nError Analysis:\n")
+            for target_class, metrics in report.error_analysis.items():
+                print(f"Class {target_class}:")
+                print(metrics)
+                print()

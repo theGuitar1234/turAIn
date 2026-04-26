@@ -41,6 +41,35 @@ class Sequential(Module):
             layer.evaluate()
         return self
 
+    def move_to(self, backend):
+        xp = backend.xp
+
+        for layer in self.layers:
+            if hasattr(layer, "backend"):
+                layer.backend = backend
+
+            for parameter in layer.parameters():
+                parameter.data = xp.asarray(parameter.data, dtype=xp.float32)
+
+                if parameter.gradient is not None:
+                    parameter.gradient = xp.asarray(parameter.gradient, dtype=xp.float32)
+
+            if hasattr(layer, "input_cache") and layer.input_cache is not None:
+                layer.input_cache = xp.asarray(layer.input_cache, dtype=xp.float32)
+
+            if hasattr(layer, "output_cache") and layer.output_cache is not None:
+                layer.output_cache = xp.asarray(layer.output_cache, dtype=xp.float32)
+
+        return self
+
+    def cpu_copy(self):
+        from copy import deepcopy
+        from turain.backend.cpu import CPU
+
+        model_copy = deepcopy(self)
+        model_copy.move_to(CPU())
+        return model_copy
+
     def __repr__(self):
         return (
             f"NeuralNetwork("
@@ -51,7 +80,3 @@ class Sequential(Module):
             f"loss={self.__loss_type.name}, "
             f"parameters={self.parameter_count()})"
         )
-
-
-
-    

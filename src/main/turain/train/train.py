@@ -51,9 +51,18 @@ class Train:
     def fit(
         self,
         train_loader,
+        track_state=False,
+        _finalize=False,
+        _log_predictions=False,
+        _error_analysis=False,
         validation_loader=None,
         epochs=None,
-        track_state=False,
+        X_train=None,
+        Y_train=None,
+        X_valid=None,
+        Y_valid=None,
+        X_test=None,
+        Y_test=None,
     ):
         if epochs is None:
             epochs = TrainDefaults.epochs
@@ -164,23 +173,29 @@ class Train:
             if self.callback_manager is not None:
                 self.callback_manager.on_train_end(self)
 
-            if self.finalizer is not None:
+            if self.finalizer is not None and _finalize:
                 final_report = self.finalizer.finalize(
-                    model=self.model,
+                    X_train=X_train,
+                    Y_train=Y_train,
+                    X_valid=X_valid,
+                    Y_valid=Y_valid,
+                    X_test=X_test,
+                    Y_test=Y_test,
                     loss_function=self.loss_function,
                     threshold=self.config.threshold,
-                    log_predictions=False,
-                    run_error_analysis=False,
+                    log_predictions=_log_predictions,
+                    error_analysis=_error_analysis
                 )
-
-            self.results.final_loss = (
-                final_report.train_loss if final_report is not None else self.results.final_loss
-            )
-            self.results.final_accuracy = (
-                final_report.train_accuracy
-                if final_report is not None
-                else self.results.final_accuracy
-            )
+            
+            if self.results is not None:
+                self.results.final_loss = (
+                    final_report.train_loss if final_report is not None else self.results.final_loss
+                )
+                self.results.final_accuracy = (
+                    final_report.train_accuracy
+                    if final_report is not None
+                    else self.results.final_accuracy
+                )
 
         return self.results
 

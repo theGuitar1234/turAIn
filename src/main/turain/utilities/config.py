@@ -29,9 +29,21 @@ class TrainDefaults:
 @dto
 class TrainResults:
     train_losses: list = mutable_field(default_factory=list)
+    train_accuracies: list = mutable_field(default_factory=list)
+    test_losses: list = mutable_field(default_factory=list)
+    test_accuracies: list = mutable_field(default_factory=list)
     validation_losses: list = mutable_field(default_factory=list)
     validation_accuracies: list = mutable_field(default_factory=list)
+    error_analysis: dict = mutable_field(default_factory=dict)
+    
+    train_prediction = None
+    validation_prediction = None
+    test_prediction = None
 
+    train_predicted_classes = None
+    validation_predicted_classes = None
+    test_predicted_classes = None
+    
     best_validation_loss: float = float("inf")
     best_epoch: int | None = None
 

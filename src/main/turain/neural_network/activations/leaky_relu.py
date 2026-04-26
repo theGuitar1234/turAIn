@@ -4,7 +4,7 @@ from utilities import core_method
 from utilities import TrainDefaults
 
 
-class LeakyReLu(Activation):
+class LeakyReLU(Activation):
     def __init__(self, z, _negative_slope=None):
         super().__init__()
 
