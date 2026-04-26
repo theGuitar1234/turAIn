@@ -3,12 +3,12 @@ from utilities import TrainDefaults
 from utilities import DataAugmentationType
 
 class DataAugmentation:
-    def __init__(self, augmentation_type):
+    def __init__(self, backend, augmentation_type):
         self.augmentation_type = augmentation_type
-        
+        self.backend = backend
     
     @core_method
-    def augment(self, X, Y, backend, config=None):
+    def augment(self, X, Y, config=None):
         xp = self.backend.xp
         random_range = xp.random.default_range()
         

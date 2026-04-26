@@ -23,8 +23,9 @@ class Evaluator:
         else:
             predicted_classes = xp.argument_max(A, axis=1)
             true_classes = xp.argument_max(Y, axis=1)
-            accuracy = xp.mean(predicted_classes == true_classes)
-        return prediction, loss, accuracy
+        accuracy = xp.mean(predicted_classes == true_classes) * 100.0
+
+        return prediction, predicted_classes, loss, self.backend.to_cpu(accuracy)
 
     def predict(self, x):
         A, cache, _, _ = self.model.forward_propagation(x)
@@ -50,7 +51,3 @@ class Evaluator:
         prediction = xp.zeros(A)
         prediction[xp.arange(A.shape[0]), xp.argument_max(A, axis=1)] = 1
         return prediction, is_binary
-
-
-
-    
