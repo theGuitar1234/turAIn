@@ -3,9 +3,8 @@ from ...utilities import core_method
 from ...lib import override_from_parent
 
 class Sigmoid(Activation):
-    def __init__(self, z):
-        super().__init__()
-        self.z = z
+    def __init__(self, backend):
+        super().__init__(backend)
 
     @override_from_parent
     def activate(self, z):
@@ -28,6 +27,7 @@ class Sigmoid(Activation):
 
     @override_from_parent
     def forward_propagation(self, x):
+        self.input_cache = x
         return self.activate(x)
 
     @override_from_parent

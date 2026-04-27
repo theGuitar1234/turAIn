@@ -2,7 +2,9 @@ from ..utilities import core_method
 
 
 class OneHotCoding:
+    
     @core_method
+    @staticmethod
     def one_hot_encode(Y, classes, backend):
         xp = backend.xp
 
@@ -18,6 +20,7 @@ class OneHotCoding:
             return None
 
     @core_method
+    @staticmethod
     def one_hot_decode(one_hot, backend):
         xp = backend.xp
 

@@ -11,7 +11,7 @@ class Datasets(Enum):
     PICKLE = auto()
 
 
-class Optimizers(Enum):
+class Optimizer(Enum):
     GDC = auto()
     MOMENTUM = auto()
     RMS_PROP = auto()
@@ -36,7 +36,7 @@ class HiddenActivationType(Enum):
     TANH = auto()
 
 
-class DataAugmentation(Enum):
+class DataAugmentationType(Enum):
     JITTER_NOISE = auto()
     SAME_CLASS_INTERPOLATION = auto()
     MEASUREMENT_NOISE = auto()

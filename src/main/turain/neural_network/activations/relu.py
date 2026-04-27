@@ -4,8 +4,8 @@ from ...utilities import core_method
 
 
 class ReLU(Activation):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, backend):
+        super().__init__(backend)
 
     @override_from_parent
     def activate(self, z):

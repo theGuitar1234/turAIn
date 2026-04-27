@@ -3,7 +3,7 @@ from ..lib import gpu_engine
 from ..lib import override_from_parent
 
 
-class Cupy(Backend):
+class GPU(Backend):
     xp = gpu_engine
 
     def __init__(self):

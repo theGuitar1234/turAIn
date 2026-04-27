@@ -37,3 +37,15 @@ pip install ".[dev,cuda12]"
 ```
 python -m build
 ```
+
+* Properly install Cupy
+```
+python.exe -m pip uninstall -y cupy cupy-cuda12x cupy-cuda13x
+python.exe -m pip install -U pip setuptools wheel
+python.exe -m pip install "cupy-cuda12x[ctk]"
+```
+
+* Check NVIDIA GPU
+```
+nvidia-smi
+```

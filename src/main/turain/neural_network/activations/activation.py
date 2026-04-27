@@ -4,12 +4,11 @@ from ...utilities import core_method
 
 
 class Activation(Module):
-    def __init__(self, z, backend):
+    def __init__(self, backend):
         super().__init__()
         self.backend = backend
         self.input_cache = None
         self.output_cache = None
-        self.z = z
 
     @core_method
     def activate(self, z):

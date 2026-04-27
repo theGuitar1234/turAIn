@@ -1,6 +1,6 @@
 from turain.backend.cpu import CPU
 from turain.data.batch_loader import BatchLoader
-from turain.utilities import DataAugmentation
+from turain.data.data_augmentation import DataAugmentation
 from turain.utilities import DataAugmentationType
 
 backend = CPU()
@@ -17,7 +17,7 @@ train_loader = BatchLoader(
     batch_size=3,
     backend=backend,
     shuffle=True,
-    augmentor=augmentor,
+    data_augmentation=augmentor,
 )
 
 for x_batch, y_batch in train_loader:

@@ -1,7 +1,7 @@
 ### EXTENSIONS ###
 
-CSV = ".csv"
-NPZ = ".npz"
-JSON = ".json"
-PICKLE = ".pkl"
-TEXT = ".txt"
+CSV_EXTENSION = ".csv"
+NPZ_EXTENSION = ".npz"
+JSON_EXTENSION = ".json"
+PICKLE_EXTENSION = ".pkl"
+TEXT_EXTENSION = ".txt"

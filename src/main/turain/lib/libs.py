@@ -51,9 +51,10 @@ except ImportError as e:
     print(e)
 
 try:
-    from dataclasses import dataclass as dto, field
+    from dataclasses import dataclass as dto, field as mutable_field
 except ImportError as e:
     dto = None
+    mutable_field = None
     print(e)
 
 ### DATETIME ###
@@ -65,7 +66,7 @@ except ImportError as e:
 
 ### PLOTTING ###
 try:
-    import matplotlib.pyplot as pltotting
+    import matplotlib.pyplot as plotting
 except ImportError as e:
     plotting = None
     print(e)

@@ -2,23 +2,19 @@ from ..utilities import core_method
 from ..utilities import TrainDefaults
 from ..utilities import DataAugmentationType
 
+
 class DataAugmentation:
     def __init__(self, backend, augmentation_type):
-        self.augmentation_type = augmentation_type
         self.backend = backend
-    
+        self.augmentation_type = augmentation_type
+
     @core_method
     def augment(self, X, Y, config=None):
         xp = self.backend.xp
-        random_range = xp.random.default_range()
-        
+        random_range = xp.random.default_rng()
+
         if config is None:
             config = TrainDefaults()
-        
-        measurement_strength = config.measurement_strength
-        jitter_strength = config.jitter_strength
-        same_class_augmentation_low_alpha = config.same_class_augmentation_low_alpha
-        same_class_augmentation_high_alpha = config.same_class_augmentation_high_alpha
 
         X = xp.asarray(X, dtype=float)
         Y = xp.asarray(Y)
@@ -28,18 +24,20 @@ class DataAugmentation:
 
         match self.augmentation_type:
             case DataAugmentationType.JITTER_NOISE:
+                jitter_strength = config.jitter_strength
                 noise = random_range.uniform(-jitter_strength, jitter_strength, size=X_aug.shape)
                 X_aug = X_aug + noise
 
             case DataAugmentationType.MEASUREMENT_NOISE:
+                measurement_strength = config.measurement_strength
                 scale = random_range.uniform(
-                    1.0 - measurement_strength,
-                    1.0 + measurement_strength,
-                    size=X_aug.shape
+                    1.0 - measurement_strength, 1.0 + measurement_strength, size=X_aug.shape
                 )
                 X_aug = xp.maximum(0.0, X_aug * scale)
 
-            case DataAugmentation.SAME_CLASS_INTERPOLATION:
+            case DataAugmentationType.SAME_CLASS_INTERPOLATION:
+                same_class_augmentation_low_alpha = config.same_class_augmentation_low_alpha
+                same_class_augmentation_high_alpha = config.same_class_augmentation_high_alpha
                 if Y_aug.shape[1] == 1:
                     labels = Y_aug.flatten().astype(int)
                 else:
@@ -58,7 +56,9 @@ class DataAugmentation:
                         else:
                             i1 = i2 = indices[0]
 
-                        alpha = random_range.uniform(same_class_augmentation_low_alpha, same_class_augmentation_high_alpha)
+                        alpha = random_range.uniform(
+                            same_class_augmentation_low_alpha, same_class_augmentation_high_alpha
+                        )
 
                         x_new = alpha * X_aug[i1] + (1.0 - alpha) * X_aug[i2]
                         y_new = Y_aug[i1].copy()
@@ -74,6 +74,8 @@ class DataAugmentation:
                     Y_aug = xp.concatenate([Y_aug, synthetic_y], axis=0)
 
             case _:
-                raise ValueError(f"Unknown Data Augmentation Type, supported values are : {self.DataAugmentation.MEASUREMENT_NOISE}, {self.DataAugmentation.JITTER_NOISE}, {self.DataAugmentation.SAME_CLASS_INTERPOLATION}")
+                raise ValueError(
+                    f"Unknown Data Augmentation Type, supported values are : {list(DataAugmentationType)}"
+                )
 
         return X_aug, Y_aug

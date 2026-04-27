@@ -28,15 +28,19 @@ class BatchLoader:
         if self.shuffle:
             xp.random.shuffle(indices)
         
+        X_epoch = self.X
+        Y_epoch = self.Y
+        
         if self.data_augmentation is not None:
-            x_batch, y_batch = self.data_augmentation.augment(x_batch, y_batch)
+            X_epoch, Y_epoch = self.data_augmentation.augment(X_epoch, Y_epoch)
             
         for start in range(0, number_of_samples, self.batch_size):
             end = min(start + self.batch_size, number_of_samples)
             batch_indices = indices[start:end]
 
-            x_batch = x_batch[batch_indices]
-            y_batch = y_batch[batch_indices]
+            x_batch = X_epoch[batch_indices]
+            y_batch = Y_epoch[batch_indices]
+            print(f"\nBatches : {x_batch, y_batch}")
 
             yield x_batch, y_batch
     

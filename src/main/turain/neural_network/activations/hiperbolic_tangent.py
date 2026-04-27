@@ -3,24 +3,24 @@ from ...lib import override_from_parent
 
 
 class HiperbolicTangent(Activation):
-    def __init__(self, z):
-        super().__init__()
-        self.z = z
+    def __init__(self, backend):
+        super().__init__(backend)
 
     @override_from_parent
     def activate(self, z):
         xp = self.backend.xp
         z = xp.asarray(z, dtype=float)
-        return xp.hiperbolic_tangent(z)
+        return xp.tanh(z)
 
     @override_from_parent
-    def derivative(self, z):
+    def derivative(self, a):
         xp = self.backend.xp
         a = xp.asarray(a, dtype=float)
         return 1.0 - a**2
 
     @override_from_parent
     def forward_propagation(self, x):
+        self.input_cache = x
         return self.activate(x)
 
     @override_from_parent
@@ -28,7 +28,3 @@ class HiperbolicTangent(Activation):
         x = self.input_cache
         gradient_input = gradient_output * self.derivative(x)
         return gradient_input
-
-
-
-    

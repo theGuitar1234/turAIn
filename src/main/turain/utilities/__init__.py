@@ -6,7 +6,7 @@ from .enum import (
     HiddenActivationType,
     LearningDecayType,
     LossType,
-    OptimizerType,
+    Optimizer,
     OutputActivationType,
     WeightInitializationStrategy,
     LayerStrategies,
@@ -14,28 +14,22 @@ from .enum import (
 )
 
 from .constant import (
-    CONFUSION_MATRIX_FILE,
-    CSV_EXTENSION,
-    DEFAULT_DATASET_NAME,
-    DEFAULT_ENCODING,
-    ERROR_ANALYSIS_FILE,
-    JSON_EXTENSION,
-    NPZ_EXTENSION,
-    PICKLE_EXTENSION,
-    TEST_PREDICTION_FILE,
-    TEXT_EXTENSION,
-    TRAIN_PREDICTION_FILE,
-    VALIDATION_PREDICTION_FILE,
+    CONFUSION_MATRIX_FILENAME,
+    DEFAULT_FILENAME,
+    ERROR_ANALYSIS_FILENAME,
+    TEST_PREDICTION_FILENAME,
+    TRAIN_PREDICTION_FILENAME,
+    VALIDATION_PREDICTION_FILENAME,
 )
 from .path import (
-    CONFUSION_MATRIX_DIR,
-    CSV_DIR,
-    ERROR_ANALYSIS_DIR,
-    JSON_DIR,
-    MODEL_DIR,
-    NPZ_DIR,
-    PICKLE_DIR,
-    PREDICTION_DIR,
+    CONFUSION_MATRIX_DIRECTORY,
+    CSV_DIRECTORY,
+    ERROR_ANALYSIS_DIRECTORY,
+    JSON_DIRECTORY,
+    MODEL_DIRECTORY,
+    NPZ_DIRECTORY,
+    PICKLE_DIRECTORY,
+    PREDICTION_DIRECTORY,
 )
 
 from .guard import check_arguments, check_positive_integer
@@ -46,6 +40,14 @@ from .annotation import (
 )
 
 from .config import TrainDefaults, TrainResults
+
+from .extension import (
+    CSV_EXTENSION,
+    JSON_EXTENSION,
+    NPZ_EXTENSION,
+    PICKLE_EXTENSION,
+    TEXT_EXTENSION,
+)
 
 __all__ = [
     "BiasInitStrategy",
@@ -61,26 +63,25 @@ __all__ = [
     "LayerStrategies",
     "StartWidthHeuristics",
     
-    "CONFUSION_MATRIX_FILE",
-    "CONFUSION_MATRIX_DIR",
-    "CSV_DIR",
+    "CONFUSION_MATRIX_FILENAME",
+    "CONFUSION_MATRIX_DIRECTORY",
+    "CSV_DIRECTORY",
     "CSV_EXTENSION",
-    "DEFAULT_DATASET_NAME",
-    "DEFAULT_ENCODING",
-    "ERROR_ANALYSIS_DIR",
-    "ERROR_ANALYSIS_FILE",
-    "JSON_DIR",
+    "DEFAULT_FILENAME",
+    "ERROR_ANALYSIS_DIRECTORY",
+    "ERROR_ANALYSIS_FILENAME",
+    "JSON_DIRECTORY",
     "JSON_EXTENSION",
-    "MODEL_DIR",
-    "NPZ_DIR",
+    "MODEL_DIRECTORY",
+    "NPZ_DIRECTORY",
     "NPZ_EXTENSION",
-    "PICKLE_DIR",
+    "PICKLE_DIRECTORY",
     "PICKLE_EXTENSION",
-    "PREDICTION_DIR",
-    "TEST_PREDICTION_FILE",
+    "PREDICTION_DIRECTORY",
+    "TEST_PREDICTION_FILENAME",
     "TEXT_EXTENSION",
-    "TRAIN_PREDICTION_FILE",
-    "VALIDATION_PREDICTION_FILE",
+    "TRAIN_PREDICTION_FILENAME",
+    "VALIDATION_PREDICTION_FILENAME",
     
     "check_arguments",
     "check_positive_integer",

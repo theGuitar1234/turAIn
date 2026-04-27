@@ -1,9 +1,9 @@
-from ..utilities import helper_method
+from .annotation import helper_method
 
 
 @helper_method
-def check_arguments(**kwargs):
-    for _type, (value, predicate) in kwargs:
+def check_arguments(*args):
+    for (_type, value, predicate) in args:
         if value is None:
             print(f"A value hasn't been provided for the parameter : {_type, value, predicate}, Skipping...")
             return
@@ -16,12 +16,12 @@ def check_arguments(**kwargs):
 def check_positive_integer(*args):
     for var in args:
         check_arguments(
-            int,
             (
+                int,
                 var,
                 {
                     "predicate": lambda output_width: output_width < 1,
-                    "error_message": f"{var.__name__} must be a positive integer",
+                    "error_message": f"{int.__str__} must be a positive integer",
                 },
-            )
+            ),
         )

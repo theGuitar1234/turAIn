@@ -1,10 +1,11 @@
 from turain.backend.cpu import CPU
+from turain.backend.gpu import GPU
 from turain.neural_network.activations.relu import ReLU
 from turain.neural_network.activations.leaky_relu import LeakyReLU
 from turain.neural_network.activations.sigmoid import Sigmoid
 from turain.neural_network.activations.hiperbolic_tangent import HiperbolicTangent
 
-backend = CPU()
+backend = GPU()
 xp = backend.xp
 
 x = xp.asarray(
@@ -19,7 +20,7 @@ gradient_output = xp.ones_like(x)
 
 activations = [
     ReLU(backend),
-    LeakyReLU(backend, alpha=0.01),
+    LeakyReLU(backend, negative_slope=0.01),
     Sigmoid(backend),
     HiperbolicTangent(backend),
 ]
@@ -29,6 +30,6 @@ for activation in activations:
     dx = activation.backward_propagation(gradient_output)
 
     print(activation.__class__.__name__)
-    print(" forward shape:", y.shape)
-    print(" backward shape:", dx.shape)
+    print("forward shape:", y.shape)
+    print("backward shape:", dx.shape)
     print()

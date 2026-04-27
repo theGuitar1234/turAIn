@@ -17,6 +17,13 @@ class TrainDefaults:
     output_aware_multiplier: int = 4
     expansion_multiplier: int = 2
     parameter_budget: int = 2
+    output_positive_prior: int = 2
+    hidden_bias_value: float = 0.2
+    bias_value: int = 1
+    standart_deviation: float = 0.1
+    jitter_strength: float = 0.01
+    same_class_augmentation_low_alpha: float = 0.01
+    same_class_augmentation_high_alpha: float = 0.01
     momentum_coefficient: float = 0.9
     measurement_strength: float = 0.02
     rms_coefficient: float = 0.999

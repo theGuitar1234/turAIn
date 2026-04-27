@@ -5,15 +5,13 @@ from ...utilities import TrainDefaults
 
 
 class LeakyReLU(Activation):
-    def __init__(self, z, _negative_slope=None):
-        super().__init__()
+    def __init__(self, backend, negative_slope=None):
+        super().__init__(backend)
 
-        if _negative_slope is None:
-            _negative_slope = TrainDefaults.negative_slope
+        if negative_slope is None:
+            negative_slope = TrainDefaults.negative_slope
 
-        self.negative_slope = _negative_slope
-        self.input_cache = None
-        self.z = z
+        self.negative_slope = negative_slope
 
     @override_from_parent
     def activate(self, z):
@@ -35,7 +33,3 @@ class LeakyReLU(Activation):
         x = self.input_cache
         gradient_input = gradient_output * self.derivative(x)
         return gradient_input
-
-
-
-    

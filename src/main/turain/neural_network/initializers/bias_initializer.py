@@ -23,7 +23,6 @@ class BiasInitialzer(Initializer):
         output_activation_type,
         hidden_activation_type,
     ):
-        self.is_output_layer
         self.backend = backend
         self.random_bias_initializing_strategy = random_bias_initializing_strategy
         self.output_activation_type = output_activation_type
@@ -33,7 +32,7 @@ class BiasInitialzer(Initializer):
     @override_from_parent
     def initialize(self, fan_in, fan_out, config=None):
         b = None
-        
+
         if config is None:
             config = TrainDefaults()
         output_positive_prior = config.output_positive_prior
@@ -76,19 +75,15 @@ class BiasInitialzer(Initializer):
         match self.random_bias_initializing_strategy:
             case BiasInititializationStrategy.ZERO:
                 b = BiasZeros.__call__(xp, fan_out)
-
             case BiasInititializationStrategy.CONSTANT:
                 b = BiasConstant.__call__(xp, fan_out, bias_value)
-
             case BiasInititializationStrategy.NORMAL:
                 b = BiasStandartNormal.__call__(rng, fan_out, standart_deviation)
-
             case BiasInititializationStrategy.UNIFORM:
                 b = BiasUniform.__call__(bias_value, fan_out, rng)
-
             case _:
                 raise ValueError("Unknown Bias Init Strategy")
-        
+
         return b
 
     def logit(self, p, config=None):
