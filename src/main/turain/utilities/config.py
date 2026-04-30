@@ -59,3 +59,14 @@ class TrainResults:
     final_learning_rate: float | None = None
 
     title: str = "Training Results"
+
+
+@dto
+class InitializationDefaults:
+    number_of_layers: int
+    bias_initializing_strategy: None
+    output_weight_initializing_strategy: None
+    hidden_weight_initializing_strategy: None
+    bias_initializing_strategy: None
+    output_activation_type: None
+    hidden_activation_type: None

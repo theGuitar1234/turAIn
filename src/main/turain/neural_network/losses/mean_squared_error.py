@@ -2,7 +2,7 @@ from .loss import Loss
 from ...lib import override_from_parent
 
 
-class MeanSquaredError(Loss):
+class MeanSquaredErrorLoss(Loss):
     def __init__(self, backend, config=None):
         super().__init__(backend, config)
 

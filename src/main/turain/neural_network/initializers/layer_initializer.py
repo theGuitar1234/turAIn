@@ -128,9 +128,7 @@ class LayerInitializer(Initializer):
                     input_width, self.output_width, self.number_of_hidden_layers, parameter_budget
                 )
             case _:
-                raise ValueError(
-                    f"Unknown Layer Strategy, supported values are: {list(LayerStrategies)}"
-                )
+                raise ValueError(f"Unknown Layer Strategy {self.layer_strategy}, supported values are: {list(LayerStrategies)}")
 
         return layers + [self.output_width]
 
@@ -144,9 +142,7 @@ class LayerInitializer(Initializer):
             case StartWidthHeuristics.OUTPUT_AWARE:
                 start_width = OutputAware.__call__(output_width, input_width, start_width_heuristic_cap)
             case _:
-                raise ValueError(
-                    f"Unknown Start Width Heuristic, supported values are : {StartWidthHeuristics.INPUT_WIDTH}, {StartWidthHeuristics.CAPPED_INPUT_WIDTH}, {StartWidthHeuristics.OUTPUT_AWARE}"
-                )
+                raise ValueError(f"Unknown Start Width Heuristic {self.start_width_heuristic}, supported values are : {list(StartWidthHeuristics)}")
         return start_width
 
 

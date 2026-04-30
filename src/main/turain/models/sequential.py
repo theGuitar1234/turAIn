@@ -3,9 +3,10 @@ from ..lib import override_from_parent
 
 
 class Sequential(Module):
-    def __init__(self, *layers):
+    def __init__(self, layers, loss_function):
         super().__init__()
-        self.layers = list(layers)
+        self.layers = layers
+        self.loss_function = loss_function
 
     @override_from_parent
     def forward_propagation(self, x):

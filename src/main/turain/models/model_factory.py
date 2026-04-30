@@ -22,8 +22,8 @@ class ModelFactory:
         hidden_bias_initializer,
         output_weight_initializer,
         hidden_weight_initializer,
-        hidden_activation=None,
-        output_activation=None,
+        hidden_activation_type=None,
+        output_activation_type=None,
         config=None,
     ):
         if config is None:
@@ -56,8 +56,8 @@ class ModelFactory:
                 )
             )
 
-            if not is_output_layer and hidden_activation is not None:
-                match hidden_activation:
+            if not is_output_layer and hidden_activation_type is not None:
+                match hidden_activation_type:
                     case HiddenActivationType.RELU:
                         layers.append(ReLU(backend))
                     case HiddenActivationType.LEAKY_RELU:
@@ -68,18 +68,18 @@ class ModelFactory:
                         layers.append(HiperbolicTangent(backend))
                     case _:
                         raise ValueError(
-                            f"Unknown hidden activation, supported values are {list(HiddenActivationType)}"
+                            f"Unknown hidden activation {hidden_activation_type}, supported values are {list(HiddenActivationType)}"
                         )
                 if drop_out_rate > 0.0:
                     layers.append(DropoutMask(backend, rate=drop_out_rate))
-            if is_output_layer and output_activation is not None:
-                match output_activation:
+            if is_output_layer and output_activation_type is not None:
+                match output_activation_type:
                     case OutputActivationType.SIGMOID:
                         layers.append(Sigmoid(backend))
                     case OutputActivationType.SOFTMAX:
                         layers.append(Softmax(backend))
                     case _:
                         raise ValueError(
-                            f"Unknown output activation, supported values are {list(OutputActivationType)}"
+                            f"Unknown output activation {output_activation_type}, supported values are {list(OutputActivationType)}"
                         )
         return Sequential(*layers)

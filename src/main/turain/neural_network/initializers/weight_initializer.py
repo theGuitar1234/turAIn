@@ -1,3 +1,5 @@
+from turain.utilities.enum import HiddenActivationType
+
 from .initializer import Initializer
 
 from ...utilities import WeightInitializationStrategy
@@ -18,44 +20,57 @@ class WeightInitializer(Initializer):
         self,
         layer,
         backend,
+        is_output_layer,
         number_of_neurons,
-        input_features,
-        output_width,
-        random_hidden_weight_initializing_strategy,
-        random_output_weight_initializing_strategy,
-        random_bias_initializing_strategy
+        number_of_features,
+        output_features,
+        hidden_weight_initializing_strategy,
+        output_weight_initializing_strategy,
+        bias_initializing_strategy,
+        output_activation_type,
+        hidden_activation_type,
     ):
-        super().__init__(backend, output_width)
-        
-        self.input_features = input_features
-        self.random_hidden_weight_initializing_strategy = (
-            random_hidden_weight_initializing_strategy,
-        )
-        self.random_output_weight_initializing_strategy = (
-            random_output_weight_initializing_strategy,
-        )
-        self.random_bias_initializing_strategy = (random_bias_initializing_strategy,)
+        super().__init__(backend, output_features)
 
-        self.fan_in = input_features if layer == 0 else output_width
-        self.fan_out = number_of_neurons
+        self.input_features = number_of_features
+        self.hidden_weight_initializing_strategy = hidden_weight_initializing_strategy
+        self.output_weight_initializing_strategy = output_weight_initializing_strategy
+        self.bias_initializing_strategy = bias_initializing_strategy
+        self.layer = layer  
+        self.number_of_features = number_of_features
+        self.number_of_neurons = number_of_neurons
+        self.output_features = output_features
+        
+        alpha = 0.0
+        if (
+            not is_output_layer
+            and hidden_activation_type == HiddenActivationType.LEAKY_RELU
+        ):
+            alpha = 0.01
+        self.alpha = alpha
 
     @override_from_parent
-    def initialize(self, xp, fan_in, fan_out, alpha):
+    def initialize(self):
+        xp = self.backend.xp
+
         W = None
-        
+
         rng = xp.random.default_rng()
+        
+        fan_out = self.number_of_features if self.layer == 0 else self.output_features
+        fan_in = self.number_of_neurons
 
         check_positive_integer(fan_in, fan_out)
 
-        match self.random_hidden_weight_initializing_strategy:
+        match self.hidden_weight_initializing_strategy:
             case WeightInitializationStrategy.XAVIER_NORMAL:
                 W = XavierNormal.__call__(fan_in, fan_out, xp)
             case WeightInitializationStrategy.XAVIER_UNIFORM:
                 W = XavierUniform.__call__(fan_in, fan_out, rng, xp)
             case WeightInitializationStrategy.HE_NORMAL:
-                W = HeNormal.__call__(fan_in, fan_out, alpha, rng, xp)
+                W = HeNormal.__call__(fan_in, fan_out, self.alpha, rng, xp)
             case WeightInitializationStrategy.HE_UNIFORM:
-                W = HeUniform.__call__(alpha, fan_in, fan_out, rng, xp)
+                W = HeUniform.__call__(self.alpha, fan_in, fan_out, rng, xp)
             case WeightInitializationStrategy.LECUN_NORMAL:
                 W = LeCunNormal.__call__(fan_in, fan_out, rng, xp)
             case WeightInitializationStrategy.LECUN_UNIFORM:
@@ -63,9 +78,7 @@ class WeightInitializer(Initializer):
             case WeightInitializationStrategy.ZERO:
                 W = Zero.__call__(fan_in, fan_out, xp)
             case _:
-                raise ValueError(f"Unknown Weight Init Strategy, supported values are : {list(WeightInitializationStrategy)}")
+                raise ValueError(
+                    f"Unknown Weight Init Strategy {self.hidden_weight_initializing_strategy}, supported values are : {list(WeightInitializationStrategy)}"
+                )
         return W
-
-
-
-    

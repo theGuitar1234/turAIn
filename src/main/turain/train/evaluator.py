@@ -8,11 +8,15 @@ class Evaluator:
         self.backend = backend
 
     @core_method
-    def evaluate(self, X, Y, epsilon=None, threshold=None):
+    def evaluate(self, X, Y, config=None):
         xp = self.backend.xp
 
-        if epsilon is None:
-            epsilon = TrainDefaults.epsilon
+        if config is None:
+            config = TrainDefaults()
+
+        epsilon = config.epsilon
+        threshold = config.threshold
+
         A, _ = self.predict(X)
         loss = self.model.loss(Y, A, epsilon)
 

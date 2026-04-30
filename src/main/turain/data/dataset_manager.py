@@ -15,5 +15,5 @@ class DatasetManager:
                 return DeSerialization.load_from_pickle(file_path)
             case _:
                 raise ValueError(
-                    f"Unknown File Type, supported ones are : {list(Datasets)}"
+                    f"Unknown File Type {file_type}, supported ones are : {list(Datasets)}"
                 )

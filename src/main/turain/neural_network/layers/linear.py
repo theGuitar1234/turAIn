@@ -1,96 +1,94 @@
 from turain.core.parameter import Parameter
 from turain.core.module import Module
-
-from ..initializers.initializer import Initializer
+from turain.neural_network.initializers.bias_initializer import BiasInitialzer
+from turain.neural_network.initializers.weight_initializer import WeightInitializer
+from turain.utilities.config import InitializationDefaults, TrainDefaults
 
 from ...utilities import core_method
 from ...utilities import check_positive_integer
 from ...lib import override_from_parent
+
 
 class Linear(Module):
     def __init__(
         self,
         layer,
         number_of_neurons,
-        input_features,
+        number_of_features,
         output_features,
         backend,
-        random_bias_initializing_strategy,
-        random_output_weight_initializing_strategy,
-        random_hidden_weight_initializing_strategy,
+        initializer=None,
+        config=None,
     ):
         super().__init__()
 
-        check_positive_integer(input_features, output_features)
+        if initializer is None:
+            raise ValueError(
+                f"Initializer is unset, consider using {InitializationDefaults.__name__}"
+            )
+        bias_initializing_strategy = initializer.bias_initializing_strategy
+        output_weight_initializing_strategy = initializer.output_weight_initializing_strategy
+        hidden_weight_initializing_strategy = initializer.hidden_weight_initializing_strategy
 
-        self.input_features = input_features
+        if config is None:
+            config = TrainDefaults()
+
+        check_positive_integer(number_of_features, output_features)
+
+        self.input_features = number_of_features
         self.output_features = output_features
 
         self.backend = backend
 
-        self.random_bias_initializing_strategy = random_bias_initializing_strategy
-        self.random_output_weight_initializing_strategy = random_output_weight_initializing_strategy
-        self.random_hidden_weight_initializing_strategy = random_hidden_weight_initializing_strategy
+        self.bias_initializing_strategy = bias_initializing_strategy
+        self.output_weight_initializing_strategy = output_weight_initializing_strategy
+        self.hidden_weight_initializing_strategy = hidden_weight_initializing_strategy
 
-        W, b = Initializer(
-            input_features,
-            output_features,
-            random_hidden_weight_initializing_strategy,
-            random_output_weight_initializing_strategy,
-            random_bias_initializing_strategy,
-            backend,
-        ).initialize()
+        output_activation_type = initializer.output_activation_type
+        hidden_activation_type = initializer.hidden_activation_type
+        number_of_layers = initializer.number_of_layers
+
+        is_output_layer = layer == number_of_layers - 1
+
+        weight_initializer = WeightInitializer(
+            layer=layer,
+            is_output_layer=is_output_layer,
+            backend=backend,
+            number_of_neurons=number_of_neurons,
+            number_of_features=number_of_features,
+            output_features=output_features,
+            hidden_weight_initializing_strategy=hidden_weight_initializing_strategy,
+            output_weight_initializing_strategy=output_weight_initializing_strategy,
+            bias_initializing_strategy=bias_initializing_strategy,
+            output_activation_type=output_activation_type,
+            hidden_activation_type=hidden_activation_type,
+        )
+        W = weight_initializer.initialize()
+
+        bias_initializer = BiasInitialzer(
+            is_output_layer=is_output_layer,
+            number_of_neurons=number_of_neurons,
+            backend=backend,
+            bias_initializing_strategy=bias_initializing_strategy,
+            output_activation_type=output_activation_type,
+            hidden_activation_type=hidden_activation_type,
+        )
+        b = bias_initializer.initialize(config)
 
         self.weight = Parameter(W)
         self.bias = Parameter(b)
 
         self.input_cache = None
 
-    # def _initialize_weight(self, initializer, xp, input_features, output_features):
-    #     if callable(initializer):
-    #         weight = initializer(input_features, output_features, xp)
-    #     elif hasattr(initializer, "initialize"):
-    #         weight = initializer.initialize(input_features, output_features, xp)
-    #     else:
-    #         raise TypeError("weight_initializer must be callable or have initialize(...)")
-
-    #     weight = xp.asarray(weight, dtype=xp.float32)
-
-    #     expected_shape = (output_features, input_features)
-    #     if weight.shape != expected_shape:
-    #         raise ValueError(f"Weight shape must be {expected_shape}, got {weight.shape}")
-
-    #     return weight
-
-    # def _initialize_bias(self, initializer, xp, output_features):
-    #     if callable(initializer):
-    #         bias = initializer(output_features, xp)
-    #     elif hasattr(initializer, "initialize"):
-    #         bias = initializer.initialize(output_features, xp)
-    #     else:
-    #         raise TypeError("bias_initializer must be callable or have initialize(...)")
-
-    #     bias = xp.asarray(bias, dtype=xp.float32)
-
-    #     if bias.ndim == 1:
-    #         bias = bias.reshape(1, -1)
-    #     elif bias.shape == (output_features, 1):
-    #         bias = bias.T
-
-    #     expected_shape = (1, output_features)
-    #     if bias.shape != expected_shape:
-    #         raise ValueError(f"Bias shape must be {expected_shape}, got {bias.shape}")
-
-    #     return bias
-
     @core_method
     def linear_model(self, X):
-        xp = self.backend.xp
-
         W = self.weight.data
         b = self.bias.data
-
-        return xp.matrix_multiplication(X, xp.transpoze(W)) + xp.transpoze(b)
+        print(X)
+        print(X.shape[0])
+        print(W)
+        print(W.shape[0])
+        return X @ W.T + b.T
 
     @override_from_parent
     def forward_propagation(self, X, config=None, training_mode=False):
@@ -104,12 +102,8 @@ class Linear(Module):
         X = self.input_cache
         batch_size = X.shape[0]
 
-        self.weight.gradient = (
-            xp.matrix_multiplication(xp.transpoze(gradient_output), X)
-        ) / batch_size
-        self.bias.gradient = (
-            xp.transpoze(xp.sum(gradient_output, axis=0, keepdims=True)) / batch_size
-        )
+        self.weight.gradient = (gradient_input.T @ X) / batch_size
+        self.bias.gradient = xp.sum(gradient_output, axis=0, keepdims=True).T / batch_size
 
         gradient_input = gradient_output @ self.weight.data
 

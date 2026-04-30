@@ -75,7 +75,7 @@ class DataAugmentation:
 
             case _:
                 raise ValueError(
-                    f"Unknown Data Augmentation Type, supported values are : {list(DataAugmentationType)}"
+                    f"Unknown Data Augmentation Type {self.augmentation_type}, supported values are : {list(DataAugmentationType)}"
                 )
 
         return X_aug, Y_aug

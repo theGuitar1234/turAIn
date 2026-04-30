@@ -5,19 +5,15 @@ from ...utilities.enum import HiddenActivationType, OutputActivationType
 
 class DefaultInitializer:
     @staticmethod
-    def initialize_default_hidden_weight(hidden_activation):
-        if hidden_activation in (HiddenActivationType.RELU, HiddenActivationType.LEAKY_RELU):
+    def initialize_default_hidden_weight(hidden_activation_type):
+        if hidden_activation_type in (HiddenActivationType.RELU, HiddenActivationType.LEAKY_RELU):
             return HeNormal()
-        if hidden_activation in (HiddenActivationType.SIGMOID, HiddenActivationType.TANH):
+        if hidden_activation_type in (HiddenActivationType.SIGMOID, HiddenActivationType.TANH):
             return XavierNormal()
-        raise ValueError(
-            f"Unknown hidden activation, supported values are {list(HiddenActivationType)}"
-        )
+        raise ValueError(f"Unknown hidden activation {hidden_activation_type}, supported values are {list(HiddenActivationType)}")
 
     @staticmethod
-    def initialize_default_output_weight(output_activation):
-        if output_activation in list(OutputActivationType):
+    def initialize_default_output_weight(output_activation_type):
+        if output_activation_type in list(OutputActivationType):
             return XavierNormal()
-        raise ValueError(
-            f"Unknown output activation, supported values are {list(OutputActivationType)}"
-        )
+        raise ValueError(f"Unknown output activation {output_activation_type}, supported values are {list(OutputActivationType)}")
