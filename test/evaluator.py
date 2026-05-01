@@ -19,15 +19,14 @@ from turain.neural_network.initializers.weight_initializer import WeightInitiali
 backend = CPU()
 xp = backend.xp
 
-number_of_classes = 2
-
 X = xp.random.standard_normal((6, 4)).astype(xp.float32)
-Y = xp.random.standard_normal((6, number_of_classes)).astype(xp.float32)
+Y = xp.random.standard_normal((6, 4)).astype(xp.float32)
 
+number_of_classes = Y.shape[1]
 number_of_features = X.shape[1]
 print(f"number_of_features {number_of_features}")
 
-layers = [5, 2]
+layers = [number_of_features, number_of_classes]
 
 init_layers = []
 activation = ReLU(backend)
@@ -66,12 +65,10 @@ for i in range(number_of_layers):
     init_layers.append(linear)
     init_layers.append(output_activation)
 
-loss_function = MeanSquaredErrorLoss(backend)
-model = Sequential(init_layers, loss_function)
-evaluator = Evaluator(model, backend)
+loss = MeanSquaredErrorLoss(backend)
+model = Sequential(init_layers)
+evaluator = Evaluator(model, loss, backend)
 
-result = evaluator.evaluate(X, Y)
+prediction, predicted_classes, loss, accuracy = evaluator.evaluate(X, Y)
 
-print(result["prediction"].shape)
-print(result["loss"])
-print(result["accuracy"])
+print(f"""\nprediction\n {prediction}\n\npredicted_classes {predicted_classes}\n\nloss {loss}\n\naccuracy {accuracy}""")

@@ -1,5 +1,6 @@
 from .backend import Backend
 from ..lib import cpu_engine
+from ..lib import gpu_engine
 from ..lib import override_from_parent
 
 
@@ -11,5 +12,9 @@ class CPU(Backend):
             raise RuntimeError("NumPy is not installed")
 
     @override_from_parent
+    def to_cpu(self, x):
+        return gpu_engine.asnumpy(x)
+
+    @override_from_parent
     def to_gpu(self, x):
-        return self.xp.ascupy(x)
+        return cpu_engine.ascupy(x)

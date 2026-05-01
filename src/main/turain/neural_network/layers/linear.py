@@ -84,10 +84,6 @@ class Linear(Module):
     def linear_model(self, X):
         W = self.weight.data
         b = self.bias.data
-        print(X)
-        print(X.shape[0])
-        print(W)
-        print(W.shape[0])
         return X @ W.T + b.T
 
     @override_from_parent

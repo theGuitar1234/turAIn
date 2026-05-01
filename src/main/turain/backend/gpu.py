@@ -1,5 +1,6 @@
 from .backend import Backend
 from ..lib import gpu_engine
+from ..lib import cpu_engine
 from ..lib import override_from_parent
 
 
@@ -12,4 +13,8 @@ class GPU(Backend):
 
     @override_from_parent
     def to_cpu(self, x):
-        return self.xp.asnumpy(x)
+        return gpu_engine.asnumpy(x)
+
+    @override_from_parent
+    def to_gpu(self, x):
+        return cpu_engine.ascupy(x)

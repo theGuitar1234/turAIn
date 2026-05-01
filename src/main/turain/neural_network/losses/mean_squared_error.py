@@ -1,13 +1,16 @@
+from turain.utilities.config import TrainDefaults
+
 from .loss import Loss
 from ...lib import override_from_parent
 
 
 class MeanSquaredErrorLoss(Loss):
-    def __init__(self, backend, config=None):
-        super().__init__(backend, config)
+    def __init__(self, backend):
+        super().__init__(backend)
 
     @override_from_parent
-    def loss(self, prediction, true_label, xp, size):
+    def loss(self, prediction, true_label, size):
+        xp = self.backend.xp
         return xp.sum((prediction - true_label) * (prediction - true_label)) / size
 
     @override_from_parent
@@ -33,7 +36,3 @@ class MeanSquaredErrorLoss(Loss):
         batch_size = true_label.shape[0]
 
         return (2.0 * (prediction - true_label)) / batch_size
-
-
-
-    
