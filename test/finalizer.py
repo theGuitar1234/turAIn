@@ -1,44 +1,90 @@
 from turain.backend.cpu import CPU
-from turain.neural_network.losses.mean_squared_error import MeanSquaredError
+from turain.neural_network.losses.mean_squared_error import MeanSquaredErrorLoss
 from turain.train.finalizer import Finalizer
 from turain.train.evaluator import Evaluator
 from turain.metrics.prediction_logger import PredictionLogger
 from turain.metrics.confusion_matrix import ConfusionMatrix
 from turain.metrics.error_analysis import ErrorAnalysis
-
-model = None
-X_train = None
-Y_train = None
-X_valid = None
-Y_valid = None
-X_test = None
-Y_test = None
-
-loss_function = MeanSquaredError()
-backend = CPU()
-
-evaluator = Evaluator(model, backend)
-finalizer = Finalizer(
-    evaluator=evaluator,
-    prediction_logger=PredictionLogger(),
-    confusion_matrix_builder=ConfusionMatrix,
-    error_analyzer=ErrorAnalysis,
+from turain.models.sequential import Sequential
+from turain.neural_network.activations.sigmoid import Sigmoid
+from turain.neural_network.layers.linear import Linear
+from turain.neural_network.activations.relu import ReLU
+from turain.utilities.config import InitializationDefaults
+from turain.utilities.enum import (
+    BiasInititializationStrategy,
+    HiddenActivationType,
+    OutputActivationType,
+    WeightInitializationStrategy,
 )
 
-report = finalizer.finalize(
-    X_train=X_train,
-    Y_train=Y_train,
-    X_valid=X_valid,
-    Y_valid=Y_valid,
-    X_test=X_test,
-    Y_test=Y_test,
-    loss_function=loss_function,
-    threshold=0.5,
+backend = CPU()
+xp = backend.xp
+
+X = xp.random.standard_normal((6, 4)).astype(xp.float32)
+Y = xp.random.standard_normal((6, 4)).astype(xp.float32)
+
+number_of_classes = Y.shape[1]
+number_of_features = X.shape[1]
+print(f"number_of_features {number_of_features}")
+
+layers = [number_of_features, number_of_classes]
+
+init_layers = []
+activation = ReLU(backend)
+output_activation = Sigmoid(backend)
+number_of_layers = len(layers)
+
+initializer = InitializationDefaults(
+    number_of_layers=number_of_layers,
+    bias_initializing_strategy=BiasInititializationStrategy.ZERO,
+    output_weight_initializing_strategy=WeightInitializationStrategy.ZERO,
+    hidden_weight_initializing_strategy=WeightInitializationStrategy.ZERO,
+    output_activation_type=OutputActivationType.SIGMOID,
+    hidden_activation_type=HiddenActivationType.RELU,
+)
+
+for i in range(number_of_layers):
+    if i != len(layers) - 1:
+        linear = Linear(
+            layer=i,
+            number_of_features=number_of_features,
+            output_features=number_of_classes,
+            number_of_neurons=layers[i],
+            backend=backend,
+            initializer=initializer,
+        )
+        init_layers.append(linear)
+        init_layers.append(activation)
+    linear = Linear(
+        layer=i,
+        number_of_features=number_of_features,
+        output_features=number_of_classes,
+        number_of_neurons=layers[i],
+        backend=backend,
+        initializer=initializer,
+    )
+    init_layers.append(linear)
+    init_layers.append(output_activation)
+
+model = Sequential(init_layers)
+loss = MeanSquaredErrorLoss(backend)
+
+evaluator = Evaluator(model, loss, backend)
+finalizer = Finalizer(
+    evaluator=evaluator,
+    backend=backend,
+    number_of_classes=number_of_classes,
+)
+
+results = finalizer.finalize(
+    X_train=X,
+    Y_train=Y,
+    X_valid=X,
+    Y_valid=Y,
+    X_test=X,
+    Y_test=Y,
     log_predictions=False,
     run_error_analysis=True,
 )
 
-print(report.train_loss, report.train_accuracy)
-print(report.validation_loss, report.validation_accuracy)
-print(report.test_loss, report.test_accuracy)
-print(report.error_analysis)
+finalizer.log(results)

@@ -3,26 +3,29 @@ from ..lib import system
 from ..utilities import path
 from ..utilities import constant
 
+
 class ConfusionMatrix:
 
     @classmethod
     def confusion_matrix(
         cls,
-        xp,
+        backend,
         OvR,
         true_labels,
         predicted_labels,
-        _log_confusion_matrix=False,
+        log_confusion_matrix=False,
         confusion_matrix_file=None,
         confusion_matrix_path=None,
     ):
-        if _log_confusion_matrix:
+        if log_confusion_matrix:
             cls.log_confusion_matrix(OvR, confusion_matrix_file, confusion_matrix_path)
 
-        return cls.one_vs_rest(OvR, true_labels, predicted_labels, xp)
+        return cls.one_vs_rest(OvR, true_labels, predicted_labels, backend)
 
     @classmethod
-    def one_vs_rest(cls, target_class, true_labels, predicted_labels, xp):
+    def one_vs_rest(cls, target_class, true_labels, predicted_labels, backend):
+        xp = backend.xp
+
         true_labels = xp.asarray(true_labels)
         predicted_labels = xp.asarray(predicted_labels)
 
@@ -40,7 +43,7 @@ class ConfusionMatrix:
 
     def log_confusion_matrix(
         self, 
-        OvR,
+        OvR, 
         number_of_classes, 
         confusion_matrix_file=None, 
         confusion_matrix_path=None

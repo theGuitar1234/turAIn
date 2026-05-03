@@ -1,28 +1,80 @@
+from turain.utilities import encoding, extension
+from turain.utilities.annotation import core_method, helper_method
 from ..lib import system
 
 
 class PredictionLogger:
-    def log_predictions(
-        self,
+
+    @helper_method
+    @staticmethod
+    def assist_terminance():
+        print("\nThe current dataset is too large, >100 samples is expected to be written!")
+        print(
+            "\nDo you really want to write down all those predictions? If not, input [N/No], otherwise [Y/Yes] (case-insensitive)"
+        )
+        while True:
+            choice = input("Do you wish to continue? [y(Yes)/n(No)] ").strip().lower()
+            if choice in ("y", "yes"):
+                break
+            elif choice in ("n", "no"):
+                break
+            else:
+                print("Invalid Input, supported values are : [N/n/No, Y/y/Yes]")
+
+    @core_method
+    @classmethod
+    def main(
+        cls,
         Y,
-        xp,
+        backend,
         predictions,
-        _log_predictions,
+        log_predictions,
         prediction_file,
         prediction_path,
         prediction_tolerance,
         prediction_threshold,
         _encoding,
     ):
+        xp = backend.xp
+
+        if log_predictions:
+            if len(Y) > prediction_tolerance:
+                if cls.assist_terminance():
+                    return
+
+            if Y is not None and predictions is not None:
+                cls.log_predictions(
+                    Y,
+                    xp,
+                    predictions,
+                    log_predictions,
+                    prediction_file,
+                    prediction_path,
+                    prediction_tolerance,
+                    prediction_threshold,
+                    _encoding,
+                )
+
+    @staticmethod
+    def log_predictions(
+        Y,
+        xp,
+        predictions,
+        log_predictions,
+        prediction_file,
+        prediction_path,
+        prediction_threshold,
+        _encoding,
+    ):
         if prediction_path is not None and not system.path.exists(prediction_path):
             system.mkdir(prediction_path)
 
-        if _log_predictions:
-            prediction_file_name = prediction_file + self.Extensions.text
+        if log_predictions:
+            prediction_file_name = prediction_file + extension.TEXT_EXTENSION
             prediction_file_path = prediction_path + prediction_file_name
 
             if _encoding is None:
-                _encoding = self.Encodings().UTF_8
+                _encoding = encoding.UTF_8
 
             with open(prediction_file_path, "w", encoding=_encoding) as f:
                 for i in range(len(predictions)):
