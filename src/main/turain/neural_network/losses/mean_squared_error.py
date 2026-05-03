@@ -25,7 +25,7 @@ class MeanSquaredErrorLoss(Loss):
         self.true_label_cache = true_label
 
         batch_size = true_label.shape[0]
-        loss = self.loss(prediction, true_label, xp, batch_size)
+        loss = self.loss(prediction, true_label, batch_size)
 
         return loss
 
