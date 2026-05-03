@@ -1,13 +1,16 @@
+from turain.utilities import extension, path
+from turain.utilities.config import TrainDefaults
+
 from ..lib import date_time_engine
 from ..lib import pickle_engine
 from ..lib import system
 
 
-class ModeIO:
+class ModelIO:
     @classmethod
     def extract_metadata(cls, model, format_version=None, train_history=None):
         if format_version is None:
-            format_version = model.TrainDefaults().default_format_version
+            format_version = TrainDefaults().default_format_version
 
         meta = {
             "format_version": format_version,
@@ -74,15 +77,15 @@ class ModeIO:
                     parameter.data = saved_data
 
     @classmethod
-    def save_model(cls, model, file_name, meta=False, format_version=None, train_history=False):
+    def save_model(cls, model, backend, file_name, meta=False, format_version=None, train_history=False):
         if not file_name.endswith(".pkl"):
             file_name = file_name + ".pkl"
 
-        modelpath = cls.Paths.model_path
+        modelpath = path.MODEL_DIRECTORY
         if modelpath is not None and not system.path.exists(modelpath):
             system.mkdir(modelpath)
 
-        model_cpu = cls.cpu_copy()
+        model_cpu = model.cpu_copy()
 
         file_path = modelpath + file_name
         with open(file_path, "wb") as f:
@@ -91,20 +94,20 @@ class ModeIO:
 
         if meta:
             meta_data = cls.extract_metadata(format_version, train_history)
-            meta_data_path = modelpath + file_name + Paths.meta_data_flair
+            meta_data_path = modelpath + file_name + extension.META_DATA_FLAIR
             with open(meta_data_path, "wb") as f:
                 pickle_engine.dump(meta_data, f)
             print(f"\nSaved Meta Data at : {meta_data_path}\n")
 
     @classmethod
-    def load_model(cls, model_path, meta_data_path, device=None, meta=False):
+    def load_model(cls, model_path, meta_data_path=None, device=None, meta=False):
         with open(model_path, "rb") as f:
             model = pickle_engine.load(f)
         print(f"Loaded Model from : {model_path}\n")
         if device is not None:
             model.move_to(device)
         meta_data = None
-        if meta:
+        if meta and meta_data_path is not None:
             with open(meta_data_path, "rb") as f:
                 meta_data = pickle_engine.load(f)
             print(f"Loaded Meta data from : {meta_data_path}\n")
