@@ -93,5 +93,9 @@ class BiasInitialzer(Initializer):
         if config is None:
             config = TrainDefaults()
         epsilon = config.epsilon
-        p = float(xp.clip(p, epsilon, 1.0 - epsilon))
+        p = self.clip_scalar(p, epsilon, 1.0 - epsilon)
         return xp.log(p / (1.0 - p))
+    
+    def clip_scalar(self, x, low, high):
+        x = float(x)
+        return min(max(x, low), high)

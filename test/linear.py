@@ -1,26 +1,78 @@
 from turain.backend.cpu import CPU
 from turain.models.sequential import Sequential
+from turain.neural_network.activations.sigmoid import Sigmoid
 from turain.neural_network.layers.linear import Linear
-
-
-def simple_weight_init(input_features, output_features, xp):
-    return xp.random.standard_normal((output_features, input_features)) * 0.01
-
-
-def simple_bias_init(output_features, xp):
-    return xp.zeros((1, output_features))
-
+from turain.neural_network.activations.relu import ReLU
+from turain.neural_network.losses.mean_squared_error import MeanSquaredErrorLoss
+from turain.train.evaluator import Evaluator
+from turain.utilities.config import InitializationDefaults
+from turain.utilities.enum import (
+    BiasInititializationStrategy,
+    HiddenActivationType,
+    OutputActivationType,
+    WeightInitializationStrategy,
+)
 
 backend = CPU()
-model = Sequential(
-    Linear(4, 8, backend, simple_weight_init, simple_bias_init),
-    Linear(8, 2, backend, simple_weight_init, simple_bias_init),
+xp = backend.xp
+
+X = xp.random.standard_normal((6, 4)).astype(xp.float32)
+Y = xp.random.standard_normal((6, 4)).astype(xp.float32)
+
+gradient_output = backend.xp.random.standard_normal((6, 4)).astype(backend.xp.float32)
+
+number_of_classes = Y.shape[1]
+number_of_features = X.shape[1]
+print(f"number_of_features {number_of_features}")
+
+layers = [number_of_features, number_of_classes]
+
+init_layers = []
+activation = ReLU(backend)
+output_activation = Sigmoid(backend)
+number_of_layers = len(layers)
+
+initializer = InitializationDefaults(
+    number_of_layers=number_of_layers,
+    bias_initializing_strategy=BiasInititializationStrategy.ZERO,
+    output_weight_initializing_strategy=WeightInitializationStrategy.ZERO,
+    hidden_weight_initializing_strategy=WeightInitializationStrategy.ZERO,
+    output_activation_type=OutputActivationType.SIGMOID,
+    hidden_activation_type=HiddenActivationType.RELU,
 )
-x = backend.xp.random.standard_normal((5, 4)).astype(backend.xp.float32)
-gradient_output = backend.xp.random.standard_normal((5, 2)).astype(backend.xp.float32)
-output = model.forward_propagation(x)
+
+for i in range(number_of_layers):
+    if i != len(layers) - 1:
+        linear = Linear(
+            layer=i,
+            number_of_features=number_of_features,
+            output_features=number_of_classes,
+            number_of_neurons=layers[i],
+            backend=backend,
+            initializer=initializer,
+        )
+        init_layers.append(linear)
+        init_layers.append(activation)
+    linear = Linear(
+        layer=i,
+        number_of_features=number_of_features,
+        output_features=number_of_classes,
+        number_of_neurons=layers[i],
+        backend=backend,
+        initializer=initializer,
+    )
+    init_layers.append(linear)
+    init_layers.append(output_activation)
+
+loss = MeanSquaredErrorLoss(backend)
+model = Sequential(init_layers)
+evaluator = Evaluator(model, loss, backend)
+
+output = model.forward_propagation(X)
 gradient_input = model.backward_propagation(gradient_output)
+
 print("output shape:", output.shape)
 print("gradient_input shape:", gradient_input.shape)
+
 for parameter in model.parameters():
-    print(parameter.role, parameter.data.shape, parameter.gradient.shape)
+    print(parameter.data.shape, parameter.gradient.shape)

@@ -13,8 +13,6 @@ from turain.utilities.enum import (
     WeightInitializationStrategy,
 )
 
-from turain.neural_network.initializers.bias_initializer import BiasInitialzer
-from turain.neural_network.initializers.weight_initializer import WeightInitializer
 
 backend = CPU()
 xp = backend.xp

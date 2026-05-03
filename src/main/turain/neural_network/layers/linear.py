@@ -98,7 +98,7 @@ class Linear(Module):
         X = self.input_cache
         batch_size = X.shape[0]
 
-        self.weight.gradient = (gradient_input.T @ X) / batch_size
+        self.weight.gradient = (gradient_output.T @ X) / batch_size
         self.bias.gradient = xp.sum(gradient_output, axis=0, keepdims=True).T / batch_size
 
         gradient_input = gradient_output @ self.weight.data
