@@ -1,11 +1,9 @@
-from .callback import CallbackManager
-
 from ..utilities import TrainDefaults
 from ..utilities import TrainResults
 
 from ..utilities import core_method, helper_method
 from ..lib import cpu_engine
-
+from ..lib import plotting
 
 class Train:
     def __init__(
@@ -14,9 +12,8 @@ class Train:
         loss_function,
         optimizer,
         scheduler=None,
-        regularizer=None,
-        metrics=None,
-        callback_manager=None,
+        l2_regularizer=None,
+        l1_regularizer=None,
         early_stop=None,
         state_tracker=None,
         logger=None,
@@ -28,10 +25,9 @@ class Train:
         self.optimizer = optimizer
 
         self.scheduler = scheduler
-        self.regularizer = regularizer
+        self.l2_regularizer = l2_regularizer
+        self.l1_regularizer = l1_regularizer
 
-        self.metrics = metrics or []
-        self.callback_manager = CallbackManager(callback_manager)
         self.results = TrainResults()
 
         self.early_stop = early_stop
@@ -77,20 +73,16 @@ class Train:
             config = TrainDefaults()
         if epochs is None:
             epochs = config.epochs
-
-        if self.callback_manager is not None:
-            self.callback_manager.on_train_begin(self)
-
+        if (plot or plot_real_time) and self.plotter is not None:
+            self.plotter.settle_plot(self.results)
+        if plot_real_time and self.plotter is not None:
+            plotting.ion()
         final_report = None
         self.should_stop = False
 
         for epoch in range(epochs):
-            # if self.callback_manager is not None:
-            #     self.callback_manager.on_epoch_begin(self, epoch)
-
             if self.scheduler is not None:
                 self.optimizer.learning_rate = self.scheduler.decay_learning_rate(epoch)
-
             self.model.train()
 
             total_train_loss = 0.0
@@ -150,22 +142,16 @@ class Train:
                         validation_accuracy=average_validation_accuracy,
                         learning_rate=self.optimizer.learning_rate,
                     )
-
                 if plot_real_time and self.plotter is not None:
-                    self.plotter.plot(self.metrics)
-
+                    self.plotter.plot_real_time(self.results)
                 if self.state_tracker is not None:
                     improved = self.state_tracker.update(self.model, average_validation_loss, epoch)
                     if improved:
                         self.results.best_validation_loss = average_validation_loss
                         self.results.best_epoch = epoch
-
                 self.current_train_loss = average_train_loss
                 self.current_validation_loss = average_validation_loss
                 self.current_validation_accuracy = average_validation_accuracy
-
-                if self.callback_manager is not None:
-                    self.callback_manager.on_epoch_end(self, epoch)
 
                 if self.state_tracker is not None:
                     _early_stop = self.state_tracker.update(
@@ -174,11 +160,9 @@ class Train:
                     if _early_stop:
                         self.results.best_validation_loss = average_validation_loss
                         self.results.best_epoch = epoch
-
                 if self.early_stop is not None:
                     if self.early_stop.early_stop(average_validation_loss):
                         self.should_stop = True
-
             if track_state and self.state_tracker is not None:
                 best_model = self.state_tracker.restore()
                 if best_model is not None:
@@ -212,16 +196,11 @@ class Train:
             )
 
         if plot and self.plotter is not None:
-            self.plotter.plot(self.results)
-
-        if self.callback_manager is not None:
-            self.callback_manager.on_train_end(self)
-
+            self.plotter.plot_once(self.results)
         if track_state and self.state_tracker is not None:
             best_model = self.state_tracker.restore()
             if best_model is not None:
                 self.model = best_model
-
         return self.results
 
     def train_step(self, x_batch, y_batch):
@@ -233,13 +212,13 @@ class Train:
         gradient_loss = self.loss_function.backward_propagation()
         self.model.backward_propagation(gradient_loss)
 
-        if self.regularizer is not None:
-            regularization_loss = self.regularizer.penalty(self.model, x_batch.shape[0])
+        if self.l2_regularizer is not None:
+            regularization_loss = self.l2_regularizer.penalty(self.model, x_batch.shape[0])
             loss += regularization_loss
 
         self.optimizer.step()
 
-        return loss
+        return loss, regularization_loss
 
     def validation_step(self, x_batch, y_batch):
         prediction = self.model.forward_propagation(x_batch)

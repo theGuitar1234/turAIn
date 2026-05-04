@@ -3,10 +3,8 @@ from ...utilities import core_method
 
 
 class L2Regularization:
-    def __init__(self, backend, config=None):
-        if config is None:
-            config = TrainDefaults()
-        self.l2_lambda = config.l2_lambda
+    def __init__(self, l2_lambda, backend):
+        self.l2_lambda = l2_lambda
         self.backend = backend
 
     @core_method
@@ -24,7 +22,3 @@ class L2Regularization:
 
     def sum_weight_squares(self, parameter, sample_count):
         return (self.l2_lambda / sample_count) * parameter.data
-
-
-
-    

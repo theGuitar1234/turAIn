@@ -1,6 +1,6 @@
-from learning_decay import LearningDecay
-from lib import override_from_parent
-from utilities import TrainDefaults
+from .learning_decay import LearningDecay
+from ...lib import override_from_parent
+from ...utilities import TrainDefaults
 
 
 class StepDecay(LearningDecay):

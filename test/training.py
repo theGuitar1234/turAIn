@@ -9,6 +9,9 @@ from turain.train.evaluator import Evaluator
 from turain.train.finalizer import Finalizer
 from turain.train.logger import Logger
 from turain.train.plotter import Plotter
+from turain.train.regularization.dropout_mask import DropoutMask
+from turain.train.regularization.l2_regularization import L2Regularization
+from turain.train.schedulers.exponential_decay import ExponentialDecay
 from turain.train.state_tracker import StateTracker
 from turain.train.train import Train
 from turain.utilities.config import InitializationDefaults, TrainDefaults
@@ -67,7 +70,7 @@ loss_function = MeanSquaredErrorLoss(backend)
 optimizer = StochasticGradientDescent(model.parameters(), backend, learning_rate=0.01)
 
 config = TrainDefaults()
-config.epochs = 3000
+config.epochs = 10
 config.threshold = 0.5
 config.step_size = 100
 
@@ -82,6 +85,9 @@ trainer = Train(
     logger=Logger(),
     plotter=Plotter(),
     finalizer=finalizer,
+    scheduler=ExponentialDecay(config.learning_rate),
+    l2_regularizer=L2Regularization(config.l2_lambda, backend),
+    l1_regularizer=DropoutMask(config.drop_out_rate, backend),
 )
 
 results = trainer.fit(
@@ -96,6 +102,7 @@ results = trainer.fit(
     finalize=True,
     log_predictions=True,
     plot=True,
+    plot_real_time=True,
 )
 
-print(results)
+# print(results)
