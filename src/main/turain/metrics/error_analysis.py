@@ -32,7 +32,7 @@ class ErrorAnalysis:
         accuracy = (TP + TN) / total
         percision = TP / (TP + FP + epsilon)
         recall = TP / (TP + FN + epsilon)
-        specifity = TN / (TP + FP + epsilon)
+        specifity = TN / (TN + FP + epsilon)
         matthews_correlation_coefficient = ((TP * TN) - (FP * FN)) / (
             xp.sqrt((TP + FP) * (TP + FN) * (TN + FP) * (TN + FN)) + epsilon
         )
@@ -66,7 +66,7 @@ class ErrorAnalysis:
 
         if log_error_analysis:
             error_analysis_log = {
-                tp: TP, 
+                tp: TP,
                 fp: TN,
                 tn: FP,
                 fn: FN,
@@ -74,8 +74,8 @@ class ErrorAnalysis:
                 per: percision,
                 rec: recall,
                 f1: f1_score,
-                spec: specifity, 
-                fpr: false_positive_rate, 
+                spec: specifity,
+                fpr: false_positive_rate,
                 fnr: false_negative_rate,
                 tnr: true_negative_rate,
                 tpr: true_positive_rate,
@@ -90,10 +90,10 @@ class ErrorAnalysis:
             fp: FP,
             tn: TN,
             fn: FN,
-            f1: accuracy,
-            acc: percision,
-            per: recall,
-            rec: f1_score,
+            acc: accuracy,
+            per: percision,
+            rec: recall,
+            f1: f1_score,
             spec: specifity,
             fpr: false_positive_rate,
             fnr: false_negative_rate,
@@ -107,7 +107,7 @@ class ErrorAnalysis:
     @helper_method
     @staticmethod
     def log_error_analysis(error_analysis_log, error_analysis_file, error_analysis_path):
-        for key,value in error_analysis_log.items():
+        for key, value in error_analysis_log.items():
             print(f"\n{key} : {value}\n")
         if error_analysis_file is None:
             error_analysis_file = constant.ERROR_ANALYSIS_FILENAME
@@ -121,5 +121,5 @@ class ErrorAnalysis:
             f.write(
                 f"\n\nModel Train Error Analysis for date : {date_time_engine.utcnow().isoformat() + "Z"}\n\n"
             )
-            f.write(error_analysis_log)
+            f.write(str(error_analysis_log))
         print(f"\nError Analysis Are written to : {error_analysis_full_path}\n")

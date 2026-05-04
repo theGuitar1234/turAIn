@@ -57,8 +57,8 @@ class WeightInitializer(Initializer):
 
         rng = xp.random.default_rng()
         
-        fan_out = self.number_of_features if self.layer == 0 else self.output_features
-        fan_in = self.number_of_neurons
+        fan_in = self.number_of_features
+        fan_out = self.number_of_neurons
 
         check_positive_integer(fan_in, fan_out)
 

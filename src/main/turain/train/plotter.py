@@ -1,30 +1,32 @@
-from lib import plotting
+from turain.utilities.config import TrainResults
+
+from ..lib import plotting
 
 
 class Plotter:
-    def __init__(self):
-        
-
     def plot(
         self,
-        train_losses,
-        val_losses,
-        val_accuracies,
-        steps,
-        epoch,
-        train_data_loss,
-        validation_data_loss,
-        validation_accuracy_loss,
+        results,
+        plot_real_time=False,
     ):
-        train_losses.append(train_data_loss)
-        val_losses.append(validation_data_loss)
-        val_accuracies.append(validation_accuracy_loss)
-        steps.append(epoch)
+        if plotting is None:
+            return None
+        epochs = range(1, len(results.train_losses) + 1)
 
-        plotting.ion()
-        plotting.title(self.TrainResults.figure_title)
-        plotting.plot(steps, train_losses, label="Train Loss")
-        plotting.plot(steps, val_losses, label="Validation Loss")
+        plotting.figure()
+        plotting.title(results.title if results.title else TrainResults().figure_title)
+        plotting.plot(epochs, results.train_losses, label="Train Loss")
+
+        if plot_real_time:
+            if results.validation_losses:
+                plotting.plot(epochs, results.train_losses, label="Train Loss")
+                plotting.plot(epochs, results.validation_losses, label="Validation Loss")
+                plotting.pause(0.05)
+
+        plotting.plot(epochs, results.train_losses, label="Train Loss")
+        plotting.plot(epochs, results.validation_losses, label="Validation Loss")
+
         plotting.xlabel("iteration")
         plotting.ylabel("loss")
-        plotting.pause(0.05)
+        plotting.legend()
+        plotting.show()

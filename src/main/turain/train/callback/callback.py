@@ -1,12 +1,12 @@
 class Callback:
     def on_train_begin(self, trainer):
-        raise NotImplementedError
+        pass
 
     def on_epoch_begin(self, trainer, epoch):
-        raise NotImplementedError
+        pass
 
     def on_epoch_end(self, trainer, epoch):
-        raise NotImplementedError
+        pass
 
     def on_train_end(self, trainer):
-        raise NotImplementedError
+        pass

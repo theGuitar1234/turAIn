@@ -17,7 +17,6 @@ class Train:
         regularizer=None,
         metrics=None,
         callback_manager=None,
-        config=None,
         early_stop=None,
         state_tracker=None,
         logger=None,
@@ -33,7 +32,6 @@ class Train:
 
         self.metrics = metrics or []
         self.callback_manager = CallbackManager(callback_manager)
-        self.config = config or TrainDefaults()
         self.results = TrainResults()
 
         self.early_stop = early_stop
@@ -50,45 +48,66 @@ class Train:
     @core_method
     def fit(
         self,
-        train_loader,
-        track_state=False,
-        _finalize=False,
-        _log_predictions=False,
-        _error_analysis=False,
-        validation_loader=None,
-        epochs=None,
         X_train=None,
         Y_train=None,
         X_valid=None,
         Y_valid=None,
         X_test=None,
         Y_test=None,
+        train_loader=None,
+        validation_loader=None,
+        track_state=False,
+        finalize=False,
+        log_predictions=False,
+        run_error_analysis=False,
+        plot=False,
+        plot_real_time=False,
+        epochs=None,
+        config=None,
     ):
+        self.check_flags(
+            ("log_predictions", log_predictions, "Logger", self.logger),
+            ("plot_real_time", plot_real_time, "Plotter", self.plotter),
+            ("plot", plot, "Plotter", self.plotter),
+            ("track_state", track_state, "StateTracker", self.state_tracker),
+            ("finalize", finalize, "Finalizer", self.finalizer),
+        )
+
+        if config is None:
+            config = TrainDefaults()
         if epochs is None:
-            epochs = TrainDefaults.epochs
+            epochs = config.epochs
 
         if self.callback_manager is not None:
             self.callback_manager.on_train_begin(self)
 
+        final_report = None
+        self.should_stop = False
+
         for epoch in range(epochs):
-            if self.callback_manager is not None:
-                self.callback_manager.on_epoch_begin(self, epoch)
+            # if self.callback_manager is not None:
+            #     self.callback_manager.on_epoch_begin(self, epoch)
 
             if self.scheduler is not None:
                 self.optimizer.learning_rate = self.scheduler.decay_learning_rate(epoch)
 
             self.model.train()
 
-            train_loss_sum = 0.0
-            train_batches = 0
+            total_train_loss = 0.0
+            total_validation_loss = 0.0
+            validation_batch_loss = 0.0
+            total_validation_accuracy = 0.0
+            batch_validation_accuracy = 0.0
+            train_samples = 0
+            validation_samples = 0
 
             for x_batch, y_batch in train_loader:
                 batch_loss = self.train_step(x_batch, y_batch)
                 batch_size = x_batch.shape[0]
 
-                train_loss_sum += self.to_python_scalar(batch_loss) * batch_size
+                total_train_loss += self._to_python_scalar(batch_loss) * batch_size
                 train_samples += batch_size
-            average_train_loss = train_loss_sum / max(train_batches, 1)
+            average_train_loss = total_train_loss / max(train_samples, 1)
 
             self.current_train_loss = average_train_loss
             self.current_validation_loss = None
@@ -97,20 +116,21 @@ class Train:
             self.results.train_losses.append(average_train_loss)
 
             if validation_loader is not None:
-                self.model.eval()
+                self.model.evaluate()
 
-                total_validation_loss = 0.0
-                total_validation_accuracy = 0.0
-                validation_samples = 0
+                batch_size = x_batch.shape[0]
+                total_validation_loss += self._to_python_scalar(validation_batch_loss) * batch_size
+                total_validation_accuracy += batch_validation_accuracy * batch_size
+                validation_samples += batch_size
 
                 for x_batch, y_batch in validation_loader:
                     validation_batch_loss, prediction = self.validation_step(x_batch, y_batch)
 
                     batch_validation_accuracy = self._batch_accuracy(
-                        prediction, y_batch, threshold=self.config.threshold
+                        prediction, y_batch, threshold=config.threshold
                     )
 
-                    total_validation_loss += self.to_python_scalar(batch_loss)
+                    total_validation_loss += self._to_python_scalar(batch_loss)
                     total_validation_accuracy += batch_validation_accuracy * batch_size
                     validation_samples += batch_size
                 average_validation_loss = total_validation_loss / max(validation_samples, 1)
@@ -122,7 +142,7 @@ class Train:
                 self.results.validation_losses.append(average_validation_loss)
                 self.results.validation_accuracies.append(average_validation_accuracy)
 
-                if self.logger is not None and self.logger.__log(epoch):
+                if log_predictions and self.logger is not None:
                     self.logger.log_epoch(
                         epoch=epoch,
                         train_loss=average_train_loss,
@@ -131,14 +151,14 @@ class Train:
                         learning_rate=self.optimizer.learning_rate,
                     )
 
-                if self.plotter is not None:
+                if plot_real_time and self.plotter is not None:
                     self.plotter.plot(self.metrics)
 
-                if (
-                    self.state_tracker is not None
-                    and self.state_tracker.best_validation_loss is not None
-                ):
-                    self.model = self.state_tracker.restore()
+                if self.state_tracker is not None:
+                    improved = self.state_tracker.update(self.model, average_validation_loss, epoch)
+                    if improved:
+                        self.results.best_validation_loss = average_validation_loss
+                        self.results.best_epoch = epoch
 
                 self.current_train_loss = average_train_loss
                 self.current_validation_loss = average_validation_loss
@@ -152,50 +172,55 @@ class Train:
                         self.model, average_validation_loss, epoch
                     )
                     if _early_stop:
-                        self.results.best_validation_loss = average_train_loss
+                        self.results.best_validation_loss = average_validation_loss
                         self.results.best_epoch = epoch
 
                 if self.early_stop is not None:
-                    self.early_stop.early_stop(average_train_loss)
-                    if self.early_stop.__early_stop:
-                        break
+                    if self.early_stop.early_stop(average_validation_loss):
+                        self.should_stop = True
 
             if track_state and self.state_tracker is not None:
                 best_model = self.state_tracker.restore()
                 if best_model is not None:
                     self.model = best_model
+            if self.should_stop:
+                break
+        self.results.final_learning_rate = self.optimizer.learning_rate
 
-            self.results.final_learning_rate = self.optimizer.learning_rate
+        if finalize and self.finalizer is not None:
+            finalizer_report = self.finalizer.finalize(
+                X_train=X_train,
+                Y_train=Y_train,
+                X_valid=X_valid,
+                Y_valid=Y_valid,
+                X_test=X_test,
+                Y_test=Y_test,
+                run_error_analysis=run_error_analysis,
+                log_predictions=log_predictions,
+                config=config,
+            )
+            self.results.finalizer_report = finalizer_report
 
-            if self.plotter is not None and hasattr(self.plotter, "plot"):
-                self.plotter.plot(self.results)
+        if self.results is not None:
+            self.results.final_loss = (
+                final_report.train_loss if final_report is not None else self.results.final_loss
+            )
+            self.results.final_accuracy = (
+                final_report.train_accuracy
+                if final_report is not None
+                else self.results.final_accuracy
+            )
 
-            if self.callback_manager is not None:
-                self.callback_manager.on_train_end(self)
+        if plot and self.plotter is not None:
+            self.plotter.plot(self.results)
 
-            if self.finalizer is not None and _finalize:
-                final_report = self.finalizer.finalize(
-                    X_train=X_train,
-                    Y_train=Y_train,
-                    X_valid=X_valid,
-                    Y_valid=Y_valid,
-                    X_test=X_test,
-                    Y_test=Y_test,
-                    loss_function=self.loss_function,
-                    threshold=self.config.threshold,
-                    log_predictions=_log_predictions,
-                    error_analysis=_error_analysis
-                )
-            
-            if self.results is not None:
-                self.results.final_loss = (
-                    final_report.train_loss if final_report is not None else self.results.final_loss
-                )
-                self.results.final_accuracy = (
-                    final_report.train_accuracy
-                    if final_report is not None
-                    else self.results.final_accuracy
-                )
+        if self.callback_manager is not None:
+            self.callback_manager.on_train_end(self)
+
+        if track_state and self.state_tracker is not None:
+            best_model = self.state_tracker.restore()
+            if best_model is not None:
+                self.model = best_model
 
         return self.results
 
@@ -262,3 +287,15 @@ class Train:
         backend = self._get_backend()
         cpu_value = backend.to_cpu(value)
         return float(cpu_engine.asarray(cpu_value))
+
+    @helper_method
+    def check_flags(self, *args):
+        for pairs in args:
+            flag_name, flag_value, object_name, object_value = pairs
+            if flag_value:
+                if object_value is None:
+                    print(
+                        f"""
+\nWARNING: Flag \"{flag_name}\" is enabled, yet the train loader doesn't have a \"{object_name}\" object.
+          Consider disabling the flag or passing a {object_name}() instance as a train loader into Train.__init__().\n"""
+                    )

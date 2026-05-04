@@ -1,6 +1,6 @@
-
 from turain.utilities.annotation import core_method
 from turain.utilities.config import TrainDefaults
+
 
 class Evaluator:
     def __init__(self, model, loss, backend):
@@ -15,12 +15,12 @@ class Evaluator:
         if config is None:
             config = TrainDefaults()
 
-        epsilon = config.epsilon
+        # epsilon = config.epsilon
         threshold = config.threshold
 
         # A, _ = self.predict(X)
         A = self.predict(X)
-        loss = self.loss.loss(A, Y, Y.shape[0])
+        loss = self.loss.forward_propagation(A, Y)
 
         prediction, is_binary = self.predict_classes(X, threshold)
 
@@ -29,7 +29,7 @@ class Evaluator:
         else:
             predicted_classes = xp.argmax(A, axis=1)
             true_classes = xp.argmax(Y, axis=1)
-        accuracy = xp.mean(predicted_classes == true_classes) * 100.0
+            accuracy = xp.mean(predicted_classes == true_classes) * 100.0
 
         return prediction, predicted_classes, loss, self.backend.to_cpu(accuracy)
 

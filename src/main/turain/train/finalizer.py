@@ -7,6 +7,7 @@ from ..utilities import TrainResults
 
 
 class Finalizer:
+
     def __init__(
         self,
         evaluator,
@@ -44,8 +45,8 @@ class Finalizer:
             config = TrainDefaults()
         results = TrainResults()
 
-        train_prediction, _, train_loss, train_accuracy = (
-            self.evaluator.evaluate(X_train, Y_train, config)
+        train_prediction, _, train_loss, train_accuracy = self.evaluator.evaluate(
+            X_train, Y_train, config
         )
         results.train_loss = train_loss
         results.train_accuracy = train_accuracy
@@ -93,13 +94,13 @@ class Finalizer:
                         error_analysis_path=error_analysis_path,
                     )
 
-        if log_predictions and self.prediction_logger is not None:
+        if log_predictions:
             if X_test is not None and Y_test is not None:
                 PredictionLogger.log_predictions(
                     Y_test,
                     self.backend,
                     test_prediction,
-                    log_predictions=False,
+                    log_predictions=log_predictions,
                     prediction_file=prediction_file,
                     prediction_path=prediction_path,
                     prediction_tolerance=prediction_tolerance,

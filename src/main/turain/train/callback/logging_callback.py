@@ -6,9 +6,6 @@ class LoggingCallback(Callback):
         self.logger = logger
 
     def on_epoch_end(self, trainer, epoch):
-        if not self.logger.should_log(epoch):
-            return
-
         self.logger.log_epoch(
             epoch=epoch,
             train_loss=trainer.current_train_loss,

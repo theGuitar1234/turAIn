@@ -13,12 +13,13 @@ class ConfusionMatrix:
         OvR,
         true_labels,
         predicted_labels,
+        number_of_classes,
         log_confusion_matrix=False,
         confusion_matrix_file=None,
         confusion_matrix_path=None,
     ):
         if log_confusion_matrix:
-            cls.log_confusion_matrix(OvR, confusion_matrix_file, confusion_matrix_path)
+            cls.log_confusion_matrix(OvR, number_of_classes, confusion_matrix_file, confusion_matrix_path)
 
         return cls.one_vs_rest(OvR, true_labels, predicted_labels, backend)
 
@@ -41,8 +42,8 @@ class ConfusionMatrix:
             constant.FN: int(fn),
         }
 
+    @staticmethod
     def log_confusion_matrix(
-        self, 
         OvR, 
         number_of_classes, 
         confusion_matrix_file=None, 

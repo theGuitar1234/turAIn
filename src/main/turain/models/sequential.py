@@ -16,8 +16,9 @@ class Sequential(Module):
 
     @override_from_parent
     def backward_propagation(self, _gradient):
+        gradient = _gradient
         for layer in reversed(self.layers):
-            gradient = layer.backward_propagation(_gradient)
+            gradient = layer.backward_propagation(gradient)
         return gradient
 
     @override_from_parent

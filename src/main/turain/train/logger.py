@@ -2,31 +2,24 @@ from ..utilities import core_method
 
 
 class Logger:
-    def __init__(self):
-        pass
+    def __init__(self, epoch=1):
+        self.epoch = epoch
 
-    @core_method
-    def log(
-        self,
-        epoch,
-        train_data_loss,
-        train_regularization_loss,
-        train_total_loss,
-        validation_data_loss,
-        validation_accuracy_loss
+    def should_log(self, epoch):
+        return self.epoch is not None and self.epoch > 0 and epoch % self.epoch == 0
+
+    def log_epoch(
+        self, epoch, train_loss, validation_loss=None, validation_accuracy=None, learning_rate=None
     ):
-        log = []
-        print(
-            "epoch =",
-            epoch,
-            "train_data_loss =",
-            round(train_data_loss, 6),
-            "train_reg_loss =",
-            round(train_regularization_loss, 6),
-            "train_total_loss =",
-            round(train_total_loss, 6),
-            "val_data_loss =",
-            round(validation_data_loss, 6),
-            "val_acc =",
-            round(validation_accuracy_loss, 4),
-        )
+        parts = [f"epoch={epoch}", f"train_loss={train_loss:.6f}"]
+
+        if validation_loss is not None:
+            parts.append(f"validation_loss={validation_loss:.6f}")
+
+        if validation_accuracy is not None:
+            parts.append(f"validation_accuracy={validation_accuracy:.4f}")
+
+        if learning_rate is not None:
+            parts.append(f"learning_rate={learning_rate}")
+
+        print(" | ".join(parts))

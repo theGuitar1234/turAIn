@@ -17,4 +17,4 @@ class StateTracker:
         return False
 
     def restore(self):
-        return clone.deepcopy(self.best_validation_loss) if self.best_state is not None else None
+        return clone.deepcopy(self.best_state) if self.best_state is not None else None

@@ -58,7 +58,7 @@ class PredictionLogger:
     @staticmethod
     def log_predictions(
         Y,
-        xp,
+        backend,
         predictions,
         log_predictions,
         prediction_file,
@@ -66,6 +66,7 @@ class PredictionLogger:
         prediction_threshold,
         _encoding,
     ):
+        xp = backend.xp
         if prediction_path is not None and not system.path.exists(prediction_path):
             system.mkdir(prediction_path)
 
@@ -83,7 +84,7 @@ class PredictionLogger:
                     sample_result = xp.where(sample == 1)[0]
                     prediction_result = xp.where(prediction == 1)[0]
                     f.write(
-                        f"Sample : {sample_result}, Prediction : {prediction_result} {"correct" if sample_result == prediction_result else "failed"}\n"
+                        f"Sample : {sample_result}, Prediction : {prediction_result} {"correct" if xp.array_equal(sample_result, prediction_result) else "failed"}\n"
                     )
             print(
                 f"\nFirst <{prediction_threshold} predictions are written in {prediction_file_path}\n"

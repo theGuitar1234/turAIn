@@ -7,7 +7,7 @@ class ModelSummary:
     @core_method
     @classmethod
     def build(cls, model):
-        breakdown = ModelInspector.parameters_breakdown()
+        breakdown = ModelInspector.parameters_breakdown(model)
         return breakdown
     
     @helper_method
@@ -18,5 +18,5 @@ class ModelSummary:
         print(f"Hidden Activation : {model.__hidden_activation_type.name}")
         print(f"Output Activation : {model.__output_activation_type.name}")
         print(f"Loss Type : {model.__loss_type.name}")
-        print(f"Total Number of Parameters : {ModelInspector.count_parameters()}")
+        print(f"Total Number of Parameters : {ModelInspector.count_parameters(model)}")
         print(f"Breakdown : {breakdown}")

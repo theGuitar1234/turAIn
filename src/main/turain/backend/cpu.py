@@ -13,7 +13,7 @@ class CPU(Backend):
 
     @override_from_parent
     def to_cpu(self, x):
-        return gpu_engine.asnumpy(x)
+        return x
 
     @override_from_parent
     def to_gpu(self, x):

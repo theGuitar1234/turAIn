@@ -43,6 +43,8 @@ class TrainResults:
     validation_accuracies: list = mutable_field(default_factory=list)
     error_analysis: dict = mutable_field(default_factory=dict)
     
+    finalizer_report = None
+    
     train_prediction = None
     validation_prediction = None
     test_prediction = None

@@ -1,8 +1,9 @@
 class ModelInspector:
+
     @staticmethod
     def count_parameters(model):
         number_of_parameters = 0
-        for W, b in model.__WB:
+        for W, b in model.parameters():
             number_of_parameters = W.size + b.size
         return number_of_parameters
 

@@ -1,4 +1,4 @@
-from ..models.sequential import Sequential
+from .sequential import Sequential
 from ..neural_network.activations.hiperbolic_tangent import HiperbolicTangent
 from ..neural_network.activations.leaky_relu import LeakyReLU
 from ..neural_network.activations.relu import ReLU
@@ -10,7 +10,7 @@ from ..utilities import TrainDefaults
 from ..utilities import HiddenActivationType, OutputActivationType
 
 
-class ModelFactory:
+class ModelForgery:
 
     @staticmethod
     def build_mlp(

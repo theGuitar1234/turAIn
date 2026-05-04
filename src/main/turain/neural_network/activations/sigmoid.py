@@ -28,12 +28,13 @@ class Sigmoid(Activation):
     @override_from_parent
     def forward_propagation(self, x):
         self.input_cache = x
-        return self.activate(x)
+        self.output_cache = self.activate(x)
+        return self.output_cache
 
     @override_from_parent
     def backward_propagation(self, gradient_output):
-        x = self.input_cache
-        gradient_input = gradient_output * self.derivative(x)
+        a = self.output_cache
+        gradient_input = gradient_output * self.derivative(a)
         return gradient_input
 
 
