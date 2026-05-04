@@ -22,4 +22,4 @@ class Logger:
         if learning_rate is not None:
             parts.append(f"learning_rate={learning_rate}")
 
-        print(f"[ {" ][ ".join(parts)}")
+        print(f"[ {" ][ ".join(parts)} ]")

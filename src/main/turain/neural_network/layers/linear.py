@@ -76,7 +76,12 @@ class Linear(Module):
         b = bias_initializer.initialize(config)
 
         self.weight = Parameter(W)
+        self.weight.name = "weight"
+        self.weight.is_bias = False
+
         self.bias = Parameter(b)
+        self.bias.name = "bias"
+        self.bias.is_bias = True
 
         self.input_cache = None
 

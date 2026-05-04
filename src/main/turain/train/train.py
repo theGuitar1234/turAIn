@@ -5,6 +5,7 @@ from ..utilities import core_method, helper_method
 from ..lib import cpu_engine
 from ..lib import plotting
 
+
 class Train:
     def __init__(
         self,
@@ -110,24 +111,21 @@ class Train:
             if validation_loader is not None:
                 self.model.evaluate()
 
-                batch_size = x_batch.shape[0]
-                total_validation_loss += self._to_python_scalar(validation_batch_loss) * batch_size
-                total_validation_accuracy += batch_validation_accuracy * batch_size
-                validation_samples += batch_size
-
                 for x_batch, y_batch in validation_loader:
                     validation_batch_loss, prediction = self.validation_step(x_batch, y_batch)
+                    batch_size = x_batch.shape[0]
 
                     batch_validation_accuracy = self._batch_accuracy(
                         prediction, y_batch, threshold=config.threshold
                     )
 
-                    total_validation_loss += self._to_python_scalar(batch_loss)
+                    total_validation_loss += self._to_python_scalar(validation_batch_loss) * batch_size
                     total_validation_accuracy += batch_validation_accuracy * batch_size
                     validation_samples += batch_size
+
                 average_validation_loss = total_validation_loss / max(validation_samples, 1)
                 average_validation_accuracy = total_validation_accuracy / max(validation_samples, 1)
-
+                
                 self.current_validation_loss = average_validation_loss
                 self.current_validation_accuracy = average_validation_accuracy
 
@@ -213,12 +211,12 @@ class Train:
         self.model.backward_propagation(gradient_loss)
 
         if self.l2_regularizer is not None:
-            regularization_loss = self.l2_regularizer.penalty(self.model, x_batch.shape[0])
-            loss += regularization_loss
-
+            batch_size = x_batch.shape[0]
+            loss += self.l2_regularizer.penalty(self.model, batch_size)
+            self.l2_regularizer.apply_gradient(self.model, batch_size)
         self.optimizer.step()
 
-        return loss, regularization_loss
+        return loss
 
     def validation_step(self, x_batch, y_batch):
         prediction = self.model.forward_propagation(x_batch)
